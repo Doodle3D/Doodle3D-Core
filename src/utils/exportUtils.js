@@ -1,6 +1,6 @@
 import { Matrix } from '@doodle3d/cal';
 import * as exportSTL from '@doodle3d/threejs-export-stl';
-// import * as exportOBJ from '@doodle3d/threejs-export-obj';
+import * as exportOBJ from '@doodle3d/threejs-export-obj';
 import * as THREE from 'three';
 import ThreeBSP from 'three-js-csg';
 import ClipperShape from '@doodle3d/clipper-js';
@@ -136,14 +136,14 @@ export async function createFile(objectsById, type, options) {
       const buffer = exportSTL.fromMesh(exportMesh, true);
       return new Blob([buffer], { type: 'application/vnd.ms-pki.stl' })
     }
-    // case 'obj-blob': {
-    //   const buffer = await exportOBJ.fromMesh(exportMesh, true);
-    //   return buffer;
-    // }
-    // case 'obj-base64': {
-    //   const buffer = await exportOBJ.fromMesh(exportMesh, true);
-    //   const base64 = bufferToBase64(buffer);
-    //   return base64;
-    // }
+    case 'obj-blob': {
+      const buffer = await exportOBJ.fromMesh(exportMesh, true);
+      return buffer;
+    }
+    case 'obj-base64': {
+      const buffer = await exportOBJ.fromMesh(exportMesh, true);
+      const base64 = bufferToBase64(buffer);
+      return base64;
+    }
   }
 }
