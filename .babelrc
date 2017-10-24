@@ -2,10 +2,21 @@
   "env": {
     "module": {
       "presets": [
+        ["env", {
+          "modules": false
+        }],
+        "react"
       ]
     },
+    "main": {
+      "presets": ["env", "react"]
+    }
   },
   "plugins": [
     "babel-plugin-transform-object-rest-spread",
+    "babel-plugin-inline-import",
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-transform-es2015-classes",
+    "babel-plugin-syntax-dynamic-import"
   ]
 }
