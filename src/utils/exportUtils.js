@@ -145,5 +145,8 @@ export async function createFile(objectsById, type, options) {
       const base64 = bufferToBase64(buffer);
       return base64;
     }
+    default:
+      throw new Error(`did not regonize type ${type}`);
+    }
   }
 }
