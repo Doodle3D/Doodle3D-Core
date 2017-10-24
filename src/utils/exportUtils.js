@@ -1,6 +1,6 @@
 import { Matrix } from '@doodle3d/cal';
-import * as exportSTL from '@doodle3d/threejs-export-stl';
-import * as exportOBJ from '@doodle3d/threejs-export-obj';
+// import * as exportSTL from '@doodle3d/threejs-export-stl';
+// import * as exportOBJ from '@doodle3d/threejs-export-obj';
 import * as THREE from 'three';
 import ThreeBSP from 'three-js-csg';
 import ClipperShape from '@doodle3d/clipper-js';
@@ -124,26 +124,26 @@ export async function createFile(objectsById, type, options) {
       const blob = new Blob([string], { type: 'application/json' });
       return blob;
     }
-    case 'stl-string': {
-      const string = exportSTL.fromMesh(exportMesh, false);
-      return string;
-    }
-    case 'stl-base64': {
-      const buffer = exportSTL.fromMesh(exportMesh, true);
-      return bufferToBase64(buffer);
-    }
-    case 'stl-blob': {
-      const buffer = exportSTL.fromMesh(exportMesh, true);
-      return new Blob([buffer], { type: 'application/vnd.ms-pki.stl' })
-    }
-    case 'obj-blob': {
-      const buffer = await exportOBJ.fromMesh(exportMesh, true);
-      return buffer;
-    }
-    case 'obj-base64': {
-      const buffer = await exportOBJ.fromMesh(exportMesh, true);
-      const base64 = bufferToBase64(buffer);
-      return base64;
-    }
+    // case 'stl-string': {
+    //   const string = exportSTL.fromMesh(exportMesh, false);
+    //   return string;
+    // }
+    // case 'stl-base64': {
+    //   const buffer = exportSTL.fromMesh(exportMesh, true);
+    //   return bufferToBase64(buffer);
+    // }
+    // case 'stl-blob': {
+    //   const buffer = exportSTL.fromMesh(exportMesh, true);
+    //   return new Blob([buffer], { type: 'application/vnd.ms-pki.stl' })
+    // }
+    // case 'obj-blob': {
+    //   const buffer = await exportOBJ.fromMesh(exportMesh, true);
+    //   return buffer;
+    // }
+    // case 'obj-base64': {
+    //   const buffer = await exportOBJ.fromMesh(exportMesh, true);
+    //   const base64 = bufferToBase64(buffer);
+    //   return base64;
+    // }
   }
 }
