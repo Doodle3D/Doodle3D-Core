@@ -137,11 +137,11 @@ export async function createFile(objectsById, type, options) {
       return new Blob([buffer], { type: 'application/vnd.ms-pki.stl' })
     }
     case 'obj-blob': {
-      const buffer = await exportOBJ.fromMesh(exportMesh, true);
+      const buffer = await exportOBJ.fromMesh(exportMesh);
       return buffer;
     }
     case 'obj-base64': {
-      const buffer = await exportOBJ.fromMesh(exportMesh, true);
+      const buffer = await exportOBJ.fromMesh(exportMesh);
       const base64 = bufferToBase64(buffer);
       return base64;
     }
