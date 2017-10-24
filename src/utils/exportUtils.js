@@ -147,6 +147,5 @@ export async function createFile(objectsById, type, options) {
     }
     default:
       throw new Error(`did not regonize type ${type}`);
-    }
   }
 }
