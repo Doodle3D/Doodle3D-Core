@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import 'three/examples/js/postprocessing/EffectComposer';
-import 'three/examples/js/postprocessing/RenderPass';
-import 'three/examples/js/postprocessing/ShaderPass';
-import 'three/examples/js/shaders/CopyShader';
+import 'three/examples/js/postprocessing/EffectComposer.js';
+import 'three/examples/js/postprocessing/RenderPass.js';
+import 'three/examples/js/postprocessing/ShaderPass.js';
+import 'three/examples/js/shaders/CopyShader.js';
 import vertexShaderPostprocessing from './shaders/vertexShaderPostprocessing.js';
 import fragmentShaderSobelDepth from './shaders/fragmentShaderSobelDepth.js';
 import fragmentShaderSobelNormal from './shaders/fragmentShaderSobelNormal.js';
