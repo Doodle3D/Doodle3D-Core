@@ -2,8 +2,8 @@
   "name": "doodle3d-core",
   "version": "0.0.1",
   "description": "Core functions of Doodle3D Transform",
-  "main": "src/index.js",
-  "module": "src/index.js",
+  "main": "lib/index.js",
+  "module": "module/index.js",
   "esnext": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
