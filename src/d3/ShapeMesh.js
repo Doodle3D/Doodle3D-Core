@@ -3,7 +3,7 @@ import { applyMatrixOnPath } from '../utils/vectorUtils.js';
 import { shapeToPointsCornered } from '../shape/shapeToPoints.js';
 import * as THREE from 'three';
 import { getPointsBounds, shapeChanged } from '../shape/shapeDataUtils.js';
-// import { DESELECT_TRANSPARENCY, LEGACY_HEIGHT_STEP, LEGACY_HEIGHT_STEP } from '../js/constants/d3Constants.js';
+import { DESELECT_TRANSPARENCY, LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
 
 const MAX_HEIGHT_BASE = 5;
 // Legacy compensation. Compensating for the fact that we
