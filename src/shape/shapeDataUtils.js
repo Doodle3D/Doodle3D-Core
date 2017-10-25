@@ -1,5 +1,6 @@
 import memoize from 'memoizee';
 import { Vector } from '@doodle3d/cal';
+import { SHAPE_CACHE_LIMIT } from '../constants/general.js';
 
 export function shapeChanged(oldShapeData, newShapeData) {
   const pointsChanged = oldShapeData.points !== newShapeData.points;
@@ -16,10 +17,6 @@ export function shapeChanged(oldShapeData, newShapeData) {
   return pointsChanged || holesChanged || rectSizeChanged || triangleSizeChanged ||
     circleChanged || starChanged || textChanged || polyPoints || fillChanged || heartChanged;
 }
-
-// TODO use actual const
-const SHAPE_CACHE_LIMIT = 10;
-
 
 export const getPointsBounds = memoize(getPointsBoundsRaw, { max: SHAPE_CACHE_LIMIT });
 export function getPointsBoundsRaw(compoundPaths, transform) {

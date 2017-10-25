@@ -1,5 +1,5 @@
 import { Vector } from '@doodle3d/cal';
-import { applyMatrixOnPath } from '../math/vectorUtils.js';
+import { applyMatrixOnPath } from '../utils/vectorUtils.js';
 import { shapeToPointsCornered } from '../shape/shapeToPoints.js';
 import * as THREE from 'three';
 import { getPointsBounds, shapeChanged } from '../shape/shapeDataUtils.js';

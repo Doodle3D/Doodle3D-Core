@@ -2,11 +2,10 @@ import * as THREE from 'three';
 import memoize from 'memoizee';
 import { Vector } from '@doodle3d/cal';
 import ClipperShape from '@doodle3d/clipper-js';
-import { pathToVectorPath } from '../math/vectorUtils.js';
-
-// TODO use actual const
-const SHAPE_CACHE_LIMIT = 10;
-const CLIPPER_PRECISION = 10;
+import { pathToVectorPath } from '../utils/vectorUtils.js';
+import { CLIPPER_PRECISION } from '../constants/d2Constants.js';
+import { MAX_ANGLE } from '../constants/d3Constants.js';
+import { SHAPE_CACHE_LIMIT } from '../constants/general.js';
 
 const HEART_BEZIER_PATH = [
   new Vector(0.0, -0.5),
@@ -232,7 +231,6 @@ function shapeToPointsCorneredRaw(shapeData) {
   });
 }
 
-const MAX_ANGLE = 30; // TODO Move to actual const
 // Adds point when angle between points is larger then MAX_ANGLE
 const maxAngleRad = (MAX_ANGLE / 360) * (2 * Math.PI);
 function addCorners(oldPath) {

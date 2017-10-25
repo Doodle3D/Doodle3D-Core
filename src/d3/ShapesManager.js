@@ -1,4 +1,4 @@
-import { SHAPE_TYPE_PROPERTIES } from '../shape/shapeTypeProperties.js';
+import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import * as THREE from 'three';
 import ShapeMesh from './ShapeMesh.js';
 

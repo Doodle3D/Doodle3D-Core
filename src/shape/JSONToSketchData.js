@@ -3,9 +3,7 @@ import { Vector, Matrix } from '@doodle3d/cal';
 import semver from 'semver';
 import { recursivePromiseApply } from '../utils/async.js';
 import { base64ToImage, base64ToVectorArray } from '../utils/binaryUtils.js';
-
-// TODO use actual const
-const LEGACY_HEIGHT_STEP = 10;
+import { LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
 
 async function JSONToSketchData({ data, appVersion }) {
   let sketchData = JSON.parse(data, (key, value) => {

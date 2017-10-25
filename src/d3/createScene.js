@@ -2,9 +2,7 @@ import * as THREE from 'three';
 import ShapesManager from './ShapesManager.js';
 import ToonShaderRenderChain from './ToonShaderRenderChain.js';
 import { hasExtensionsFor } from '../utils/webGLSupport.js';
-
-// TODO move to const
-export const CANVAS_SIZE = 100;
+import { CANVAS_SIZE } from '../constants/d2Constants.js';
 
 const CANVAS_WIDTH = CANVAS_SIZE * 2;
 const CANVAS_HEIGHT = CANVAS_SIZE * 2;

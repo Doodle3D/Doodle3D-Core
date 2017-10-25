@@ -5,9 +5,9 @@ import * as THREE from 'three';
 import ThreeBSP from 'three-js-csg';
 import ClipperShape from '@doodle3d/clipper-js';
 import ShapeMesh from '../d3/ShapeMesh.js';
-import { applyMatrixOnShape, pathToVectorPath } from '../math/vectorUtils.js';
+import { applyMatrixOnShape, pathToVectorPath } from '../utils/vectorUtils.js';
 import { shapeToPoints } from '../shape/shapeToPoints.js';
-import { SHAPE_TYPE_PROPERTIES } from '../shape/shapeTypeProperties.js';
+import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import { bufferToBase64 } from '../utils/binaryUtils.js';
 
 const THREE_BSP = ThreeBSP(THREE);

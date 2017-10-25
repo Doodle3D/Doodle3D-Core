@@ -4,5 +4,7 @@ import * as dbUtils from './dbUtils.js';
 import * as imageUtils from './imageUtils.js';
 import * as exportUtils from './exportUtils.js';
 import * as webGLSupport from './webGLSupport.js';
+import * as vectorUtils from './vectorUtils.js';
+import * as textUtils from './textUtils.js';
 
-export { dbUtils, asyncUtils, imageUtils, exportUtils, webGLSupport, binaryUtils };
+export { dbUtils, asyncUtils, imageUtils, exportUtils, webGLSupport, binaryUtils, vectorUtils, textUt };
