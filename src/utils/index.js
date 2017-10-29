@@ -6,5 +6,6 @@ import * as exportUtils from './exportUtils.js';
 import * as webGLSupport from './webGLSupport.js';
 import * as vectorUtils from './vectorUtils.js';
 import * as textUtils from './textUtils.js';
+import * as reactUtils from './reactUtils.js';
 
-export { dbUtils, asyncUtils, imageUtils, exportUtils, webGLSupport, binaryUtils, vectorUtils, textUt };
+export { dbUtils, asyncUtils, imageUtils, exportUtils, webGLSupport, binaryUtils, vectorUtils, textUtils, reactUtils };
