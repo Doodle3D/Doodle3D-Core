@@ -7,6 +7,14 @@ import PouchDB from 'pouchdb';
 // const debug = createDebug('d3d:FileThumb');
 
 class AuthImage extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      src: null
+    };
+  }
+
   componentWillMount() {
     const { src, token, password } = this.props;
 
@@ -53,10 +61,6 @@ AuthImage.propTypes = {
   token: PropTypes.string,
   password: PropTypes.string
 };
-AuthImage.state = {
-  src: null
-};
-
 
 export default connect(state => ({
   token: state.user.session.token,
