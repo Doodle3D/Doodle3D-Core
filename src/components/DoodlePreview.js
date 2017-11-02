@@ -14,22 +14,24 @@ class DoodlePreview extends React.Component {
     };
   }
 
-  componentDidMount(prevProps) {
-    JSONToSketchData(this.props.docData).then((sketchData) => {
-      const { canvas } = this.refs;
-      const { width, height, pixelRatio } = this.props
+  async componentDidMount() {
+    let { docData, sketchData } = this.props;
 
-      const sceneData = createSceneData(sketchData);
+    if (docData) sketchData = await JSONToSketchData(this.props.docData);
 
-      const scene = createScene(sceneData, canvas);
-      this.setState({ scene });
+    const { canvas } = this.refs;
+    const { width, height, pixelRatio } = this.props
 
-      scene.setSize(width, height, pixelRatio);
-      scene.render();
+    const sceneData = createSceneData(sketchData);
 
-      this.editorControls = new THREE.EditorControls(scene.camera, canvas);
-      this.editorControls.addEventListener('change', () => scene.render());
-    });
+    const scene = createScene(sceneData, canvas);
+    this.setState({ scene });
+
+    scene.setSize(width, height, pixelRatio);
+    scene.render();
+
+    this.editorControls = new THREE.EditorControls(scene.camera, canvas);
+    this.editorControls.addEventListener('change', () => scene.render());
   }
 
   componentDidUpdate(prevProps) {
