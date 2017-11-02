@@ -5,7 +5,7 @@ import { recursivePromiseApply } from '../utils/async.js';
 import { base64ToImage, base64ToVectorArray } from '../utils/binaryUtils.js';
 import { LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
 
-async function JSONToSketchData({ data, appVersion }) {
+export default async function JSONToSketchData({ data, appVersion }) {
   let sketchData = JSON.parse(data, (key, value) => {
     if (semver.lt(appVersion, '0.1.2')) {
       if (key === 'imageData') {
@@ -72,5 +72,3 @@ async function JSONToSketchData({ data, appVersion }) {
 
   return sketchData;
 }
-
-export default JSONToSketchData;

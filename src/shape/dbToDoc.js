@@ -2,7 +2,7 @@ import { blobToJSON } from '../utils/binaryUtils.js';
 import JSONToSketchData from './JSONToSketchData.js';
 import semver from 'semver';
 
-export async function docToFile(db, doc, { image = false, sketch = false } = {}) {
+export default async function docToFile(db, doc, { image = false, sketch = false } = {}) {
   // NOTE doc.appVersion can be used to check in which version of the app the file was saved in
   const response = {
     name: doc.name,
@@ -37,7 +37,7 @@ export async function docToFile(db, doc, { image = false, sketch = false } = {})
   return response;
 }
 
-export async function addAttachments(db, docs, keys) {
+function addAttachments(db, docs, keys) {
   if (keys) {
     keys = keys.reduce((obj, value) => {
       obj[value] = null;
