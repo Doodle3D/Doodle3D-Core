@@ -1,3 +1,5 @@
+import PouchDB from 'pouchdb';
+
 export function getLegalDBName(input) {
   return encodeURIComponent(input.toLowerCase())
     .replace(/\./g, '%2E')
@@ -10,4 +12,10 @@ export function getLegalDBName(input) {
     .replace(/\-/g, '%2D')
     .toLowerCase()
     .replace(/(%..)/g, esc => `(${esc.substr(1)})`);
+}
+
+const dbs = {};
+export function getDb(dbUrl) {
+  if (!dbs[dbUrl]) dbs[dbUrl] = new PouchDB(dbUrl);
+  return dbs[dbUrl];
 }
