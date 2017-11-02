@@ -37,7 +37,7 @@ export default async function docToFile(db, doc, { image = false, sketch = false
   return response;
 }
 
-function addAttachments(db, docs, keys) {
+async function addAttachments(db, docs, keys) {
   if (keys) {
     keys = keys.reduce((obj, value) => {
       obj[value] = null;
@@ -59,5 +59,5 @@ function addAttachments(db, docs, keys) {
     }
   }
 
-  await Promise.all(promises);
+  return await Promise.all(promises);
 }
