@@ -3,7 +3,6 @@ import bowser from 'bowser';
 
 export const SHAPE_CACHE_LIMIT = 50;
 export const IS_CORDOVA = typeof cordova !== 'undefined';
-export const MAX_ANGLE = 30; // if shape has an corner sharper then MAX_ANGLE said corner will be sharp (3D)
 export const PIXEL_RATIO = 1.0;
 // On android and iOS autofocus means the keyboard pops up for one second and then hides
 // Disable autofocus on these devices
