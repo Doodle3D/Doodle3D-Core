@@ -1,4 +1,5 @@
 import { vectorArrayToBase64, imageToBase64 } from '../utils/binaryUtils.js';
+import { VERSION } from '../constants/general.js';
 
 export default function sketchDataToJSON({ objectsById, spaces }) {
   const data = {
