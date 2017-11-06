@@ -6,6 +6,7 @@
           "targets": { node: "6" },
           "modules": false
         }],
+        "stage-0",
         "react"
       ]
     },
