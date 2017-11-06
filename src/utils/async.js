@@ -14,7 +14,7 @@ export function recursivePromiseApply(object, promises = [], first = true) {
   return first && Promise.all(promises).then(() => object);
 }
 
-export async function asyncIterator(array, callback) {
+export function asyncIterator(array, callback) {
   return new Promise((resolve, reject) => {
     const results = [];
     let i = 0;
