@@ -18,7 +18,7 @@ export async function asyncIterator(array, callback) {
   const result = [];
   for (let i = 0; i < array.length; i ++) {
     const item = array[i];
-    const itemResult = await callback(item, i);
+    const itemResult = await callback(item, i, array);
     result.push(itemResult);
   }
   return result;
