@@ -14,6 +14,14 @@ export function getLegalDBName(input) {
     .replace(/(%..)/g, esc => `(${esc.substr(1)})`);
 }
 
+export function getDbUrl(db) {
+  if (db.user) {
+    return `${db.protocol}${encodeURIComponent(db.user)}:${encodeURIComponent(db.password)}@${db.host}`;
+  } else {
+    return `${db.protocol}${db.host}`;
+  }
+};
+
 const dbs = {};
 export function getDb(dbUrl) {
   if (!dbs[dbUrl]) dbs[dbUrl] = new PouchDB(dbUrl);
