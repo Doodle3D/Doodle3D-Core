@@ -1,6 +1,7 @@
 import * as contextTools from './contextTools.js';
 import bowser from 'bowser';
 
+export const VERSION = '0.16.6';
 export const SHAPE_CACHE_LIMIT = 50;
 export const IS_CORDOVA = typeof cordova !== 'undefined';
 export const PIXEL_RATIO = 1.0;
