@@ -15,11 +15,30 @@ export function recursivePromiseApply(object, promises = [], first = true) {
 }
 
 export async function asyncIterator(array, callback) {
-  const result = [];
-  for (let i = 0; i < array.length; i ++) {
-    const item = array[i];
-    const itemResult = await callback(item, i, array);
-    result.push(itemResult);
-  }
-  return result;
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let i = 0;
+
+    function loop() {
+      if (i === array.length) return resolve(results);
+
+      const item = array[i];
+      callback(item, i, array).then(result => {
+        results.push(result);
+        i ++;
+        loop();
+      }).catch(reject);
+    }
+    loop();
+  });
 }
+
+// export async function asyncIterator(array, callback) {
+//   const result = [];
+//   for (let i = 0; i < array.length; i ++) {
+//     const item = array[i];
+//     const itemResult = await callback(item, i, array);
+//     result.push(itemResult);
+//   }
+//   return result;
+// }
