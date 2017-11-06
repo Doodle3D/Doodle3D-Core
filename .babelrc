@@ -3,6 +3,7 @@
     "module": {
       "presets": [
         ["env", {
+          "targets": { node: "6" },
           "modules": false
         }],
         "react"
