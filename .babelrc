@@ -13,6 +13,7 @@
     }
   },
   "plugins": [
+    "babel-plugin-transform-regenerator",
     "babel-plugin-transform-object-rest-spread",
     "babel-plugin-inline-import",
     "babel-plugin-transform-class-properties",
