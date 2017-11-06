@@ -34,6 +34,10 @@ class DoodlePreview extends React.Component {
     this.editorControls.addEventListener('change', () => scene.render());
   }
 
+  componentWillUnmount() {
+    if (this.editorControls) this.editorControls.dispose();
+  }
+
   componentDidUpdate(prevProps) {
     const { scene } = this.state;
     const { width, height } = this.props;
