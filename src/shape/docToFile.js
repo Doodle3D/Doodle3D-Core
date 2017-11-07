@@ -6,10 +6,12 @@ export default async function docToFile(db, doc, { image = false, sketch = false
   // NOTE doc.appVersion can be used to check in which version of the app the file was saved in
   const response = {
     name: doc.name,
+    author: doc.author,
     id: doc._id,
     createdOn: doc.createdOn,
     updatedOn: doc.updatedOn
   };
+  if (doc.class) response.class;
 
   const { appVersion } = doc;
 
