@@ -11,7 +11,7 @@ export default async function docToFile(db, doc, { image = false, sketch = false
     createdOn: doc.createdOn,
     updatedOn: doc.updatedOn
   };
-  if (doc.class) response.class;
+  if (doc.class) response.class = doc.class;
 
   const { appVersion } = doc;
 
