@@ -43,7 +43,7 @@ export function asyncIterator(array, callback) {
 //   return result;
 // }
 
-function createThrottle() {
+export function createThrottle() {
   let next = null;
 
   return callback => {
