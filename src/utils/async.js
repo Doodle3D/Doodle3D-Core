@@ -42,3 +42,42 @@ export function asyncIterator(array, callback) {
 //   }
 //   return result;
 // }
+
+export function createThrottle() {
+  let next = null;
+
+  return callback => {
+    const startLoop = next === null;
+    next = callback;
+
+    if (!startLoop) return;
+
+    return (function loop() {
+      return next().then(() => {
+        if (typeof next === 'function') return loop();
+      });
+      next = true;
+    })();
+
+    next = null;
+  };
+}
+
+// export function createThrottle() {
+//   let next = null;
+//
+//   return async callback => {
+//     const startLoop = next === null;
+//     next = callback;
+//
+//     if (!startLoop) return;
+//
+//     while (typeof next === 'function') {
+//       callback = next;
+//       next = true;
+//       await callback();
+//     }
+//
+//     next = null;
+//   };
+// }
