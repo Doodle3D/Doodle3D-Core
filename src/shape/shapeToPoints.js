@@ -7,6 +7,7 @@ import { CLIPPER_PRECISION } from '../constants/d2Constants.js';
 import { MAX_ANGLE } from '../constants/d3Constants.js';
 import { SHAPE_CACHE_LIMIT } from '../constants/general.js';
 import { createText } from '../utils/textUtils.js';
+import { segmentBezierPath } from '../utils/curveUtils.js';
 
 const HEART_BEZIER_PATH = [
   new Vector(0.0, -0.5),
