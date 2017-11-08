@@ -52,7 +52,7 @@ export function createThrottle() {
 
     if (!startLoop) return;
 
-    return (function loop() {
+    (function loop() {
       return next().then(() => {
         if (typeof next === 'function') return loop();
       });
