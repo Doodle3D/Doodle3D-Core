@@ -50,7 +50,7 @@ class DoodlePreview extends React.Component {
   render() {
     const { width, height, className } = this.props;
     return (
-        <canvas className={className} width={width} height={height} ref="canvas" />
+        <canvas width={width} height={height} className={className} ref="canvas" />
     );
   }
 }
