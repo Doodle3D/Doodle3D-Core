@@ -43,21 +43,22 @@ export function asyncIterator(array, callback) {
 //   return result;
 // }
 
-export function createThrottle() {
+function createThrottle() {
   let next = null;
 
   return callback => {
     const startLoop = next === null;
     next = callback;
 
-    if (!startLoop) return;
+    if (!startLoop) return null;
 
-    return (function loop() {
-      return next().then(() => {
+    return function loop() {
+      const promise = next().then(() => {
         if (typeof next === 'function') return loop();
       });
       next = true;
-    })().then(() => {
+      return promise;
+    }().then(() => {
       next = null;
     });
   };
