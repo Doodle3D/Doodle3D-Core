@@ -48,9 +48,9 @@ class DoodlePreview extends React.Component {
   }
 
   render() {
-    const { width, height } = this.props;
+    const { width, height, className } = this.props;
     return (
-        <canvas width={width} height={height} ref="canvas" />
+        <canvas className={className} width={width} height={height} ref="canvas" />
     );
   }
 }
@@ -60,6 +60,7 @@ DoodlePreview.defaultProps = {
   pixelRatio: 1
 };
 DoodlePreview.propTypes = {
+  className: PropTypes.string,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   pixelRatio: PropTypes.number.isRequired,
