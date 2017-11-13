@@ -22,6 +22,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "bezier-js": "^2.2.3",
     "bowser": "^1.8.1",
+    "fit-curve": "^0.1.6",
     "imports-loader": "^0.7.1",
     "memoizee": "^0.3.9",
     "pouchdb": "^6.3.4",
