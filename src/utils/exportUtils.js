@@ -8,6 +8,7 @@ import ShapeMesh from '../d3/ShapeMesh.js';
 import { applyMatrixOnShape, pathToVectorPath } from '../utils/vectorUtils.js';
 import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
+import { LINE_WIDTH } from '../constants/exportConstants.js';
 import { bufferToBase64 } from '../utils/binaryUtils.js';
 
 const THREE_BSP = ThreeBSP(THREE);
@@ -31,7 +32,7 @@ function createExportGeometry(shapeData, offsetSingleWalls, lineWidth) {
     shapes = shapes.map(shape => shape
       .scaleUp(SCALE)
       .round()
-      .offset(lineWidth * 2 * SCALE, { jointType: 'jtSquare', endType: 'etOpenButt' })
+      .offset(lineWidth / 2 * SCALE, { jointType: 'jtSquare', endType: 'etOpenButt' })
       .simplify('pftNonZero')
       .scaleDown(SCALE)
     );
@@ -66,7 +67,7 @@ function createExportGeometry(shapeData, offsetSingleWalls, lineWidth) {
 export function generateExportMesh(state, options = {}) {
   const {
     experimentalColorUnionExport = false,
-    exportLineWidth = 2,
+    exportLineWidth = LINE_WIDTH,
     offsetSingleWalls = true,
     matrix = ROTATION_MATRIX
   } = options;

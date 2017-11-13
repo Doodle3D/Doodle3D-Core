@@ -1,1 +1,1 @@
- export const LINE_WIDTH = 1.0;
+ export const LINE_WIDTH = 2.0;
