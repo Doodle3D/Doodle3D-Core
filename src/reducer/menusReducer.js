@@ -35,11 +35,11 @@ function getChildrenValues(childrenData = []) {
 // item specific reducer
 function item(state, action) {
   switch (action.type) {
-    case actions.sketcher.MENU_OPEN:
-    case actions.sketcher.MENU_CLOSE:
+    case actions.MENU_OPEN:
+    case actions.MENU_CLOSE:
       return {
         ...state,
-        open: (action.type === actions.sketcher.MENU_OPEN)
+        open: (action.type === actions.MENU_OPEN)
       };
     default:
       return state;
@@ -75,20 +75,20 @@ export const select = (state, value) => {
 };
 
 export default function menusReducer(state = initialState, action) {
-  if (action.category === actions.sketcher.CAT_SELECTION) {
+  if (action.category === actions.CAT_SELECTION) {
     state = select(state, d2Tools.TRANSFORM);
   }
   switch (action.type) {
-    case actions.sketcher.MENU_OPEN:
-    case actions.sketcher.MENU_CLOSE:
+    case actions.MENU_OPEN:
+    case actions.MENU_CLOSE:
       if (action.menuValue === undefined) return state;
       return {
         ...state,
         [action.menuValue]: item(state[action.menuValue], action)
       };
-    case actions.sketcher.D2_CHANGE_TOOL:
-    case actions.sketcher.D3_CHANGE_TOOL:
-    case actions.sketcher.CONTEXT_CHANGE_TOOL:
+    case actions.D2_CHANGE_TOOL:
+    case actions.D3_CHANGE_TOOL:
+    case actions.CONTEXT_CHANGE_TOOL:
       // recursivly select items in menu's
       return select(state, action.tool);
     default:
