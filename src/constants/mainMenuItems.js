@@ -1,0 +1,13 @@
+export const HOME = 'HOME';
+export const DRAW_A_DOODLE = 'DRAW_A_DOODLE';
+export const NEW = 'NEW';
+export const OPEN = 'OPEN';
+export const SAVE = 'SAVE';
+export const IMPORT = 'IMPORT';
+export const EXPORT = 'EXPORT';
+export const PROFILE = 'PROFILE';
+export const FEEDBACK = 'FEEDBACK';
+export const HELP = 'HELP';
+export const ABOUT = 'ABOUT';
+export const SUPPORT_CHAT = 'SUPPORT_CHAT';
+export const ADMIN = 'ADMIN';

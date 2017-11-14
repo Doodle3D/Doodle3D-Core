@@ -7,6 +7,8 @@ import * as exportConstants from './exportConstants.js';
 import * as general from './general.js';
 import * as saveConstants from './saveConstants.js';
 import * as shapeTypeProperties from './shapeTypeProperties.js';
+import * as mainMenuItems from './mainMenuItems.js';
+import * as menu from './menu.js';
 
 export {
   contextTool,
@@ -17,5 +19,7 @@ export {
   exportConstant,
   genera,
   saveConstant,
-  shapeTypePropertie
+  shapeTypePropertie,
+  mainMenuItems,
+  menu
 };
