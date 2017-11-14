@@ -7,6 +7,7 @@ import createSceneData from '../d3/createSceneData.js';
 import createScene from '../d3/createScene.js';
 import injectSheet from 'react-jss';
 import ReactResizeDetector from 'react-resize-detector';
+import requestAnimationFrame from 'raf';
 
 const styles = {
   container: {
@@ -62,7 +63,7 @@ class DoodlePreview extends React.Component {
   }
 
   onResize = (width, height) => {
-    window.requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       const { setSize, render } = this.state;
       const { pixelRatio } = this.props;
       setSize(width, height, pixelRatio);
