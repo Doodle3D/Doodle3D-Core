@@ -9,6 +9,9 @@ import injectSheet from 'react-jss';
 import ReactResizeDetector from 'react-resize-detector';
 
 const styles = {
+  container: {
+    height: '100%'
+  },
   canvas: {
     position: 'absolute'
   }
@@ -55,7 +58,7 @@ class DoodlePreview extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <div className={classes.container}>
         <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
         <canvas className={classes.canvas} ref="canvas" />
       </div>
@@ -69,7 +72,6 @@ DoodlePreview.defaultProps = {
 };
 DoodlePreview.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
-  className: PropTypes.string,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   pixelRatio: PropTypes.number.isRequired,
