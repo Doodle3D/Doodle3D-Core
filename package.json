@@ -37,7 +37,7 @@
     "react-redux": "^5.0.6",
     "react-resize-detector": "^1.1.0",
     "redux-form": "^7.1.2",
-    "redux-undo": "^0.6.1",
+    "redux-undo": "^1.0.0-beta9-9-7",
     "regenerator-runtime": "^0.11.0",
     "semver": "^5.4.1",
     "shortid": "^2.2.8",
