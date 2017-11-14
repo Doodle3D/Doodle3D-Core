@@ -48,9 +48,10 @@ class DoodlePreview extends React.Component {
 
   onResize = (width, height) => {
     window.requestAnimationFrame(() => {
-      const { setSize } = this.state;
+      const { setSize, render } = this.state;
       const { pixelRatio } = this.props;
       setSize(width, height, pixelRatio);
+      render();
     });
   };
 
