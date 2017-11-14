@@ -1,16 +1,14 @@
+import update from 'react-addons-update';
+import fillPath from 'fill-path';
+import ClipperShape from 'clipper-js';
 import * as actions from '../../../actions/index.js';
 import { SHAPE_TYPE_PROPERTIES } from '../../../constants/shapeTypeProperties.js';
 import { LINE_WIDTH, CLIPPER_PRECISION } from '../../../constants/d2Constants.js';
-import createDebug from 'debug';
-import { shapeToPoints, applyMatrixOnShape, pathToVectorPath } from '../../../utils/shapeDataUtils.js';
+import { shapeToPoints, applyMatrixOnShape, pathToVectorPath } from '../../../shape/shapeDataUtils.js';
 import { addObject } from '../../../reducers/objectReducers.js';
-import fillPath from 'fill-path';
-import ClipperShape from 'clipper-js';
 import subtractShapeFromState from '../../../utils/subtractShapeFromState.js';
-import update from 'react-addons-update';
-import { get as getConfig } from '../../../services/config.js';
 import { getColor, getFirst, filterType, getObjectsFromIds } from '../../../utils/objectSelectors.js';
-
+import createDebug from 'debug';
 const debug = createDebug('d3d:reducer:bucket');
 
 const MITER_LIMIT = 30.0;
@@ -20,22 +18,20 @@ export default function bucketReducer(state, action) {
 
   switch (action.type) {
     case actions.D2_TAP:
-      const { experimentalColorPicker } = getConfig();
-
-      let color = state.context.color;
-      if (experimentalColorPicker) {
-        const imageColor = getColor(
-          getFirst(
-            filterType(
-              getObjectsFromIds(state, action.objects),
-              'IMAGE_GUIDE'
-            )
-          ),
-          action.position,
-          action.screenMatrixZoom
-        );
-        if (imageColor !== null) color = imageColor;
-      }
+      const color = state.context.color;
+      // if (experimentalColorPicker) {
+      //   const imageColor = getColor(
+      //     getFirst(
+      //       filterType(
+      //         getObjectsFromIds(state, action.objects),
+      //         'IMAGE_GUIDE'
+      //       )
+      //     ),
+      //     action.position,
+      //     action.screenMatrixZoom
+      //   );
+      //   if (imageColor !== null) color = imageColor;
+      // }
 
       // if clicked on a filled shape change shape color
       const filledPathIndex = action.objects.findIndex(id => (

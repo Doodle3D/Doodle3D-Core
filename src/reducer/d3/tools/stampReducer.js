@@ -1,7 +1,7 @@
-import * as actions from '../../actions/index.js';
+import * as actions from '../../../actions/index.js';
 import { addObject, addSpaceActive } from '../../objectReducers.js';
-import { recursiveClone } from '../../utils/clone.js';
-import { getBoundingBox, getSelectedObjectsSelector } from '../../utils/selectionUtils.js';
+import { recursiveClone } from '../../../utils/clone.js';
+import { getBoundingBox, getSelectedObjectsSelector } from '../../../utils/selectionUtils.js';
 import { updateInitTransform } from '../../d2/tools/transformReducer.js';
 import update from 'react-addons-update';
 import * as THREE from 'three';

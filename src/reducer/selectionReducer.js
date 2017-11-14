@@ -1,7 +1,7 @@
 import update from 'react-addons-update';
 import * as actions from '../actions/index.js';
 import { Vector } from 'cal';
-import { shapeToPoints } from '../utils/shapeDataUtils.js';
+import { shapeToPoints } from '../shape/shapeDataUtils.js';
 import createDebug from 'debug';
 const debug = createDebug('d3d:reducer:selection');
 

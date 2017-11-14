@@ -1,8 +1,8 @@
 import update from 'react-addons-update';
 import { Utils } from 'cal';
 import * as THREE from 'three';
-import { SHAPE_TYPE_PROPERTIES } from '../../../constatants/shapeTypeProperties.js';
-import * as d3Tools from '../../../constatants/d3Tools.js';
+import { SHAPE_TYPE_PROPERTIES } from '../../../constants/shapeTypeProperties.js';
+import * as d3Tools from '../../../constants/d3Tools.js';
 import { getSelectedObjectsSelector, getBoundingBox } from '../../../utils/selectionUtils.js';
 import * as actions from '../../../actions/index.js';
 // import createDebug from 'debug';
