@@ -497,5 +497,5 @@ export function menuClose(menuValue) {
 }
 
 export function openSketch(data) {
-  return { type: OPEN_SKETCH };
+  return { type: OPEN_SKETCH, data };
 }
