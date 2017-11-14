@@ -1,6 +1,6 @@
 import update from 'react-addons-update';
 import * as actions from '../../../../actions/index.js';
-import { addObjectActive2D, addObject, setActive2D } from '../../../../objectReducers.js';
+import { addObjectActive2D, addObject, setActive2D } from '../../../objectReducers.js';
 import { Matrix, Vector } from 'cal';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:reducer:star');

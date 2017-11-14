@@ -1,7 +1,7 @@
 import update from 'react-addons-update';
 import * as actions from '../../../actions/index.js';
 import createDebug from 'debug';
-import { removeObject, addObjectActive2D, setActive2D } from '../../../reducers/objectReducers.js';
+import { removeObject, addObjectActive2D, setActive2D } from '../../../reducer/objectReducers.js';
 import { SNAPPING_DISTANCE, LINE_WIDTH } from '../../../constants/d2Constants.js';
 import { SHAPE_TYPE_PROPERTIES } from '../../../constants/shapeTypeProperties.js';
 import { getSnappingPoints } from '../../../utils/objectSelectors.js';

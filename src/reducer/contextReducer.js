@@ -1,15 +1,15 @@
 import update from 'react-addons-update';
-import * as contextTools from 'src/js/constants/contextTools.js';
-import { COLOR_STRING_TO_HEX, COLOR_HEX_TO_STRING } from 'src/js/constants/general.js';
-import { ERASER_SIZES, BRUSH_SIZES } from 'src/js/constants/d2Constants.js';
-import * as actions from 'src/js/actions/index.js';
+import * as contextTools from '../constants/contextTools.js';
+import { COLOR_STRING_TO_HEX, COLOR_HEX_TO_STRING } from '../constants/general.js';
+import { ERASER_SIZES, BRUSH_SIZES } from '../constants/d2Constants.js';
+import * as actions from '../actions/index.js';
 import { select } from './menusReducer.js';
-import { getSelectedObjectsSelector, getBoundingBox } from 'src/js/utils/selectionUtils.js';
+import { getSelectedObjectsSelector, getBoundingBox } from '../utils/selectionUtils.js';
 import { Matrix } from 'cal';
 
 export default function (state, action) {
   switch (action.category) {
-    case actions.sketcher.CAT_SELECTION: {
+    case actions.CAT_SELECTION: {
       let menus = state.menus;
 
       const [firstSelected] = state.selection.objects;
@@ -30,7 +30,7 @@ export default function (state, action) {
   }
 
   switch (action.type) {
-    case actions.sketcher.D2_CHANGE_TOOL: {
+    case actions.D2_CHANGE_TOOL: {
       const color = COLOR_HEX_TO_STRING[state.context.color];
       return update(state, {
         menus: { $set: select(state.menus, color) }

@@ -2,7 +2,7 @@ import { Matrix, Vector } from 'cal';
 import update from 'react-addons-update';
 import * as actions from '../../../actions/index.js';
 import createDebug from 'debug';
-import { addObjectActive2D, setActive2D, removeObject } from '../../../reducers/objectReducers.js';
+import { addObjectActive2D, setActive2D, removeObject } from '../../../reducer/objectReducers.js';
 const debug = createDebug('d3d:reducer:text');
 
 export default function textReducer(state, action) {

@@ -1,7 +1,7 @@
 import update from 'react-addons-update';
 import ClipperShape from 'clipper-js';
 import { Matrix } from 'cal';
-import { addObject, removeObject } from '../objectReducers.js';
+import { addObject, removeObject } from './objectReducers.js';
 import { recursiveClone } from '../utils/clone.js';
 import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { applyMatrixOnShape, pathToVectorPath } from '../utils/vectorUtils.js';

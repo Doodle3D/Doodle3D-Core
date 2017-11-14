@@ -1,6 +1,6 @@
 import update from 'react-addons-update';
 import * as actions from '../../../actions/index.js';
-import { addObject } from '../../../reducers/objectReducers.js';
+import { addObject } from '../../../reducer/objectReducers.js';
 import createDebug from 'debug';
 const debug = createDebug('d3d:reducer:photoGuide');
 
