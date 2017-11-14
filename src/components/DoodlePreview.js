@@ -5,6 +5,12 @@ import PropTypes from 'proptypes';
 import JSONToSketchData from '../shape/JSONToSketchData.js';
 import createSceneData from '../d3/createSceneData.js';
 import createScene from '../d3/createScene.js';
+import injectSheet from 'react-jss';
+import ReactResizeDetector from 'react-resize-detector';
+
+const styles = {
+  position: 'absolute'
+};
 
 class DoodlePreview extends React.Component {
   constructor() {
@@ -20,15 +26,12 @@ class DoodlePreview extends React.Component {
     if (docData) sketchData = await JSONToSketchData(this.props.docData);
 
     const { canvas } = this.refs;
-    const { width, height, pixelRatio } = this.props
+    const { pixelRatio } = this.props
 
     const sceneData = createSceneData(sketchData);
 
     const scene = createScene(sceneData, canvas);
-    this.setState({ scene });
-
-    scene.setSize(width, height, pixelRatio);
-    scene.render();
+    this.setState(scene);
 
     this.editorControls = new THREE.EditorControls(scene.camera, canvas);
     this.editorControls.addEventListener('change', () => scene.render());
@@ -38,19 +41,22 @@ class DoodlePreview extends React.Component {
     if (this.editorControls) this.editorControls.dispose();
   }
 
-  componentDidUpdate(prevProps) {
-    const { scene } = this.state;
-    const { width, height } = this.props;
-    if (scene !== null && (prevProps.width !== width || prevProps.height !== height)) {
-      scene.setSize(width, height);
-      scene.render();
-    }
-  }
+  onResize = (width, height) => {
+    window.requestAnimationFrame(() => {
+      const { setSize } = this.state;
+      const { pixelRatio } = this.props;
+      setSize(width, height, pixelRatio);
+    });
+  };
 
   render() {
-    const { width, height, className } = this.props;
+    const { classes } = this.props;
+
     return (
-        <canvas width={width} height={height} className={className} ref="canvas" />
+      <div>
+        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
+        <canvas className={classes.canvas} ref="canvas" />
+      </div>
     );
   }
 }
@@ -60,6 +66,7 @@ DoodlePreview.defaultProps = {
   pixelRatio: 1
 };
 DoodlePreview.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string),
   className: PropTypes.string,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
@@ -71,4 +78,4 @@ DoodlePreview.propTypes = {
   })
 };
 
-export default DoodlePreview;
+export default injectSheet(styles)(DoodlePreview);
