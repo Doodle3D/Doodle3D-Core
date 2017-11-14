@@ -1,13 +1,8 @@
 import * as contextTools from './contextTools.js';
-import bowser from 'bowser';
 
 export const VERSION = '0.16.6';
 export const SHAPE_CACHE_LIMIT = 50;
-export const IS_CORDOVA = typeof cordova !== 'undefined';
 export const PIXEL_RATIO = 1.0;
-// On android and iOS autofocus means the keyboard pops up for one second and then hides
-// Disable autofocus on these devices
-export const AUTO_FOCUS_TEXT_FIELDS = !(bowser.mobile || bowser.tablet);
 
 export const COLOR_STRING_TO_HEX = {
   [contextTools.LIGHT_BLUE]: 0xc8e4f7,
@@ -42,7 +37,3 @@ COLOR_HEX_TO_STRING[0x7ab063] = contextTools.DARK_GREEN;
 COLOR_HEX_TO_STRING[0xb36984] = contextTools.DARK_PINK;
 COLOR_HEX_TO_STRING[0xf5e872] = contextTools.DARK_YELLOW;
 COLOR_HEX_TO_STRING[0x00DDFF] = contextTools.BLUE;
-
-export const REQUEST_CONFIG = {
-  LARGE: { timeout: 0 }
-};
