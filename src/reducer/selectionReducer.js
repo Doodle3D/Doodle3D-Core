@@ -8,39 +8,37 @@ const debug = createDebug('d3d:reducer:selection');
 export default function selectionReducer(state, action) {
   // if (action.log !== false) debug(action.type);
   switch (action.type) {
-    case actions.sketcher.SELECT: {
+    case actions.SELECT: {
       const { shapeID } = action;
       return selectObject(state, shapeID);
     }
 
-    case actions.sketcher.BED_SELECT: {
+    case actions.BED_SELECT: {
       return update(state, {
         activeSpace: { $set: 'world' }
       });
     }
 
-    case actions.sketcher.DESELECT: {
+    case actions.DESELECT: {
       const { shapeID } = action;
       return deselectObject(state, shapeID);
     }
 
-    case actions.sketcher.TOGGLE_SELECT: {
+    case actions.TOGGLE_SELECT: {
       const { shapeID } = action;
       return toggleSelectObject(state, shapeID);
     }
 
-    case actions.sketcher.SELECT_ALL: {
+    case actions.SELECT_ALL: {
       return state.spaces.world.objectIds.reduce((_state, id) => selectObject(_state, id), state);
     }
 
-    case actions.sketcher.D2_CHANGE_TOOL:
-    case actions.sketcher.DESELECT_ALL:
-    case actions.sketcher.CLEAR:
-    case actions.files.OPEN_SKETCH:
-    case actions.files.FILES_LOAD_FULFILLED:
+    case actions.D2_CHANGE_TOOL:
+    case actions.DESELECT_ALL:
+    case actions.CLEAR:
       return deselectAll(state);
 
-    case actions.sketcher.DRAG_SELECT:
+    case actions.DRAG_SELECT:
       const { start, end } = state.d2.transform.dragSelect;
       const matrix = action.screenMatrixZoom.inverseMatrix();
 
