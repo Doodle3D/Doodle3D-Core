@@ -1,5 +1,5 @@
-import { SHAPE_TYPE_PROPERTIES } from 'src/js/constants/shapeTypeProperties.js';
-import { calculatePointInImage } from 'src/js/utils/matrixUtils.js';
+import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
+import { calculatePointInImage } from './matrixUtils.js';
 import R from 'ramda';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:utils:objectSelectors');
