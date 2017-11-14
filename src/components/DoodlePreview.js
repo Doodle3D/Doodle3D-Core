@@ -9,7 +9,9 @@ import injectSheet from 'react-jss';
 import ReactResizeDetector from 'react-resize-detector';
 
 const styles = {
-  position: 'absolute'
+  canvas: {
+    position: 'absolute'
+  }
 };
 
 class DoodlePreview extends React.Component {
