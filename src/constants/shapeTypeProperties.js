@@ -1,6 +1,6 @@
 import { Vector, Matrix } from '@doodle3d/cal';
-import * as d2Tools from '../constants/d2Tools';
-import * as d3Tools from '../constants/d3Tools';
+import * as d2Tools from './d2Tools';
+import * as d3Tools from './d3Tools';
 
 const SHAPE = {
   D3Visible: true,
