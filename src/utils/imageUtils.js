@@ -1,6 +1,4 @@
-// import { MAX_IMAGE_SIZE } from '../js/constants/d2Constants.js';
-
-const MAX_IMAGE_SIZE = 100;
+import { MAX_IMAGE_SIZE } from '../constants/d2Constants.js';
 
 export function prepareImage(image) {
   let { width, height } = image;
