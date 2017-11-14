@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as actions from 'doodle3d-core/actions/index.js';
+import * as actions from '../actions/index.js';
 import { connect } from 'react-redux';
-import * as contextTools from 'doodle3d-core/constants/contextTools';
-import * as d2Tools from 'doodle3d-core/constants/d2Tools';
+import * as contextTools from '../constants/contextTools';
+import * as d2Tools from '../constants/d2Tools';
 import { createSelector } from 'reselect';
 import Menu from 'src/js/components/Menu.js';
 import SubMenu from 'src/js/components/SubMenu.js';

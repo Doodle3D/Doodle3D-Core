@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'proptypes';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
-import * as actions from 'doodle3d-core/actions';
+import * as actions from '../actions';
 import Logo from './Logo.js';
 import D2Panel from './D2Panel.js';
 import D3Panel from './D3Panel.js';

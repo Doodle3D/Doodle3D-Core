@@ -5,7 +5,7 @@ import * as actions from '../../../actions/index.js';
 import { SHAPE_TYPE_PROPERTIES } from '../../../constants/shapeTypeProperties.js';
 import { LINE_WIDTH, CLIPPER_PRECISION } from '../../../constants/d2Constants.js';
 import { shapeToPoints } from '../../../shape/shapeToPoints.js';
-import { applyMatrixOnShape, pathToVectorPath } from '../../../utils/VectorUtils.js';
+import { applyMatrixOnShape, pathToVectorPath } from '../../../utils/vectorUtils.js';
 import { addObject } from '../../../reducer/objectReducers.js';
 import subtractShapeFromState from '../../../utils/subtractShapeFromState.js';
 import { getColor, getFirst, filterType, getObjectsFromIds } from '../../../utils/objectSelectors.js';
