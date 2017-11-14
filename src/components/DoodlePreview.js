@@ -51,7 +51,6 @@ class DoodlePreview extends React.Component {
       const { setSize, render } = this.state;
       const { pixelRatio } = this.props;
       setSize(width, height, pixelRatio);
-      render();
     });
   };
 

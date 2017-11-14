@@ -66,6 +66,8 @@ export default function createScene(state, canvas) {
 
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+
+    render();
   };
 
   return { scene, camera, renderer, render, setSize };
