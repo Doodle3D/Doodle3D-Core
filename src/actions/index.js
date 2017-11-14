@@ -85,6 +85,7 @@ export const FLOOD_FILL = 'FLOOD_FILL';
 export const TRACE_FLOOD_FILL = 'TRACE_FLOOD_FILL';
 export const MENU_OPEN = 'MENU_OPEN';
 export const MENU_CLOSE = 'MENU_CLOSE';
+export const OPEN_SKETCH = 'OPEN_SKETCH';
 
 // CATEGORIES
 // actions that influence selected objects
@@ -493,4 +494,8 @@ export function menuOpen(menuValue) {
 }
 export function menuClose(menuValue) {
   return { type: MENU_CLOSE, menuValue };
+}
+
+export function openSketch(data) {
+  return { type: OPEN_SKETCH };
 }

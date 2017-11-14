@@ -207,10 +207,30 @@ function sketcherReducer(state = initialState, action) {
       state = updateMenus(state, action);
       return state;
 
-    // actions.user.USER_LOGOUT_FULFILLED
-    // actions.files.FILES_LOAD_FULFILLED:
     case actions.CLEAR:
       return initialState;
+
+    case actions.OPEN_SKETCH:
+      let first = true;
+      for (const space of action.data.data.spaces) {
+        if (first) {
+          state = addSpaceActive(state, space.matrix, 'world');
+        } else {
+          state = addSpaceActive(state, space.matrix);
+        }
+
+        for (const object of space.objects) {
+          if (first) {
+            state = addObject(state, { ...object, space: 'world' });
+          } else {
+            state = addObject(state, object);
+          }
+        }
+
+        first = false;
+      }
+
+      return setActiveSpace(state, 'world');
 
     case actions.DUPLICATE_SELECTION:
     case actions.DELETE_SELECTION:
