@@ -35,7 +35,6 @@ export default function selectionReducer(state, action) {
 
     case actions.D2_CHANGE_TOOL:
     case actions.DESELECT_ALL:
-    case actions.CLEAR:
       return deselectAll(state);
 
     case actions.DRAG_SELECT:

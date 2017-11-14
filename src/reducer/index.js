@@ -207,15 +207,10 @@ function sketcherReducer(state = initialState, action) {
       state = updateMenus(state, action);
       return state;
 
+    // actions.user.USER_LOGOUT_FULFILLED
+    // actions.files.FILES_LOAD_FULFILLED:
     case actions.CLEAR:
-      state = setActive2D(state, null);
-      state = removeAllObjects(state);
-      state = selectionReducer(state, action); // deselect all
-      state = d2PinchZoomReducer(state, action); // reset zoom
-      state = update(state, {
-        d3: { camera: { $set: cameraReducer(state.d3.camera, action) } }
-      });
-      return state;
+      return initialState;
 
     case actions.DUPLICATE_SELECTION:
     case actions.DELETE_SELECTION:
@@ -231,13 +226,6 @@ function sketcherReducer(state = initialState, action) {
       return update(state, {
         objectsById: { [action.id]: { transform: { $set: action.transform } } }
       });
-
-    // TODO these actions should reset
-    // actions.user.USER_LOGOUT_FULFILLED
-    // actions.files.OPEN_SKETCH:
-    // actions.files.FILES_LOAD_FULFILLED:
-    case actions.CLEAR:
-      return initialState;
 
     default:
       return state;

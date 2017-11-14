@@ -10,11 +10,6 @@ export default function pinchZoomReducer(state, action) {
   if (action.log !== false) debug(action.type);
 
   switch (action.type) {
-    case actions.CLEAR:
-      return update(state, {
-        d2: { canvasMatrix: { $set: new Matrix() } }
-      });
-
     case actions.D2_MULTITOUCH:
       return multitouch(state, action);
 

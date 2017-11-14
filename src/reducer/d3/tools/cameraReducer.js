@@ -91,9 +91,6 @@ export function cameraReducer(state, action) {
       return pan(state, panDelta);
     }
 
-    case actions.CLEAR:
-      return defaultCamera;
-
     default:
       return state;
   }
