@@ -1,6 +1,6 @@
-import * as actions from 'src/js/actions/index.js';
-import * as d2Tools from 'src/js/constants/d2Tools.js';
-import initialMenuStructure from 'src/js/constants/menu.js';
+import * as actions from '../actions/index.js';
+import * as d2Tools from '../constants/d2Tools.js';
+import initialMenuStructure from '../constants/menu.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:reducer:menu:index');
 
