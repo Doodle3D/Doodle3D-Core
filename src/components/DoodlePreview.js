@@ -18,12 +18,27 @@ const styles = {
 };
 
 class DoodlePreview extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      scene: null
-    };
-  }
+  static defaultProps = {
+    width: 720,
+    height: 480,
+    pixelRatio: 1
+  };
+
+  static propTypes = {
+    classes: PropTypes.objectOf(PropTypes.string),
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    pixelRatio: PropTypes.number.isRequired,
+    sketchData: PropTypes.object, // TODO
+    docData: PropTypes.shape({
+      appVersion: PropTypes.string,
+      data: PropTypes.string
+    })
+  };
+
+  state = {
+    scene: null
+  };
 
   async componentDidMount() {
     let { docData, sketchData } = this.props;
@@ -65,21 +80,5 @@ class DoodlePreview extends React.Component {
     );
   }
 }
-DoodlePreview.defaultProps = {
-  width: 720,
-  height: 480,
-  pixelRatio: 1
-};
-DoodlePreview.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string),
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  pixelRatio: PropTypes.number.isRequired,
-  sketchData: PropTypes.object, // TODO
-  docData: PropTypes.shape({
-    appVersion: PropTypes.string,
-    data: PropTypes.string
-  })
-};
 
 export default injectSheet(styles)(DoodlePreview);
