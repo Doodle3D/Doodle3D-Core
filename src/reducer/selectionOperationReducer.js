@@ -8,6 +8,7 @@ import { applyMatrixOnShape, pathToVectorPath } from '../utils/vectorUtils.js';
 import subtractShapeFromState from '../utils/subtractShapeFromState.js';
 import * as d2Tools from '../constants/d2Tools';
 import { CLIPPER_PRECISION } from '../constants/d2Constants.js';
+import * as actions from '../actions/index.js';
 
 const LINE_WIDTH = 0.5;
 
