@@ -25,13 +25,13 @@ export default function toolReducer(state, action) {
   });
 
   switch (action.type) {
-    case actions.sketcher.D3_DRAG_START:
+    case actions.D3_DRAG_START:
       state = update(state, {
         d3: { dragging: { $set: true } }
       });
       break;
 
-    case actions.sketcher.D3_DRAG_END:
+    case actions.D3_DRAG_END:
       state = update(state, {
         d3: { dragging: { $set: false } }
       });
@@ -41,7 +41,7 @@ export default function toolReducer(state, action) {
       break;
   }
 
-  if (action.type === actions.sketcher.D3_CHANGE_TOOL && action.tool !== state.d3.tool) {
+  if (action.type === actions.D3_CHANGE_TOOL && action.tool !== state.d3.tool) {
     state = update(state, {
       d3: { tool: { $set: action.tool } }
     });
