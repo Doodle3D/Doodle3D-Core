@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { shapeToPoints, getPointsBounds } from './shapeDataUtils.js';
+import { shapeToPoints, getPointsBounds } from '../shape/DataUtils.js'
 import { Vector } from 'cal';
 import arrayMemoizer from './arrayMemoizer.js';
 import memoize from 'memoizee';
