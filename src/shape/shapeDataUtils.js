@@ -3,6 +3,7 @@ import { Vector } from '@doodle3d/cal';
 import { SHAPE_CACHE_LIMIT } from '../constants/general.js';
 import ImageShape from '../d2/ImageShape.js';
 import Shape from '../d2/Shape.js';
+import { applyMatrixOnPath } from '../utils/vectorUtils.js';
 
 export function shapeChanged(oldShapeData, newShapeData) {
   const pointsChanged = oldShapeData.points !== newShapeData.points;
