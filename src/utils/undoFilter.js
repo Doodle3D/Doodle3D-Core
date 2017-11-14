@@ -1,6 +1,6 @@
 import * as actions from '../actions/index.js';
-import * as d2Tools from 'src/js/constants/d2Tools.js';
-import * as contextTools from 'src/js/constants/contextTools.js';
+import * as d2Tools from '../constants/d2Tools.js';
+import * as contextTools from '../constants/contextTools.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:util:undoFilter');
 
