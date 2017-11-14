@@ -1,4 +1,4 @@
-import { pathToVectorPath, applyMatrixOnPath } from 'src/js/utils/shapeDataUtils.js';
+import { pathToVectorPath, applyMatrixOnPath } from '../shape/shapeDataUtils.js';
 import { Matrix } from 'cal';
 import TraceWorker from 'workers/worker.js';
 import { getPixel } from './colorUtils.js';
