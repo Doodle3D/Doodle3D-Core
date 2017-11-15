@@ -68,7 +68,7 @@ module.exports = {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      title: 'Doodle3D Slicer - Simple example',
+      title: 'Doodle3D Core - Simple example',
       template: require('html-webpack-template'),
       inject: false,
       appMountId: 'app'
