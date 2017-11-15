@@ -7,7 +7,7 @@ import { CANVAS_SIZE } from '../constants/d2Constants';
 import ShapesManager from '../d3/ShapesManager';
 import { getSelectedObjectsSelector, getBoundingBox } from '../utils/selectionUtils';
 import createRAFOnce from '../utils/rafOnce.js';
-import { hasExtensionsFor } from '../utils/WebGLSupport.js';
+import { hasExtensionsFor } from '../utils/webGLSupport.js';
 import { PIXEL_RATIO } from '../constants/general.js';
 import * as toolsNames from '../constants/d3Tools.js';
 import { EventScene, EventObject3D } from '../d3/EventScene.js';
