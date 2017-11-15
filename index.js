@@ -27,10 +27,14 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import App from './src/components/App.js';
+import InlineIconsLoader from './src/components/InlineIconsLoader.js';
 import sketcherReducer from './src/reducer/index.js';
 
 render((
   <Provider store={store}>
-    <App />
+    <span style={{ height: '100%' }}>
+      <InlineIconsLoader />
+      <App />
+    </span>
   </Provider>
 ), document.getElementById('app'));

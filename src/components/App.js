@@ -11,7 +11,6 @@ import Button from './Button.js';
 import vlineImageURL from '../../img/vline.png';
 import btnUndoImageURL from '../../img/mainmenu/btnUndo.png';
 import btnRedoImageURL from '../../img/mainmenu/btnRedo.png';
-import InlineIconsLoader from './InlineIconsLoader.js';
 
 const styles = {
   container: {
@@ -67,7 +66,6 @@ class App extends React.Component {
     const { classes, undo, redo } = this.props;
     return (
       <div className={classes.container}>
-        <InlineIconsLoader />
         <div className={classes.appContainer}>
           <D2Panel />
           <div className={classes.vLine} />
