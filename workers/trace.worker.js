@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 import * as POTRACE from 'potrace-js';
-import { POTRACE_OPTIONS } from '@doodle3d-core/constants/d2Constants.js';
+import { POTRACE_OPTIONS } from 'doodle3d-core/constants/d2Constants.js';
 
 self.addEventListener('message', (event) => {
   switch (event.data.msg) {
