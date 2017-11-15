@@ -2,6 +2,8 @@ const path = require('path');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
+const devMode = process.env.NODE_ENV !== 'production';
+
 const babelLoader = {
   loader: 'babel-loader',
   options: {
@@ -26,7 +28,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'doodle3d-slicer': path.resolve(__dirname, '../src/index.js'),
+      'doodle3d-core': path.resolve(__dirname, devMode ? 'module' : 'lib'),
       'clipper-lib': '@doodle3d/clipper-lib',
       'clipper-js': '@doodle3d/clipper-js',
       'cal': '@doodle3d/cal',
