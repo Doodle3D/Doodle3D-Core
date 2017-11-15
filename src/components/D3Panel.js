@@ -6,20 +6,21 @@ import injectSheet from 'react-jss';
 import { CANVAS_SIZE } from '../constants/d2Constants';
 import ShapesManager from '../d3/ShapesManager';
 import { getSelectedObjectsSelector, getBoundingBox } from '../utils/selectionUtils';
-import createRAFOnce from 'src/js/utils/rafOnce.js';
+import createRAFOnce from '../utils/rafOnce.js';
 import { hasExtensionsFor } from '../utils/WebGLSupport.js';
 import { PIXEL_RATIO } from '../constants/general.js';
 import * as toolsNames from '../constants/d3Tools.js';
-import { EventScene, EventObject3D } from 'src/js/preview/EventScene.js';
-import HeightTransformer from 'src/js/preview/transformers/HeightTransformer.js';
-import TwistTransformer from 'src/js/preview/transformers/TwistTransformer.js';
-import SculptTransformer from 'src/js/preview/transformers/SculptTransformer.js';
-import StampTransformer from 'src/js/preview/transformers/StampTransformer.js';
-import SelectionBox from 'src/js/preview/SelectionBox.js';
+import { EventScene, EventObject3D } from '../d3/EventScene.js';
+import HeightTransformer from '../d3/transformers/HeightTransformer.js';
+import TwistTransformer from '../d3/transformers/TwistTransformer.js';
+import SculptTransformer from '../d3/transformers/SculptTransformer.js';
+import StampTransformer from '../d3/transformers/StampTransformer.js';
+import SelectionBox from '../d3/SelectionBox.js';
 import ToonShaderRenderChain from '../d3/ToonShaderRenderChain';
 import RenderChain from '../d3/RenderChain';
-import BaseTransformer from 'src/js/preview/transformers/BaseTransformer.js';
-import Camera from 'src/js/preview/Camera.js';
+import BaseTransformer from '../d3/transformers/BaseTransformer.js';
+import Camera from '../d3/Camera.js';
+import ReactResizeDetector from 'react-resize-detector';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:d3');
 
@@ -45,7 +46,7 @@ const styles = {
     alignItems: 'stretch',
     overflow: 'hidden'
   },
-  canvas: {
+  canvasContainer: {
     flexGrow: 1,
     margin: '0px',
     overflow: 'hidden',
@@ -79,21 +80,17 @@ class D3Panel extends React.Component {
       this.renderChain = new RenderChain(this.renderer, this.scene, this.camera);
     }
 
-    window.addEventListener('resize', this.resizeHandler);
-
     this.DOM = null;
   }
 
   componentDidMount() {
     this.container = this.refs.canvasContainer;
-    this.resizeHandler();
     this.container.appendChild(this.renderer.domElement);
 
     this.renderScene(); // immidiatly render because when THREE.JS inits, a black screen is generated
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeHandler);
     this.scene.setCanvas(null);
   }
 
@@ -224,9 +221,7 @@ class D3Panel extends React.Component {
     this.state = newState;
   }
 
-  resizeHandler = () => {
-    const { offsetWidth: width, offsetHeight: height } = this.container;
-
+  resizeHandler = (width, height) => {
     // set renderer size
     this.renderChain.setSize(width, height, PIXEL_RATIO);
 
@@ -244,7 +239,8 @@ class D3Panel extends React.Component {
     this.renderScene();
     return (
       <div className={classes.container}>
-        <div className={classes.canvas} ref="canvasContainer"/>
+        <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
+        <div className={classes.canvasContainer} ref="canvasContainer"/>
       </div>
     );
   }

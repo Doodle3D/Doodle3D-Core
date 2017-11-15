@@ -46,23 +46,6 @@ export default function toolReducer(state, action) {
     state = updateTool(state, tools.TRANSFORM);
   }
 
-  switch (action.type) {
-    case actions.D2_DRAG_START:
-      state = update(state, {
-        d2: { dragging: { $set: true } }
-      });
-      break;
-
-    case actions.D2_DRAG_END:
-      state = update(state, {
-        d2: { dragging: { $set: false } }
-      });
-      break;
-
-    default:
-      break;
-  }
-
   const tool = state.d2.tool;
   const reducer = reducers[tool];
   if (reducer) {

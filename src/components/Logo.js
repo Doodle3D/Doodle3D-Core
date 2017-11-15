@@ -1,5 +1,5 @@
 import React from 'react';
-import doodleSignImageURL from 'img/doodle3d-sign.png';
+import doodleSignImageURL from '../../img/doodle3d-sign.png';
 import injectSheet from 'react-jss';
 
 const styles = {

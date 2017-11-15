@@ -73,8 +73,7 @@ const initialState = {
     toolbar: {
       open: []
     },
-    canvasMatrix: new Matrix(),
-    dragging: false
+    canvasMatrix: new Matrix()
   },
   d3: {
     height: {
@@ -93,8 +92,7 @@ const initialState = {
     toolbar: {
       open: []
     },
-    camera: defaultCamera,
-    dragging: false
+    camera: defaultCamera
   },
   menus: menusReducer(undefined, {})
 };

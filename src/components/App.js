@@ -7,12 +7,15 @@ import Logo from './Logo.js';
 import D2Panel from './D2Panel.js';
 import D3Panel from './D3Panel.js';
 import SketcherToolbars from './SketcherToolbars.js';
-import vlineImageURL from 'img/vline.png';
-import btnUndoImageURL from 'img/mainmenu/btnUndo.png';
-import btnRedoImageURL from 'img/mainmenu/btnRedo.png';
+import Button from './Button.js';
+import vlineImageURL from '../../img/vline.png';
+import btnUndoImageURL from '../../img/mainmenu/btnUndo.png';
+import btnRedoImageURL from '../../img/mainmenu/btnRedo.png';
 
 const styles = {
   container: {
+    position: 'relative',
+    userSelect: 'none',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
@@ -61,7 +64,6 @@ class App extends React.Component {
 
   render() {
     const { classes, undo, redo } = this.props;
-
     return (
       <div className={classes.container}>
         <div className={classes.appContainer}>
@@ -70,11 +72,11 @@ class App extends React.Component {
           <D3Panel />
         </div>
         <Logo />
-        <SketcherToolbars />
         <div className={classes.undoMenu}>
-          <div type="button" onTouchTap={undo} className={classes.undo} />
-          <div type="button" onTouchTap={redo} className={classes.redo} />
+          <Button onSelect={undo} className={classes.undo} />
+          <Button onSelect={redo} className={classes.redo} />
         </div>
+        <SketcherToolbars />
       </div>
     );
   }

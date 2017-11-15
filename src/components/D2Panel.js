@@ -5,20 +5,21 @@ import { connect } from 'react-redux';
 import * as CAL from 'cal';
 import * as toolNames from '../constants/d2Tools';
 import { CANVAS_SIZE } from '../constants/d2Constants';
-import createRAFOnce from 'src/js/utils/rafOnce.js';
-import Grid from 'src/js/design/Grid.js';
-import BaseTool from 'src/js/design/tools/BaseTool.js';
-import TransformTool from 'src/js/design/tools/TransformTool.js';
-import EraserTool from 'src/js/design/tools/EraserTool.js';
-import BrushTool from 'src/js/design/tools/BrushTool.js';
-import PolygonTool from 'src/js/design/tools/PolygonTool.js';
-import CircleTool from 'src/js/design/tools/CircleTool.js';
-import TextTool from 'src/js/design/tools/TextTool.js';
-import BucketTool from 'src/js/design/tools/BucketTool.js';
-import PhotoGuideTool from 'src/js/design/tools/PhotoGuideTool.js';
+import createRAFOnce from '../utils/rafOnce.js';
+import Grid from '../d2/Grid.js';
+import BaseTool from '../d2/tools/BaseTool.js';
+import TransformTool from '../d2/tools/TransformTool.js';
+import EraserTool from '../d2/tools/EraserTool.js';
+import BrushTool from '../d2/tools/BrushTool.js';
+import PolygonTool from '../d2/tools/PolygonTool.js';
+import CircleTool from '../d2/tools/CircleTool.js';
+import TextTool from '../d2/tools/TextTool.js';
+import BucketTool from '../d2/tools/BucketTool.js';
+import PhotoGuideTool from '../d2/tools/PhotoGuideTool.js';
 import { PIXEL_RATIO } from '../constants/general';
-import ShapesManager from 'src/js/design/ShapesManager.js';
-import EventGroup from 'src/js/design/EventGroup.js';
+import ShapesManager from '../d2/ShapesManager.js';
+import EventGroup from '../d2/EventGroup.js';
+import ReactResizeDetector from 'react-resize-detector';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:d2');
 
@@ -48,7 +49,7 @@ const styles = {
     alignItems: 'stretch',
     overflow: 'hidden'
   },
-  canvas: {
+  canvasContainer: {
     flexGrow: 1,
     margin: '0px',
     overflow: 'hidden',
@@ -91,23 +92,17 @@ class D2Panel extends React.Component {
 
     this.shapesManager = new ShapesManager(this.objectContainerActive, this.objectContainerInactive);
 
-    window.addEventListener('resize', this.resizeHandler);
-
     this.DOM = null;
   }
 
   componentDidMount() {
-    const { canvasContainer, activeScene, inactiveScene } = this.refs;
-    console.log('canvasContainer: ', canvasContainer);
+    const { canvasContainer } = this.refs;
     this.container = canvasContainer;
 
-    this.sceneActive.setCanvas(activeScene);
-    this.sceneInactive.setCanvas(inactiveScene);
-    this.resizeHandler();
-  }
+    this.container.appendChild(this.sceneInactive.image);
+    this.container.appendChild(this.sceneActive.image);
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeHandler);
+    this.sceneActive.onClick = (event) => event.stopPropagation();
   }
 
   updateTool(newState) {
@@ -178,8 +173,7 @@ class D2Panel extends React.Component {
     this.state = newState;
   }
 
-  resizeHandler = () => {
-    const { offsetWidth: width, offsetHeight: height } = this.container;
+  resizeHandler = (width, height) => {
     this.sceneActive.setSize(width, height, PIXEL_RATIO);
     this.sceneInactive.setSize(width, height, PIXEL_RATIO);
 
@@ -210,11 +204,6 @@ class D2Panel extends React.Component {
     }
   };
 
-  stopPropagation(event) {
-    // stop propagation to prefent popup to close immidiatly
-    event.stopPropagation();
-  }
-
   render() {
     // debug('this.props.state: ', this.props.state);
     const { state, classes } = this.props;
@@ -222,10 +211,8 @@ class D2Panel extends React.Component {
     this.renderCanvas();
     return (
       <div className={classes.container}>
-        <div className={classes.canvas} ref="canvasContainer">
-          <canvas ref="inactiveScene" />
-          <canvas onClick={this.stopPropagation} ref="activeScene" />
-        </div>
+        <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
+        <div className={classes.canvasContainer} ref="canvasContainer" />
       </div>
     );
   }

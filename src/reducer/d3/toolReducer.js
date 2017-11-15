@@ -24,23 +24,6 @@ export default function toolReducer(state, action) {
     d3: { camera: { $set: cameraReducer(state.d3.camera, action) } }
   });
 
-  switch (action.type) {
-    case actions.D3_DRAG_START:
-      state = update(state, {
-        d3: { dragging: { $set: true } }
-      });
-      break;
-
-    case actions.D3_DRAG_END:
-      state = update(state, {
-        d3: { dragging: { $set: false } }
-      });
-      break;
-
-    default:
-      break;
-  }
-
   if (action.type === actions.D3_CHANGE_TOOL && action.tool !== state.d3.tool) {
     state = update(state, {
       d3: { tool: { $set: action.tool } }

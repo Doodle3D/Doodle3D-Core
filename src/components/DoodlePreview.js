@@ -62,7 +62,7 @@ class DoodlePreview extends React.Component {
     if (this.editorControls) this.editorControls.dispose();
   }
 
-  onResize = (width, height) => {
+  resizeHandler = (width, height) => {
     requestAnimationFrame(() => {
       const { setSize, render } = this.state;
       const { pixelRatio } = this.props;
@@ -75,7 +75,7 @@ class DoodlePreview extends React.Component {
 
     return (
       <div className={classes.container}>
-        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
+        <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
         <canvas className={classes.canvas} ref="canvas" />
       </div>
     );
