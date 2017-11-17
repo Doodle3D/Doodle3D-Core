@@ -28,7 +28,6 @@ window.actions = actionWrapper(actions, store.dispatch);
 
 import JSONToSketchData from './src/shape/JSONToSketchData.js';
 window.addEventListener('drop', async (event) => {
-  console.log(event);
   event.preventDefault();
 
   for (const file of event.dataTransfer.files) {
