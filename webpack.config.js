@@ -35,6 +35,8 @@ module.exports = {
       'touch-events': '@doodle3d/touch-events',
       'potrace-js': '@doodle3d/potrace-js',
       'fill-path': '@doodle3d/fill-path',
+      'threejs-export-stl': '@doodle3d/threejs-export-stl',
+      'threejs-export-obj': '@doodle3d/threejs-export-obj'
     }
   },
   module: {
