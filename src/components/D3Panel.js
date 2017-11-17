@@ -107,12 +107,12 @@ class D3Panel extends React.Component {
     // this.grid.setColors(0xe0e0e0, 0xeeeeee);
     // this.scene.add(this.grid);
     const geometryPlane = new THREE.PlaneGeometry(CANVAS_WIDTH, CANVAS_HEIGHT);
-    const materialPlane = new THREE.MeshBasicMaterial({
-      color: 0xcccccc,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.5
-    });
+    geometryPlane.merge(new THREE.PlaneGeometry(CANVAS_WIDTH, CANVAS_HEIGHT), undefined, 1);
+
+    const materialPlane = new THREE.MultiMaterial([
+      new THREE.MeshBasicMaterial({ color: 0xcccccc, side: THREE.BackSide, transparent: true, opacity: 0.3 }),
+      new THREE.MeshBasicMaterial({ color: 0xcccccc, side: THREE.FrontSide, transparent: true, opacity: 0.1 })
+    ]);
     this.plane = new THREE.Mesh(geometryPlane, materialPlane);
     this.plane.rotation.x = Math.PI / 2;
     this.plane.position.y = -0.01;
