@@ -8,12 +8,30 @@ import MenuItem from '../components/MenuItem.js';
 import * as contextTools from '../constants/contextTools.js';
 import * as d2Tools from '../constants/d2Tools.js';
 import { createSelector } from 'reselect';
+import injectSheet from 'react-jss';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:sketchertoolbars');
 
 const TOOLBAR2D = 'toolbar2d';
 const TOOLBAR3D = 'toolbar3d';
 const CONTEXT = 'context';
+
+const styles = {
+  contextMenuContainer: {
+  	position: 'absolute',
+  	left: 0,
+  	bottom: 0,
+  	right: 0,
+  	top: 0,
+  	display: 'flex',
+  	justifyContent: 'center',
+  	alignItems: 'center',
+  	pointerEvents: 'none', /* enable clicking through object */
+    '& *': {
+    	pointerEvents: 'visible' /* enable clicking in children */
+    }
+  }
+}
 
 class SketcherToolbars extends React.Component {
 
@@ -78,7 +96,7 @@ class SketcherToolbars extends React.Component {
     );
   };
   render() {
-    const { toolbar2d, toolbar3d, context } = this.props;
+    const { toolbar2d, toolbar3d, context, classes } = this.props;
 
     return (
       <div>
@@ -86,7 +104,7 @@ class SketcherToolbars extends React.Component {
           {this.renderToolbar(TOOLBAR2D, this.onSelect2D, toolbar2d)}
           {this.renderToolbar(TOOLBAR3D, this.onSelect3D, toolbar3d)}
         </div>
-        {context.children.length > 0 && <div className="centerer">
+        {context.children.length > 0 && <div className={classes.contextMenuContainer}>
           {this.renderToolbar(CONTEXT, this.onSelectContext, context)}
         </div>}
       </div>
@@ -199,20 +217,6 @@ const getMenus = createSelector([
 
 const style = document.createElement('style');
 style.innerHTML = `
-.centerer { /* centers child */
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	top: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	pointer-events: none; /* enable clicking through object */
-}
-.centerer * {
-	pointer-events: visible; /* enable clicking in children */
-}
 .button {
 	cursor: pointer;
 }
@@ -805,4 +809,4 @@ style.innerHTML = `
 `;
 document.body.append(style);
 
-export default connect(getMenus)(SketcherToolbars);
+export default injectSheet(styles)(connect(getMenus)(SketcherToolbars));
