@@ -37,9 +37,7 @@ window.addEventListener('drop', async (event) => {
         case 'JSON':
           const url = URL.createObjectURL(file);
           const data = await fetch(url).then(result => result.json());
-          console.log('data: ', data);
           const sketchData = await JSONToSketchData(data);
-          // await filesDB.importFile(file, name);
           store.dispatch(actions.openSketch({data:sketchData}));
           break;
         case 'JPG':
