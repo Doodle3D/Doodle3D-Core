@@ -69,3 +69,8 @@ render((
     <App />
   </Provider>
 ), document.getElementById('app'));
+
+import actionWrapper from 'redux-action-wrapper';
+import * as actions from './src/actions/index.js';
+window.actions = actionWrapper(actions, store.dispatch);
+
