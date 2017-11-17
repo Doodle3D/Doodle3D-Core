@@ -66,52 +66,56 @@ function createExportGeometry(shapeData, offsetSingleWalls, lineWidth) {
 
 export function generateExportMesh(state, options = {}) {
   const {
-    experimentalColorUnionExport = false,
+    unionGeometry = false,
     exportLineWidth = LINE_WIDTH,
     offsetSingleWalls = true,
     matrix = ROTATION_MATRIX
   } = options;
 
-  const geometries = [];
   const materials = [];
+  let exportGeometry;
+  const objectMatrix = new THREE.Matrix4();
   for (const id in state.objectsById) {
     const shapeData = state.objectsById[id];
 
     if (!SHAPE_TYPE_PROPERTIES[shapeData.type].D3Visible) continue;
 
-    const { geometry, material } = createExportGeometry(shapeData, offsetSingleWalls, exportLineWidth);
+    const { geometry, material } = createExportGeometry(shapeData, offsetSingleWalls || unionGeometry, exportLineWidth);
     let objectGeometry = new THREE.Geometry().fromBufferGeometry(geometry);
     objectGeometry.mergeVertices();
-    objectGeometry.applyMatrix(state.spaces[shapeData.space].matrix);
-
-    if (experimentalColorUnionExport) objectGeometry = new THREE_BSP(objectGeometry);
+    objectGeometry.applyMatrix(objectMatrix.multiplyMatrices(state.spaces[shapeData.space].matrix, matrix));
 
     const colorHex = material.color.getHex();
-    const index = materials.findIndex(exportMaterial => exportMaterial.color.getHex() === colorHex);
-    if (index !== -1) {
-      if (experimentalColorUnionExport) {
-        geometries[index] = geometries[index].union(objectGeometry);
+    let materialIndex = materials.findIndex(exportMaterial => exportMaterial.color.getHex() === colorHex);
+    if (materialIndex === -1) {
+      materialIndex = materials.length;
+      materials.push(material);
+    }
+
+    if (unionGeometry) objectGeometry = new THREE_BSP(objectGeometry, materials.length);
+
+    if (exportGeometry) {
+      if (unionGeometry) {
+        exportGeometry = exportGeometry.union(objectGeometry);
       } else {
-        geometries[index].merge(objectGeometry);
+        exportGeometry = exportGeometry.merge(objectGeometry, undefined, materials.length);
       }
     } else {
-      geometries.push(objectGeometry);
-      materials.push(material);
+      exportGeometry = objectGeometry;
     }
   }
 
-  const exportGeometry = geometries.reduce((combinedGeometry, geometry, materialIndex) => {
-    if (experimentalColorUnionExport) geometry = geometry.toMesh().geometry;
-    combinedGeometry.merge(geometry, matrix, materialIndex);
-    return combinedGeometry;
-  }, new THREE.Geometry());
-  const exportMaterial = new THREE.MultiMaterial(materials);
-
-  return new THREE.Mesh(exportGeometry, exportMaterial);
+  if (unionGeometry) {
+    return exportGeometry.toMesh(materials);
+  } else {
+    return new THREE.Mesh(exportGeometry, materials);
+  }
 }
 
-export async function createFile(objectsById, type, options) {
-  const exportMesh = generateExportMesh(objectsById, options);
+export async function createFile(state, type, options) {
+  const exportMesh = generateExportMesh(state, options);
+
+  console.log('exportMesh: ', exportMesh);
 
   switch (type) {
     case 'json-string': {
@@ -150,3 +154,4 @@ export async function createFile(objectsById, type, options) {
       throw new Error(`did not regonize type ${type}`);
   }
 }
+window.createFile = createFile;
