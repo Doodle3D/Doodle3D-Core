@@ -22,6 +22,43 @@ document.documentElement.style.height = '100%';
 document.documentElement.style.overflow = 'hidden';
 document.getElementById('app').style.height = '100%';
 
+import * as actions from './src/actions/index.js';
+import JSONToSketchData from './src/shape/JSONToSketchData.js';
+
+window.addEventListener('drop', async (event) => {
+  console.log(event);
+  event.preventDefault();
+
+  for (const file of event.dataTransfer.files) {
+      const [name, ...extentions] = file.name.split('.');
+
+      switch (extentions.pop().toUpperCase()) {
+        case 'D3SKETCH':
+        case 'JSON':
+          const url = URL.createObjectURL(file);
+          const data = await fetch(url).then(result => result.json());
+          console.log('data: ', data);
+          const sketchData = await JSONToSketchData(data);
+          // await filesDB.importFile(file, name);
+          store.dispatch(actions.openSketch({data:sketchData}));
+          break;
+        case 'JPG':
+        case 'JPEG':
+        case 'PNG':
+        case 'GIF':
+          await store.dispatch(actions.addImage(file));
+          break;
+        default:
+          break;
+      }
+  }
+});
+
+window.addEventListener('dragover', (event) => {
+  event.preventDefault();
+});
+
+
 // render dom
 import React from 'react';
 import { Provider } from 'react-redux';
