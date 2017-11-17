@@ -22,9 +22,11 @@ document.documentElement.style.height = '100%';
 document.documentElement.style.overflow = 'hidden';
 document.getElementById('app').style.height = '100%';
 
+import actionWrapper from 'redux-action-wrapper';
 import * as actions from './src/actions/index.js';
-import JSONToSketchData from './src/shape/JSONToSketchData.js';
+window.actions = actionWrapper(actions, store.dispatch);
 
+import JSONToSketchData from './src/shape/JSONToSketchData.js';
 window.addEventListener('drop', async (event) => {
   console.log(event);
   event.preventDefault();
@@ -69,8 +71,3 @@ render((
     <App />
   </Provider>
 ), document.getElementById('app'));
-
-import actionWrapper from 'redux-action-wrapper';
-import * as actions from './src/actions/index.js';
-window.actions = actionWrapper(actions, store.dispatch);
-
