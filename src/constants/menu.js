@@ -81,6 +81,11 @@ const context = {
       children: contextTools.FILL_TOGGLE_TOOLS.map(value => ({ value })),
       ...toggleBehavior
     }, {
+      value: contextTools.HOLE_TOGGLE,
+      selected: contextTools.HOLE_TOGGLE_SOLID,
+      children: contextTools.HOLE_TOGGLE_TOOLS.map(value => ({ value })),
+      ...toggleBehavior
+    }, {
       value: contextTools.ALIGN,
       selected: contextTools.ALIGN_HORIZONTAL,
       children: contextTools.ALIGN_TOOLS.map(value => ({ value })),

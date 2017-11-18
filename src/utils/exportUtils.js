@@ -92,13 +92,13 @@ export function generateExportMesh(state, options = {}) {
       materials.push(material);
     }
 
-    if (unionGeometry) objectGeometry = new THREE_BSP(objectGeometry, materials.length);
+    if (unionGeometry) objectGeometry = new THREE_BSP(objectGeometry, materialIndex);
 
     if (exportGeometry) {
       if (unionGeometry) {
         exportGeometry = exportGeometry.union(objectGeometry);
       } else {
-        exportGeometry = exportGeometry.merge(objectGeometry, undefined, materials.length);
+        exportGeometry.merge(objectGeometry, undefined, materialIndex);
       }
     } else {
       exportGeometry = objectGeometry;

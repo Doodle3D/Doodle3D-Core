@@ -4,6 +4,9 @@ import { shapeToPointsCornered } from '../shape/shapeToPoints.js';
 import * as THREE from 'three';
 import { getPointsBounds, shapeChanged } from '../shape/shapeDataUtils.js';
 import { DESELECT_TRANSPARENCY, LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
+import ThreeBSP from 'three-js-csg';
+
+const THREE_BSP = ThreeBSP(THREE);
 
 const MAX_HEIGHT_BASE = 5;
 // Legacy compensation. Compensating for the fact that we
@@ -12,8 +15,11 @@ const MAX_HEIGHT_BASE = 5;
 // and converting old files on open once
 const isValidNumber = (num) => typeof num === 'number' && !isNaN(num);
 
-class ShapeMesh extends THREE.Mesh {
-  constructor(shapeData, toonShader) {
+class ShapeMesh extends THREE.Object3D {
+  constructor(shapeData, holes, toonShader, active) {
+    super();
+    this.name = shapeData.UID;
+
     const { sculpt, rotate, twist, height, type, transform, z, color, fill } = shapeData;
 
     let material;
@@ -30,11 +36,15 @@ class ShapeMesh extends THREE.Mesh {
       });
     }
 
-    super(new THREE.BufferGeometry(), material);
+    this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), material);
+    this._mesh.name = shapeData.UID;
+    this.add(this._mesh);
+
+    this._holeMesh = new THREE.Mesh(new THREE.Geometry, material);
+    this._holeMesh.name = shapeData.UID;
+    this.add(this._holeMesh);
 
     this._toonShader = toonShader;
-
-    this.name = shapeData.UID;
 
     this._shapes = [];
     this._shapesMap = [];
@@ -52,10 +62,49 @@ class ShapeMesh extends THREE.Mesh {
     this._color = color;
     this._fill = fill;
 
+    this.visible = shapeData.solid;
+
     this.updatePoints(shapeData);
+
+    this._checkHoles(holes, active);
   }
 
-  update(shapeData) {
+  _checkHoles(holes, active) {
+    if (active) {
+      this._holeMesh.visible = false;
+      this._mesh.visible = true;
+      return false;
+    }
+
+    holes = holes.map(hole => hole.mesh._mesh);
+    const objectBoundingBox = new THREE.Box3().setFromObject(this._mesh);
+    holes = holes.filter(hole => {
+      const holeBoundingBox = new THREE.Box3().setFromObject(hole);
+      return holeBoundingBox.intersectsBox(objectBoundingBox);
+    });
+
+    if (holes.length === 0) {
+      this._holeMesh.visible = false;
+      this._mesh.visible = true;
+      return false;
+    }
+    // is coliding with holes
+
+    const objectGeometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
+    let objectBSP = new THREE_BSP(objectGeometry);
+    for (const hole of holes) {
+      const holeGeometry = new THREE.Geometry().fromBufferGeometry(hole.geometry);
+      const holeBSP = new THREE_BSP(holeGeometry)
+      objectBSP = objectBSP.subtract(holeBSP)
+    }
+    this._holeMesh.geometry = objectBSP.toMesh().geometry;
+
+    this._holeMesh.visible = true;
+    this._mesh.visible = false;
+    return true;
+  }
+
+  update(shapeData, holes, active) {
     let changed = false;
 
     if (shapeChanged(this._shapeData, shapeData)) {
@@ -88,17 +137,27 @@ class ShapeMesh extends THREE.Mesh {
       changed = true;
     }
 
+    if (!shapeData.solid) {
+      this.visible = shapeData.solid || active;
+      this.setOpaque(true);
+      changed = true;
+    }
+
+    if (this._checkHoles(holes, active)) {
+      changed = true;
+    }
+
     this._shapeData = shapeData;
     return changed;
   }
 
   setOpaque(opaque) {
-    this.material.opacity = opaque ? 1.0 : 1.0 - DESELECT_TRANSPARENCY;
-    this.material.transparent = !opaque;
+    this._mesh.material.opacity = opaque ? 1.0 : 1.0 - DESELECT_TRANSPARENCY;
+    this._mesh.material.transparent = !opaque;
   }
 
   dispose() {
-    this.geometry.dispose();
+    this._mesh.geometry.dispose();
   }
 
   updatePoints(shapeData) {
@@ -173,7 +232,7 @@ class ShapeMesh extends THREE.Mesh {
       throw new Error(`Cannot update object ${this.name}: color is an invalid value.`);
     }
 
-    this.material.color.setHex(color);
+    this._mesh.material.color.setHex(color);
     this._color = color;
   }
 
@@ -247,10 +306,10 @@ class ShapeMesh extends THREE.Mesh {
 
     this._vertexBuffer.needsUpdate = true;
 
-    this.geometry.boundingBox = null;
-    this.geometry.boundingSphere = null;
-    this.geometry.computeFaceNormals();
-    this.geometry.computeVertexNormals();
+    this._mesh.geometry.boundingBox = null;
+    this._mesh.geometry.boundingSphere = null;
+    this._mesh.geometry.computeFaceNormals();
+    this._mesh.geometry.computeVertexNormals();
   }
   _updateSide() {
     // TODO use higher precision for export mesh
@@ -295,8 +354,8 @@ class ShapeMesh extends THREE.Mesh {
 
     const numHeightSteps = this._heightSteps.length;
 
-    this.geometry.dispose();
-    this.geometry = new THREE.BufferGeometry();
+    this._mesh.geometry.dispose();
+    this._mesh.geometry = new THREE.BufferGeometry();
 
     // store total number of indexes and vertices needed
     let indexBufferLength = 0;
@@ -370,7 +429,7 @@ class ShapeMesh extends THREE.Mesh {
 
     const indexes = new Uint32Array(indexBufferLength);
     const indexBuffer = new THREE.BufferAttribute(indexes, 1);
-    this.geometry.setIndex(indexBuffer);
+    this._mesh.geometry.setIndex(indexBuffer);
 
     let indexCounter = 0;
     for (let i = 0; i < this._shapes.length; i ++) {
@@ -407,7 +466,7 @@ class ShapeMesh extends THREE.Mesh {
 
     this._vertices = new Float32Array(vertexBufferLength);
     this._vertexBuffer = new THREE.BufferAttribute(this._vertices, 3);
-    this.geometry.addAttribute('position', this._vertexBuffer);
+    this._mesh.geometry.addAttribute('position', this._vertexBuffer);
   }
 }
 

@@ -1,4 +1,4 @@
-import { shapeDataToShape } from '../shape/shapeDataUtils.js';
+import { shapeDataToShape, determineActiveShape } from '../shape/shapeDataUtils.js';
 // import R from 'ramda';
 
 export default class ShapesManager {
@@ -14,10 +14,8 @@ export default class ShapesManager {
   update(state) {
     const needRender = { active: false, inactive: false };
 
-    const selectedObjects = state.selection.objects.map(({ id }) => id);
     // determine if shape is "active", meaning it will be updated frequently
-    const activeShapes = Object.keys(state.objectsById)
-      .filter(id => state.d2.activeShape === id || selectedObjects.indexOf(id) !== -1);
+    const activeShapes = determineActiveShape(state);
 
     const { objectsById } = state;
 
@@ -45,7 +43,7 @@ export default class ShapesManager {
     const newInactiveObjectUIDs = [];
 
     for (const UID of spaceObjectIds) {
-      const active = activeShapes.indexOf(UID) !== -1;
+      const active = activeShapes[UID];
       if (active) {
         newActiveObjectUIDs.push(UID);
       } else {

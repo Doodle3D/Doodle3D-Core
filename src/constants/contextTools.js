@@ -4,6 +4,7 @@ export const COLOR_PICKER = 'color-picker-tool';
 export const ERASER_SIZE = 'eraser-size-tool';
 export const BRUSH_SIZE = 'brush-size-tool';
 export const FILL_TOGGLE = 'fill-toggle-tool';
+export const HOLE_TOGGLE = 'hole-toggle-tool';
 export const ALIGN = 'align-tool';
 export const ADVANCED = 'advanced-tool';
 
@@ -61,6 +62,14 @@ export const FILL_TOGGLE_OUTLINE = 'fill-toggle-outline';
 export const FILL_TOGGLE_TOOLS = [
   FILL_TOGGLE_FILL,
   FILL_TOGGLE_OUTLINE
+];
+
+export const HOLE_TOGGLE_HOLE = 'hole-toggle-hole';
+export const HOLE_TOGGLE_SOLID = 'hole-toggle-solid';
+
+export const HOLE_TOGGLE_TOOLS = [
+  HOLE_TOGGLE_HOLE,
+  HOLE_TOGGLE_SOLID
 ];
 
 export const ALIGN_LEFT = 'align-left';

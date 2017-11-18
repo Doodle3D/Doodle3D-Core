@@ -69,3 +69,17 @@ function shapeDataToShapeRaw(shapeData) {
     return new Shape(shapeData);
   }
 }
+
+// TODO can maybe be memoized
+export const determineActiveShape = (state) => {
+  const selectedObjects = state.selection.objects.map(({ id }) => id);
+  const activeShapes = {};
+  for (const id in state.objectsById) {
+    if (state.d2.activeShape === id) {
+      activeShapes[id] = true;
+      continue;
+    }
+    activeShapes[id] = state.d2.transform.active && selectedObjects.includes(id);
+  }
+  return activeShapes;
+};

@@ -403,6 +403,18 @@ style.innerHTML = `
 	width: 33px;
 	height: 41px;
 }
+#hole-toggle-solid, #hole-toggle-solid-menu {
+	background-image: url('../img/contextmenu/btnShapeFill.png');
+	background-size: 33px auto;
+	width: 33px;
+	height: 41px;
+}
+#hole-toggle-hole, #hole-toggle-hole-menu {
+	background-image: url('../img/contextmenu/btnShapeOutline.png');
+	background-size: 33px auto;
+	width: 33px;
+	height: 41px;
+}
 #align-right-menu, #align-horizontal-menu, #align-left-menu,
 #align-top-menu, #align-vertical-menu, #align-bottom-menu {
 	background-image: url('../img/contextmenu/btnAlignHorizontal.png');

@@ -1,3 +1,4 @@
+import { determineActiveShape } from '../shape/shapeDataUtils.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import * as THREE from 'three';
 import ShapeMesh from './ShapeMesh.js';
@@ -45,23 +46,35 @@ export default class ShapesManager extends THREE.Object3D {
       }
     }
 
-    for (const id in state.objectsById) {
-      // const shapeData = this._state.objectsById[id];
+    const activeShapes = determineActiveShape(state);
+
+    const ids = Object.keys(state.objectsById).sort((a, b) => {
+      const solidA = state.objectsById[a].solid;
+      const solidB = state.objectsById[b].solid;
+
+      if (solidA === solidB) return 0;
+      return solidA ? 1 : -1;
+    });
+
+    const holes = [];
+    for (let i = 0; i < ids.length; i ++) {
+      const id = ids[i];
       const newShapeData = state.objectsById[id];
+      const active = activeShapes[id];
 
       if (!SHAPE_TYPE_PROPERTIES[newShapeData.type].D3Visible) continue;
       // add new shapes
       if (!this._state || !this._state.objectsById[id]) {
-        this._handleShapeAdded(newShapeData);
+        this._handleShapeAdded(newShapeData, holes, active);
         render = true;
       } else {
         const { mesh } = this._meshes[id];
-        if (mesh.update(newShapeData)) {
+        if (mesh.update(newShapeData, holes, active)) {
           render = true;
         }
       }
+      if (!newShapeData.solid && !active) holes.push(this._meshes[id]);
     }
-
     this._state = state;
 
     return render;
@@ -90,10 +103,10 @@ export default class ShapesManager extends THREE.Object3D {
     this._spaces[space].remove(mesh);
   }
 
-  _handleShapeAdded(shapeData) {
+  _handleShapeAdded(shapeData, holes) {
     if (!SHAPE_TYPE_PROPERTIES[shapeData.type].D3Visible) return;
     const { space } = shapeData;
-    const mesh = new ShapeMesh(shapeData, this._toonShader);
+    const mesh = new ShapeMesh(shapeData, holes, this._toonShader);
     this._meshes[shapeData.UID] = { mesh, space };
 
     this._spaces[space].add(mesh);
