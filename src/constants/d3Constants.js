@@ -1,5 +1,5 @@
 export const SCULPT_LIMIT = 0.6;
-export const DESELECT_TRANSPARENCY = 0.8;
+export const DESELECT_TRANSPARENCY = 0.2;
 export const MIN_CAMERA_ZOOM = 10;
 export const MAX_CAMERA_ZOOM = 600;
 export const MAX_CAMERA_PAN = 150;
