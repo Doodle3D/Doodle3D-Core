@@ -72,6 +72,12 @@ function shapeDataToShapeRaw(shapeData) {
 
 // TODO can maybe be memoized
 export const determineActiveShape = (state) => {
+  const activeTransformer = state.d2.eraser.active ||
+    state.d2.transform.active ||
+    state.d3.height.active ||
+    state.d3.sculpt.activeHandle !== null ||
+    state.d3.twist.active;
+
   const selectedObjects = state.selection.objects.map(({ id }) => id);
   const activeShapes = {};
   for (const id in state.objectsById) {
@@ -79,7 +85,11 @@ export const determineActiveShape = (state) => {
       activeShapes[id] = true;
       continue;
     }
-    activeShapes[id] = state.d2.transform.active && selectedObjects.includes(id);
+    if (activeTransformer && !state.objectsById[id].solid) {
+      activeShapes[id] = true;
+      continue;
+    }
+    activeShapes[id] = selectedObjects.includes(id) && activeTransformer;
   }
   return activeShapes;
 };

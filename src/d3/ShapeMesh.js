@@ -62,18 +62,30 @@ class ShapeMesh extends THREE.Object3D {
     this._color = color;
     this._fill = fill;
 
-    this.visible = shapeData.solid;
-
     this.updatePoints(shapeData);
 
     this._checkHoles(holes, active);
   }
 
+  add(object) {
+    if (!this.children.includes(object)) super.add(object);
+  }
+  remove(object) {
+    if (this.children.includes(object)) super.remove(object);
+  }
+
   _checkHoles(holes, active) {
+    let changed = false;
+
+    const visible = this._shapeData.solid || active;
+    if (visible !== this.visible) {
+      this.visible = visible;
+      changed = true;
+    }
+
     if (active) {
-      this._holeMesh.visible = false;
-      this._mesh.visible = true;
-      return false;
+      this.remove(this._holeMesh);
+      this.add(this._mesh);
     }
 
     holes = holes.map(hole => hole.mesh._mesh);
@@ -84,23 +96,26 @@ class ShapeMesh extends THREE.Object3D {
     });
 
     if (holes.length === 0) {
-      this._holeMesh.visible = false;
-      this._mesh.visible = true;
-      return false;
+      this.remove(this._holeMesh);
+      this.add(this._mesh);
+      return changed;
     }
     // is coliding with holes
 
     const objectGeometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
     let objectBSP = new THREE_BSP(objectGeometry);
+    objectGeometry.dispose();
     for (const hole of holes) {
       const holeGeometry = new THREE.Geometry().fromBufferGeometry(hole.geometry);
-      const holeBSP = new THREE_BSP(holeGeometry)
+      const holeBSP = new THREE_BSP(holeGeometry);
+      holeGeometry.dispose();
       objectBSP = objectBSP.subtract(holeBSP)
     }
+    this._holeMesh.geometry.dispose();
     this._holeMesh.geometry = objectBSP.toMesh().geometry;
 
-    this._holeMesh.visible = true;
-    this._mesh.visible = false;
+    this.add(this._holeMesh);
+    this.remove(this._mesh);
     return true;
   }
 
@@ -137,12 +152,6 @@ class ShapeMesh extends THREE.Object3D {
       changed = true;
     }
 
-    if (!shapeData.solid) {
-      this.visible = shapeData.solid || active;
-      this.setOpaque(true);
-      changed = true;
-    }
-
     if (this._checkHoles(holes, active)) {
       changed = true;
     }
@@ -152,12 +161,19 @@ class ShapeMesh extends THREE.Object3D {
   }
 
   setOpaque(opaque) {
-    this._mesh.material.opacity = opaque ? 1.0 : 1.0 - DESELECT_TRANSPARENCY;
-    this._mesh.material.transparent = !opaque;
+    let opacity;
+    if (this._shapeData.solid) {
+      opacity = opaque ? 1.0 : DESELECT_TRANSPARENCY;
+    } else {
+      opacity = 0.0;
+    }
+    this._mesh.material.opacity = opacity;
+    this._mesh.material.transparent = opacity !== 1;
   }
 
   dispose() {
     this._mesh.geometry.dispose();
+    this._meshHole.geometry.dispose();
   }
 
   updatePoints(shapeData) {
