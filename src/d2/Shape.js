@@ -5,6 +5,13 @@ import { LINE_WIDTH } from '../constants/d2Constants.js';
 import { hexToStyle } from '../utils/colorUtils.js';
 import { DESELECT_TRANSPARENCY, FILL_TRANSPARENCY, LINE_TRANSPARENCY } from '../constants/d2Constants.js';
 import { PIXEL_RATIO } from '../constants/general.js';
+import holePaternUrl from '../../img/holepatern.png';
+import { loadImage } from '../utils/imageUtils.js';
+
+let holePatern;
+export const load = loadImage(holePaternUrl).then(image => {
+  holePatern = document.createElement('canvas').getContext('2d').createPattern(image, 'repeat');
+});
 
 export default class Shape extends Matrix {
   constructor(shapeData) {
@@ -47,6 +54,10 @@ export default class Shape extends Matrix {
         throw new Error(`Cannot update object ${this.UID}: color is an invalid value.`);
       }
       this.color = hexToStyle(shapeData.color);
+      changed = true;
+    }
+
+    if (!this._shapeData || this._shapeData.solid !== shapeData.solid) {
       changed = true;
     }
 
@@ -94,7 +105,10 @@ export default class Shape extends Matrix {
     const lineWidth = PIXEL_RATIO * LINE_WIDTH;
 
     context.globalAlpha = this.alpha;
-    if (this._shapeData.fill) {
+    if (!this._shapeData.solid) {
+      context.fillStyle = holePatern;
+      context.fill();
+    } else if (this._shapeData.fill) {
       context.fillStyle = this.color;
       context.fill();
 

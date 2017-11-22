@@ -4,6 +4,9 @@ import { shapeToPointsCornered } from '../shape/shapeToPoints.js';
 import * as THREE from 'three';
 import { getPointsBounds, shapeChanged } from '../shape/shapeDataUtils.js';
 import { DESELECT_TRANSPARENCY, LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
+import ThreeBSP from 'three-js-csg';
+
+const THREE_BSP = ThreeBSP(THREE);
 
 const MAX_HEIGHT_BASE = 5;
 // Legacy compensation. Compensating for the fact that we
@@ -12,9 +15,12 @@ const MAX_HEIGHT_BASE = 5;
 // and converting old files on open once
 const isValidNumber = (num) => typeof num === 'number' && !isNaN(num);
 
-class ShapeMesh extends THREE.Mesh {
-  constructor(shapeData, toonShader) {
-    const { sculpt, rotate, twist, height, type, transform, z, color, fill } = shapeData;
+class ShapeMesh extends THREE.Object3D {
+  constructor(shapeData, active, toonShader) {
+    super();
+    this.name = shapeData.UID;
+
+    const { sculpt, rotate, twist, height, type, transform, z, color, fill, solid } = shapeData;
 
     let material;
     if (toonShader) {
@@ -30,11 +36,11 @@ class ShapeMesh extends THREE.Mesh {
       });
     }
 
-    super(new THREE.BufferGeometry(), material);
+    this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), material.clone());
+    this._mesh.name = shapeData.UID;
+    this._mesh.isShapeMesh = true;
 
     this._toonShader = toonShader;
-
-    this.name = shapeData.UID;
 
     this._shapes = [];
     this._shapesMap = [];
@@ -51,11 +57,45 @@ class ShapeMesh extends THREE.Mesh {
     this._shapeData = shapeData;
     this._color = color;
     this._fill = fill;
-
     this.updatePoints(shapeData);
+
+    this._holeMesh = new THREE.Mesh(new THREE.Geometry().fromBufferGeometry(this._mesh.geometry), material.clone());
+    this._holeMesh.name = shapeData.UID;
+    this._holeMesh.isShapeMesh = true;
+
+    this.updateSolid(solid, active);
   }
 
-  update(shapeData) {
+  add(object) {
+    if (!this.children.includes(object)) super.add(object);
+  }
+  remove(object) {
+    if (this.children.includes(object)) super.remove(object);
+  }
+
+  updateHoleGeometry(holes) {
+    if (holes === this._holes && !this._changedGeometry) return false;
+    if (!this._solid) return false;
+
+    this._holeMesh.geometry.dispose();
+
+    if (holes === null || !this._fill) {
+      this._holeMesh.geometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
+      return true;
+    }
+
+    const objectGeometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
+    let objectBSP = new THREE_BSP(objectGeometry);
+    objectGeometry.dispose();
+    objectBSP = objectBSP.subtract(holes);
+    this._holeMesh.geometry = objectBSP.toMesh().geometry;
+
+    this._holes = holes;
+    this._changedGeometry = false;
+    return true;
+  }
+
+  update(shapeData, active) {
     let changed = false;
 
     if (shapeChanged(this._shapeData, shapeData)) {
@@ -88,17 +128,25 @@ class ShapeMesh extends THREE.Mesh {
       changed = true;
     }
 
+    let solidChanged = false;
+    if (shapeData.solid !== this._solid || active !== this._active) {
+      this.updateSolid(shapeData.solid, active);
+      changed = true;
+      solidChanged = true;
+    }
+
     this._shapeData = shapeData;
     return changed;
   }
 
   setOpaque(opaque) {
-    this.material.opacity = opaque ? 1.0 : 1.0 - DESELECT_TRANSPARENCY;
-    this.material.transparent = !opaque;
+    this._holeMesh.material.opacity = opaque ? 1.0 : DESELECT_TRANSPARENCY;
+    this._holeMesh.material.transparent = !opaque;
   }
 
   dispose() {
-    this.geometry.dispose();
+    this._mesh.geometry.dispose();
+    this._holeMesh.geometry.dispose();
   }
 
   updatePoints(shapeData) {
@@ -173,8 +221,25 @@ class ShapeMesh extends THREE.Mesh {
       throw new Error(`Cannot update object ${this.name}: color is an invalid value.`);
     }
 
-    this.material.color.setHex(color);
+    this._holeMesh.material.color.setHex(color);
     this._color = color;
+  }
+
+  updateSolid(solid, active) {
+    this._mesh.material.opacity = solid ? 1.0 : 0.0;
+    this._mesh.material.transparent = !solid;
+    this.visible = solid || active;
+
+    if (active || !solid) {
+      this.add(this._mesh);
+      this.remove(this._holeMesh);
+    } else {
+      this.add(this._holeMesh);
+      this.remove(this._mesh);
+    }
+
+    this._solid = solid;
+    this._active = active;
   }
 
   _getPoint(point, heightStep, center) {
@@ -247,10 +312,12 @@ class ShapeMesh extends THREE.Mesh {
 
     this._vertexBuffer.needsUpdate = true;
 
-    this.geometry.boundingBox = null;
-    this.geometry.boundingSphere = null;
-    this.geometry.computeFaceNormals();
-    this.geometry.computeVertexNormals();
+    this._mesh.geometry.boundingBox = null;
+    this._mesh.geometry.boundingSphere = null;
+    this._mesh.geometry.computeFaceNormals();
+    this._mesh.geometry.computeVertexNormals();
+
+    this._changedGeometry = true;
   }
   _updateSide() {
     // TODO use higher precision for export mesh
@@ -287,6 +354,8 @@ class ShapeMesh extends THREE.Mesh {
     this._heightSteps = heightSteps;
 
     if (heightStepsChanged) this._updateFaces();
+
+    this._changedGeometry = true;
   }
   _updateFaces() {
     // TODO
@@ -295,8 +364,8 @@ class ShapeMesh extends THREE.Mesh {
 
     const numHeightSteps = this._heightSteps.length;
 
-    this.geometry.dispose();
-    this.geometry = new THREE.BufferGeometry();
+    this._mesh.geometry.dispose();
+    this._mesh.geometry = new THREE.BufferGeometry();
 
     // store total number of indexes and vertices needed
     let indexBufferLength = 0;
@@ -370,7 +439,7 @@ class ShapeMesh extends THREE.Mesh {
 
     const indexes = new Uint32Array(indexBufferLength);
     const indexBuffer = new THREE.BufferAttribute(indexes, 1);
-    this.geometry.setIndex(indexBuffer);
+    this._mesh.geometry.setIndex(indexBuffer);
 
     let indexCounter = 0;
     for (let i = 0; i < this._shapes.length; i ++) {
@@ -407,7 +476,9 @@ class ShapeMesh extends THREE.Mesh {
 
     this._vertices = new Float32Array(vertexBufferLength);
     this._vertexBuffer = new THREE.BufferAttribute(this._vertices, 3);
-    this.geometry.addAttribute('position', this._vertexBuffer);
+    this._mesh.geometry.addAttribute('position', this._vertexBuffer);
+
+    this._changedGeometry = true;
   }
 }
 

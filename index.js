@@ -57,6 +57,21 @@ window.addEventListener('dragover', (event) => {
   event.preventDefault();
 });
 
+import * as CAL from 'cal';
+store.dispatch(actions.addObject({
+  type: 'STAR',
+  fill: true,
+  solid: false,
+  star: { innerRadius: 10, outerRadius: 20, rays: 5 },
+  transform: new CAL.Matrix({ x: -20, y: 0 })
+}));
+store.dispatch(actions.addObject({
+  type: 'RECT',
+  fill: true,
+  rectSize: new CAL.Vector(20, 20),
+  height: 40,
+  transform: new CAL.Matrix({ x: -10, y: -10 })
+}));
 
 // render dom
 import React from 'react';

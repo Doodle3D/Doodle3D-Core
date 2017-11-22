@@ -117,6 +117,7 @@ class D3Panel extends React.Component {
     this.plane.rotation.x = Math.PI / 2;
     this.plane.position.y = -0.01;
     this.plane.name = 'bed-plane';
+    this.plane.isBedPlane = true;
     this.scene.add(this.plane);
 
     const directionalLight = new THREE.PointLight(0xffffff, 0.6);

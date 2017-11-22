@@ -22,6 +22,10 @@ export default function (state, action) {
       const fill = fillBool ? contextTools.FILL_TOGGLE_FILL : contextTools.FILL_TOGGLE_OUTLINE;
       menus = select(menus, fill);
 
+      const solidBool = firstSelected && state.objectsById[firstSelected.id].solid;
+      const solid = solidBool ? contextTools.HOLE_TOGGLE_SOLID : contextTools.HOLE_TOGGLE_HOLE;
+      menus = select(menus, solid);
+
       return update(state, { menus: { $set: menus } });
     }
 
@@ -99,6 +103,19 @@ export default function (state, action) {
       return update(state, {
         objectsById: state.selection.objects.reduce((updateObject, { id }) => {
           updateObject[id] = { fill: { $set: fill } };
+          return updateObject;
+        }, {})
+      });
+    }
+
+    case contextTools.HOLE_TOGGLE_HOLE:
+    case contextTools.HOLE_TOGGLE_SOLID: {
+      const solid = action.tool === contextTools.HOLE_TOGGLE_SOLID;
+
+      return update(state, {
+        objectsById: state.selection.objects.reduce((updateObject, { id }) => {
+          const { fill } = state.objectsById[id];
+          if (fill) updateObject[id] = { solid: { $set: solid } };
           return updateObject;
         }, {})
       });

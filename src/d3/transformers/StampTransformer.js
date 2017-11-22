@@ -42,7 +42,7 @@ export default class SculptTransformer extends BaseTransformer {
   }
 
   tap(event) {
-    const intersection = event.intersections.find(({ object }) => object instanceof ShapeMesh);
+    const intersection = event.intersections.find(({ object }) => object.isShapeMesh);
     if (this.hasSelection && intersection) {
       this.dispatch(actions.stamp(intersection));
     } else {

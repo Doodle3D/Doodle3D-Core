@@ -59,8 +59,8 @@ export default class BaseTransformer extends EventObject3D {
     this.dispatch(actions.d3MultitouchEnd(positions));
   }
   select(intersections) {
-    const mesh = intersections.find(({ object }) => object instanceof ShapeMesh);
-    const bed = intersections.find(({ object }) => object.name === 'bed-plane');
+    const mesh = intersections.find(({ object }) => object.isShapeMesh);
+    const bed = intersections.find(({ object }) => object.isBedPlane);
 
     if (mesh) {
       this.dispatch(actions.toggleSelect(mesh.object.name));
@@ -132,7 +132,7 @@ export default class BaseTransformer extends EventObject3D {
   }
   updateSpriteScale() {
     for (const sprite of this.children) {
-      if (!(sprite instanceof SpriteHandle) || !sprite.material.map) continue;
+      if (!(sprite.isUIHandle) || !sprite.material.map) continue;
 
       const scale = sprite.position.distanceTo(this.camera.getWorldPosition()) / 2000.0;
       const { width, height } = sprite.material.map.image;
