@@ -41,6 +41,7 @@ export function createTextureFromBlob(blob) {
 }
 
 export class SpriteHandle extends THREE.Sprite {
+  isUIHandle = true;
   constructor(texture, scale) {
     if (!texture.image) {
       debug('Error: Texture not loaded');

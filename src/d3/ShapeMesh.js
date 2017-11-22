@@ -38,6 +38,7 @@ class ShapeMesh extends THREE.Object3D {
 
     this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), material);
     this._mesh.name = shapeData.UID;
+    this._mesh.isShapeMesh = true;
     this.add(this._mesh);
 
     this._toonShader = toonShader;
@@ -61,6 +62,7 @@ class ShapeMesh extends THREE.Object3D {
 
     this._holeMesh = new THREE.Mesh(new THREE.Geometry().fromBufferGeometry(this._mesh.geometry), material);
     this._holeMesh.name = shapeData.UID;
+    this._holeMesh.isShapeMesh = true;
     this.add(this._holeMesh);
 
     this.updateSolid(solid, active);
