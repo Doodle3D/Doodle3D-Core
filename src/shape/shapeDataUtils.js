@@ -72,9 +72,11 @@ function shapeDataToShapeRaw(shapeData) {
 
 export const determineActiveShape2d = (state) => {
   const selectedObjects = state.selection.objects.map(({ id }) => id);
-  const activeShapes = Object.keys(state.objectsById)
-    .filter(id => state.d2.activeShape === id || selectedObjects.indexOf(id) !== -1);
 
+  const activeShapes = {};
+  for (const id in state.objectsById) {
+    activeShapes[id] = state.d2.activeShape === id || selectedObjects.includes(id);
+  }
   return activeShapes;
 };
 
