@@ -112,6 +112,13 @@ export default class ShapesManager extends THREE.Object3D {
   }
 
   updateTransparent(selectedUIDs) {
+    for (const UID in this._meshes) {
+      const { mesh } = this._meshes[UID];
+      const selected = selectedUIDs.indexOf(UID) !== -1;
+      const opaque = selected || selectedUIDs.length === 0;
+
+      mesh.setOpaque(opaque);
+    }
   }
 
   _handleShapeRemove(id) {
