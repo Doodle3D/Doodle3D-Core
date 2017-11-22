@@ -108,6 +108,11 @@ export default class Shape extends Matrix {
     if (!this._shapeData.solid) {
       context.fillStyle = holePatern;
       context.fill();
+
+      context.strokeStyle = 'black'; //'#888888';
+      context.lineWidth = lineWidth / 2.0;
+      context.stroke();
+
     } else if (this._shapeData.fill) {
       context.fillStyle = this.color;
       context.fill();
