@@ -9,8 +9,8 @@ import holePaternUrl from '../../img/holepatern.png';
 import { loadImage } from '../utils/imageUtils.js';
 
 let holePatern;
-loadImage(holePaternUrl).then(image => {
-  holePatern =  document.createElement('canvas').getContext('2d').createPattern(image, 'repeat')
+export const load = loadImage(holePaternUrl).then(image => {
+  holePatern = document.createElement('canvas').getContext('2d').createPattern(image, 'repeat');
 });
 
 export default class Shape extends Matrix {
