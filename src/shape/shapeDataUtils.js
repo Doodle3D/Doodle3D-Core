@@ -93,3 +93,18 @@ export const determineActiveShape = (state) => {
   }
   return activeShapes;
 };
+
+export const determineActiveShape3d = (state) => {
+  const activeTransformer = state.d2.eraser.active ||
+    (state.d2.transform.active && state.d2.transform.handle !== 'dragselect') ||
+    state.d3.height.active ||
+    state.d3.sculpt.activeHandle !== null ||
+    state.d3.twist.active;
+
+  const selectedObjects = state.selection.objects.map(({ id }) => id);
+  const activeShapes = {};
+  for (const id in state.objectsById) {
+    activeShapes[id] = activeTransformer;
+  }
+  return activeShapes;
+};

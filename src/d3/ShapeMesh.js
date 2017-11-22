@@ -16,11 +16,11 @@ const MAX_HEIGHT_BASE = 5;
 const isValidNumber = (num) => typeof num === 'number' && !isNaN(num);
 
 class ShapeMesh extends THREE.Object3D {
-  constructor(shapeData, holes, toonShader, active) {
+  constructor(shapeData, active, toonShader) {
     super();
     this.name = shapeData.UID;
 
-    const { sculpt, rotate, twist, height, type, transform, z, color, fill } = shapeData;
+    const { sculpt, rotate, twist, height, type, transform, z, color, fill, solid } = shapeData;
 
     let material;
     if (toonShader) {
@@ -40,10 +40,6 @@ class ShapeMesh extends THREE.Object3D {
     this._mesh.name = shapeData.UID;
     this.add(this._mesh);
 
-    this._holeMesh = new THREE.Mesh(new THREE.Geometry, material);
-    this._holeMesh.name = shapeData.UID;
-    this.add(this._holeMesh);
-
     this._toonShader = toonShader;
 
     this._shapes = [];
@@ -61,10 +57,13 @@ class ShapeMesh extends THREE.Object3D {
     this._shapeData = shapeData;
     this._color = color;
     this._fill = fill;
-
     this.updatePoints(shapeData);
 
-    this._checkHoles(holes, active);
+    this._holeMesh = new THREE.Mesh(new THREE.Geometry().fromBufferGeometry(this._mesh.geometry), material);
+    this._holeMesh.name = shapeData.UID;
+    this.add(this._holeMesh);
+
+    this.updateSolid(solid, active);
   }
 
   add(object) {
@@ -74,52 +73,29 @@ class ShapeMesh extends THREE.Object3D {
     if (this.children.includes(object)) super.remove(object);
   }
 
-  _checkHoles(holes, active) {
-    let changed = false;
+  updateHoleGeometry(holes) {
+    if (!this._solid || !this._fill) return false;
+    if (holes === this._holes && !this._changedGeometry) return false;
 
-    const visible = this._shapeData.solid || active;
-    if (visible !== this.visible) {
-      this.visible = visible;
-      changed = true;
+    this._holeMesh.geometry.dispose();
+
+    if (holes === null) {
+      this._holeMesh.geometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
+      return true;
     }
-
-    if (active) {
-      this.remove(this._holeMesh);
-      this.add(this._mesh);
-    }
-
-    holes = holes.map(hole => hole.mesh._mesh);
-    const objectBoundingBox = new THREE.Box3().setFromObject(this._mesh);
-    holes = holes.filter(hole => {
-      const holeBoundingBox = new THREE.Box3().setFromObject(hole);
-      return holeBoundingBox.intersectsBox(objectBoundingBox);
-    });
-
-    if (holes.length === 0) {
-      this.remove(this._holeMesh);
-      this.add(this._mesh);
-      return changed;
-    }
-    // is coliding with holes
 
     const objectGeometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
     let objectBSP = new THREE_BSP(objectGeometry);
     objectGeometry.dispose();
-    for (const hole of holes) {
-      const holeGeometry = new THREE.Geometry().fromBufferGeometry(hole.geometry);
-      const holeBSP = new THREE_BSP(holeGeometry);
-      holeGeometry.dispose();
-      objectBSP = objectBSP.subtract(holeBSP)
-    }
-    this._holeMesh.geometry.dispose();
+    objectBSP = objectBSP.subtract(holes);
     this._holeMesh.geometry = objectBSP.toMesh().geometry;
 
-    this.add(this._holeMesh);
-    this.remove(this._mesh);
+    this._holes = holes;
+    this._changedGeometry = false;
     return true;
   }
 
-  update(shapeData, holes, active) {
+  update(shapeData, active) {
     let changed = false;
 
     if (shapeChanged(this._shapeData, shapeData)) {
@@ -152,28 +128,20 @@ class ShapeMesh extends THREE.Object3D {
       changed = true;
     }
 
-    if (this._checkHoles(holes, active)) {
+    let solidChanged = false;
+    if (shapeData.solid !== this._solid || active !== this._active) {
+      this.updateSolid(shapeData.solid, active);
       changed = true;
+      solidChanged = true;
     }
 
     this._shapeData = shapeData;
     return changed;
   }
 
-  setOpaque(opaque) {
-    let opacity;
-    if (this._shapeData.solid) {
-      opacity = opaque ? 1.0 : DESELECT_TRANSPARENCY;
-    } else {
-      opacity = 0.0;
-    }
-    this._mesh.material.opacity = opacity;
-    this._mesh.material.transparent = opacity !== 1;
-  }
-
   dispose() {
     this._mesh.geometry.dispose();
-    this._meshHole.geometry.dispose();
+    this._holeMesh.geometry.dispose();
   }
 
   updatePoints(shapeData) {
@@ -252,6 +220,23 @@ class ShapeMesh extends THREE.Object3D {
     this._color = color;
   }
 
+  updateSolid(solid, active) {
+    this._mesh.material.opacity = solid ? 1.0 : 0.0;
+    this._mesh.material.transparent = !solid;
+    this.visible = solid || active;
+
+    if (active || !solid) {
+      this.add(this._mesh);
+      this.remove(this._holeMesh);
+    } else {
+      this.add(this._holeMesh);
+      this.remove(this._mesh);
+    }
+
+    this._solid = solid;
+    this._active = active;
+  }
+
   _getPoint(point, heightStep, center) {
     const { scale, pos: y } = this._heightSteps[heightStep];
 
@@ -326,6 +311,8 @@ class ShapeMesh extends THREE.Object3D {
     this._mesh.geometry.boundingSphere = null;
     this._mesh.geometry.computeFaceNormals();
     this._mesh.geometry.computeVertexNormals();
+
+    this._changedGeometry = true;
   }
   _updateSide() {
     // TODO use higher precision for export mesh
@@ -362,6 +349,8 @@ class ShapeMesh extends THREE.Object3D {
     this._heightSteps = heightSteps;
 
     if (heightStepsChanged) this._updateFaces();
+
+    this._changedGeometry = true;
   }
   _updateFaces() {
     // TODO
@@ -483,6 +472,8 @@ class ShapeMesh extends THREE.Object3D {
     this._vertices = new Float32Array(vertexBufferLength);
     this._vertexBuffer = new THREE.BufferAttribute(this._vertices, 3);
     this._mesh.geometry.addAttribute('position', this._vertexBuffer);
+
+    this._changedGeometry = true;
   }
 }
 

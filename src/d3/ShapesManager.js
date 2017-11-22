@@ -1,7 +1,10 @@
-import { determineActiveShape } from '../shape/shapeDataUtils.js';
+import { determineActiveShape3d } from '../shape/shapeDataUtils.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import * as THREE from 'three';
 import ShapeMesh from './ShapeMesh.js';
+import ThreeBSP from 'three-js-csg';
+
+const THREE_BSP = ThreeBSP(THREE);
 
 export default class ShapesManager extends THREE.Object3D {
   constructor({ toonShader }) {
@@ -12,6 +15,9 @@ export default class ShapesManager extends THREE.Object3D {
     this._meshes = {};
     this._spaces = {};
     this.name = 'shapes-manager';
+
+    this._holes = new THREE_BSP(new THREE.Geometry());
+
     // this._edges = {};
   }
 
@@ -36,27 +42,22 @@ export default class ShapesManager extends THREE.Object3D {
       }
     }
 
+    let holesChanged = false;
+
     // Remove removed shapes
     if (this._state) {
       for (const id in this._state.objectsById) {
         if (!state.objectsById[id]) {
+          if (!this._meshes[id].mesh._shapeData.solid) holesChanged = true;
           this._handleShapeRemove(id);
           render = true;
         }
       }
     }
 
-    const activeShapes = determineActiveShape(state);
+    const ids = Object.keys(state.objectsById);
+    const activeShapes = determineActiveShape3d(state);
 
-    const ids = Object.keys(state.objectsById).sort((a, b) => {
-      const solidA = state.objectsById[a].solid;
-      const solidB = state.objectsById[b].solid;
-
-      if (solidA === solidB) return 0;
-      return solidA ? 1 : -1;
-    });
-
-    const holes = [];
     for (let i = 0; i < ids.length; i ++) {
       const id = ids[i];
       const newShapeData = state.objectsById[id];
@@ -65,33 +66,52 @@ export default class ShapesManager extends THREE.Object3D {
       if (!SHAPE_TYPE_PROPERTIES[newShapeData.type].D3Visible) continue;
       // add new shapes
       if (!this._state || !this._state.objectsById[id]) {
-        this._handleShapeAdded(newShapeData, holes, active);
+        this._handleShapeAdded(newShapeData, active);
         render = true;
+        if (!newShapeData.solid) holesChanged = true;
       } else {
         const { mesh } = this._meshes[id];
-        if (mesh.update(newShapeData, holes, active)) {
+        if (mesh.update(newShapeData, active)) {
+          render = true;
+          if (!newShapeData.solid || !this._state.objectsById[id].solid) holesChanged = true;
+        }
+      }
+    }
+
+    if (holesChanged) {
+      this._holes = null;
+      for (let i = 0; i < ids.length; i ++) {
+        const id = ids[i];
+        if (!state.objectsById[id].solid) {
+          const hole = this._meshes[id].mesh._mesh;
+          const holeGeometry = new THREE.Geometry().fromBufferGeometry(hole.geometry);
+          const holeBSP = new THREE_BSP(holeGeometry);
+          if (!this._holes) {
+            this._holes = holeBSP;
+          } else {
+            this._holes = this._holes.union(holeBSP);
+          }
+          holeGeometry.dispose();
+        }
+      }
+    }
+
+    for (let i = 0; i < ids.length; i ++) {
+      const id = ids[i];
+      const active = activeShapes[id];
+      if (!active && state.objectsById[id].solid) {
+        const shape = this._meshes[id].mesh;
+        if (shape.updateHoleGeometry(this._holes)) {
           render = true;
         }
       }
-      if (!newShapeData.solid && !active) holes.push(this._meshes[id]);
     }
-    this._state = state;
 
+    this._state = state;
     return render;
   }
 
   updateTransparent(selectedUIDs) {
-    for (const UID in this._meshes) {
-      const { mesh } = this._meshes[UID];
-      const selected = selectedUIDs.indexOf(UID) !== -1;
-      const opaque = selected || selectedUIDs.length === 0;
-
-      mesh.setOpaque(opaque);
-    }
-  }
-
-  getMesh(id) {
-    return this._meshes[id].mesh;
   }
 
   _handleShapeRemove(id) {
@@ -103,10 +123,10 @@ export default class ShapesManager extends THREE.Object3D {
     this._spaces[space].remove(mesh);
   }
 
-  _handleShapeAdded(shapeData, holes) {
+  _handleShapeAdded(shapeData, active) {
     if (!SHAPE_TYPE_PROPERTIES[shapeData.type].D3Visible) return;
     const { space } = shapeData;
-    const mesh = new ShapeMesh(shapeData, holes, this._toonShader);
+    const mesh = new ShapeMesh(shapeData, active, this._toonShader);
     this._meshes[shapeData.UID] = { mesh, space };
 
     this._spaces[space].add(mesh);
