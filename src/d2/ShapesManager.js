@@ -1,4 +1,4 @@
-import { shapeDataToShape, determineActiveShape } from '../shape/shapeDataUtils.js';
+import { shapeDataToShape, determineActiveShape2d } from '../shape/shapeDataUtils.js';
 // import R from 'ramda';
 
 export default class ShapesManager {
@@ -15,7 +15,7 @@ export default class ShapesManager {
     const needRender = { active: false, inactive: false };
 
     // determine if shape is "active", meaning it will be updated frequently
-    const activeShapes = determineActiveShape(state);
+    const activeShapes = determineActiveShape2d(state);
 
     const { objectsById } = state;
 

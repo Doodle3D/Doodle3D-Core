@@ -57,6 +57,10 @@ export default class Shape extends Matrix {
       changed = true;
     }
 
+    if (!this._shapeData || this._shapeData.solid !== shapeData.solid) {
+      changed = true;
+    }
+
     this._shapeData = shapeData;
     return changed;
   }

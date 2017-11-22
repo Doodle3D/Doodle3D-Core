@@ -70,27 +70,11 @@ function shapeDataToShapeRaw(shapeData) {
   }
 }
 
-// TODO can maybe be memoized
-export const determineActiveShape = (state) => {
-  const activeTransformer = state.d2.eraser.active ||
-    state.d2.transform.active ||
-    state.d3.height.active ||
-    state.d3.sculpt.activeHandle !== null ||
-    state.d3.twist.active;
-
+export const determineActiveShape2d = (state) => {
   const selectedObjects = state.selection.objects.map(({ id }) => id);
-  const activeShapes = {};
-  for (const id in state.objectsById) {
-    if (state.d2.activeShape === id) {
-      activeShapes[id] = true;
-      continue;
-    }
-    if (activeTransformer && !state.objectsById[id].solid) {
-      activeShapes[id] = true;
-      continue;
-    }
-    activeShapes[id] = selectedObjects.includes(id) && activeTransformer;
-  }
+  const activeShapes = Object.keys(state.objectsById)
+    .filter(id => state.d2.activeShape === id || selectedObjects.indexOf(id) !== -1);
+
   return activeShapes;
 };
 
