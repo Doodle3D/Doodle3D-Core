@@ -81,6 +81,14 @@ export const determineActiveShape2d = (state) => {
 };
 
 export const determineActiveShape3d = (state) => {
+  if (!state.d2 || !state.d3) {
+    const activeShapes = {};
+    for (const id in state.objectsById) {
+      activeShapes[id] = false;
+    }
+    return activeShapes;
+  }
+
   const activeTransformer = state.d2.eraser.active ||
     (state.d2.transform.active && state.d2.transform.handle !== 'dragselect') ||
     state.d3.height.active ||

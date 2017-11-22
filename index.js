@@ -73,7 +73,6 @@ store.dispatch(actions.addObject({
   transform: new CAL.Matrix({ x: -10, y: -10 })
 }));
 
-
 // render dom
 import React from 'react';
 import { Provider } from 'react-redux';

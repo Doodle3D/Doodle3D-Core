@@ -16,7 +16,7 @@ export default class ShapesManager extends THREE.Object3D {
     this._spaces = {};
     this.name = 'shapes-manager';
 
-    this._holes = new THREE_BSP(new THREE.Geometry());
+    this._holes = null;
 
     // this._edges = {};
   }

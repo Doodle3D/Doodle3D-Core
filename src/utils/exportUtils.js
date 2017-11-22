@@ -4,7 +4,7 @@ import * as exportOBJ from '@doodle3d/threejs-export-obj';
 import * as THREE from 'three';
 import ThreeBSP from 'three-js-csg';
 import ClipperShape from '@doodle3d/clipper-js';
-import ShapeMesh from '../d3/ShapeMesh.js';
+import ShapesManager from '../d3/ShapesManager.js';
 import { applyMatrixOnShape, pathToVectorPath } from '../utils/vectorUtils.js';
 import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
@@ -17,7 +17,7 @@ const THREE_BSP = ThreeBSP(THREE);
 const ROTATION_MATRIX = new THREE.Matrix4().makeRotationX(Math.PI / 2);
 const SCALE = 10.0;
 
-function createExportGeometry(shapeData, offsetSingleWalls, lineWidth) {
+function createExportShapeData(shapeData, offsetSingleWalls, lineWidth) {
   let shapes = shapeToPoints(shapeData).map(({ points, holes }) => {
     const shape = applyMatrixOnShape([points, ...holes], shapeData.transform);
     return new ClipperShape(shape, shapeData.fill, true, false);
@@ -53,57 +53,70 @@ function createExportGeometry(shapeData, offsetSingleWalls, lineWidth) {
     }))
     .map(([points, ...holes]) => ({ points, holes }));
 
-  const objectMesh = new ShapeMesh({
+  return {
     ...shapeData,
     transform: new Matrix(),
     type: 'EXPORT_SHAPE',
     fill,
     shapes
-  });
-
-  return objectMesh;
+  };
 }
 
 export function generateExportMesh(state, options = {}) {
   const {
     unionGeometry = false,
-    exportLineWidth = LINE_WIDTH,
+    lineWidth = LINE_WIDTH,
     offsetSingleWalls = true,
     matrix = ROTATION_MATRIX
   } = options;
 
-  const materials = [];
-  let exportGeometry;
-  const objectMatrix = new THREE.Matrix4();
+  const exportState = {
+    spaces: state.spaces,
+    objectsById: {}
+  };
+
   for (const id in state.objectsById) {
-    const shapeData = state.objectsById[id];
+    exportState.objectsById[id] = createExportShapeData(state.objectsById[id], offsetSingleWalls || unionGeometry, lineWidth);
+  }
 
-    if (!SHAPE_TYPE_PROPERTIES[shapeData.type].D3Visible) continue;
+  const shapesManager = new ShapesManager({ toonShader: false });
+  shapesManager.update(exportState);
 
-    const { geometry, material } = createExportGeometry(shapeData, offsetSingleWalls || unionGeometry, exportLineWidth);
-    let objectGeometry = new THREE.Geometry().fromBufferGeometry(geometry);
-    objectGeometry.mergeVertices();
-    objectGeometry.applyMatrix(objectMatrix.multiplyMatrices(state.spaces[shapeData.space].matrix, matrix));
+  const materials = [];
+  const objectMatrix = new THREE.Matrix4();
+  let exportGeometry;
+  shapesManager.traverse(mesh => {
+    const shapeData = exportState.objectsById[mesh.name];
+    if (mesh instanceof THREE.Mesh && shapeData.solid) {
+      const { geometry, material } = mesh;
 
-    const colorHex = material.color.getHex();
-    let materialIndex = materials.findIndex(exportMaterial => exportMaterial.color.getHex() === colorHex);
-    if (materialIndex === -1) {
-      materialIndex = materials.length;
-      materials.push(material);
-    }
+      console.log('mesh: ', mesh);
 
-    if (unionGeometry) objectGeometry = new THREE_BSP(objectGeometry, materialIndex);
+      let objectGeometry = geometry.clone();
+      objectGeometry.mergeVertices();
+      objectGeometry.applyMatrix(objectMatrix.multiplyMatrices(state.spaces[shapeData.space].matrix, matrix));
 
-    if (exportGeometry) {
+      const colorHex = material.color.getHex();
+      let materialIndex = materials.findIndex(exportMaterial => exportMaterial.color.getHex() === colorHex);
+      if (materialIndex === -1) {
+        materialIndex = materials.length;
+        materials.push(material);
+      }
+
+      if (unionGeometry) objectGeometry = new THREE_BSP(objectGeometry, materialIndex);
+
       if (unionGeometry) {
-        exportGeometry = exportGeometry.union(objectGeometry);
+        if (!exportGeometry) {
+          exportGeometry = objectGeometry;
+        } else {
+          exportGeometry = exportGeometry.union(objectGeometry);
+        }
       } else {
+        if (!exportGeometry) exportGeometry = new THREE.Geometry();
         exportGeometry.merge(objectGeometry, undefined, materialIndex);
       }
-    } else {
-      exportGeometry = objectGeometry;
     }
-  }
+  });
 
   if (unionGeometry) {
     return exportGeometry.toMesh(materials);
@@ -114,8 +127,6 @@ export function generateExportMesh(state, options = {}) {
 
 export async function createFile(state, type, options) {
   const exportMesh = generateExportMesh(state, options);
-
-  console.log('exportMesh: ', exportMesh);
 
   switch (type) {
     case 'json-string': {

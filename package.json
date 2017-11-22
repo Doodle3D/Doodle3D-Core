@@ -17,7 +17,7 @@
     "@doodle3d/clipper-js": "^1.0.7",
     "@doodle3d/fill-path": "^1.0.7",
     "@doodle3d/potrace-js": "0.0.6",
-    "@doodle3d/threejs-export-obj": "0.0.4",
+    "@doodle3d/threejs-export-obj": "0.0.5",
     "@doodle3d/threejs-export-stl": "0.0.3",
     "@doodle3d/touch-events": "0.0.7",
     "babel-polyfill": "^6.26.0",
