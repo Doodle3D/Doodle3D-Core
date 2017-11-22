@@ -114,7 +114,8 @@ export default function (state, action) {
 
       return update(state, {
         objectsById: state.selection.objects.reduce((updateObject, { id }) => {
-          updateObject[id] = { solid: { $set: solid } };
+          const { fill } = state.objectsById[id];
+          if (fill) updateObject[id] = { solid: { $set: solid } };
           return updateObject;
         }, {})
       });

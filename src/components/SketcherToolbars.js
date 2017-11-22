@@ -148,8 +148,8 @@ function renderChildren(children) {
   return components;
 }
 
-function filterMenus(numSelectedObjects, allObjectsAreFilled, activeTool, menus) {
-  const showUnion = activeTool === d2Tools.TRANSFORM && allObjectsAreFilled && numSelectedObjects >= 2;
+function filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, menus) {
+  const showUnion = activeTool === d2Tools.TRANSFORM && numFilledObjects && numSelectedObjects >= 2;
   const showIntersect = activeTool === d2Tools.TRANSFORM && numSelectedObjects >= 1;
   return {
     ...menus,
@@ -166,8 +166,10 @@ function filterMenus(numSelectedObjects, allObjectsAreFilled, activeTool, menus)
 
         case contextTools.DUPLICATE:
         case contextTools.DELETE:
-        case contextTools.FILL_TOGGLE:
           return numSelectedObjects > 0;
+
+        case contextTools.FILL_TOGGLE:
+          return numSelectedObjects > 0 && numSolidObjects === numSelectedObjects;
 
         case contextTools.ALIGN:
           return numSelectedObjects > 1;
@@ -183,11 +185,14 @@ function filterMenus(numSelectedObjects, allObjectsAreFilled, activeTool, menus)
         case contextTools.BRUSH_SIZE:
           return activeTool === d2Tools.BRUSH;
 
+        case contextTools.HOLE_TOGGLE:
+          return numSelectedObjects > 0 && numFilledObjects === numSelectedObjects;
+
         default:
           return true;
       }
     }).map(child => {
-      return filterMenus(numSelectedObjects, allObjectsAreFilled, activeTool, child);
+      return filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, child);
     })
   };
 }
@@ -206,13 +211,14 @@ function nestChildren(menus, target) {
 
 const getMenus = createSelector([
   state => state.sketcher.present.menus,
+  state => state.sketcher.present.d2.tool,
   state => state.sketcher.present.selection.objects.length,
-  state => state.sketcher.present.selection.objects.every(({ id }) => state.sketcher.present.objectsById[id].fill),
-  state => state.sketcher.present.d2.tool
-], (menus, numSelectedObjects, allObjectsAreFilled, activeTool) => ({
-  toolbar2d: filterMenus(numSelectedObjects, allObjectsAreFilled, activeTool, nestChildren(menus, menus[TOOLBAR2D])),
-  toolbar3d: filterMenus(numSelectedObjects, allObjectsAreFilled, activeTool, nestChildren(menus, menus[TOOLBAR3D])),
-  context: filterMenus(numSelectedObjects, allObjectsAreFilled, activeTool, nestChildren(menus, menus[CONTEXT]))
+  state => state.sketcher.present.selection.objects.filter(({ id }) => state.sketcher.present.objectsById[id].fill).length,
+  state => state.sketcher.present.selection.objects.filter(({ id }) => state.sketcher.present.objectsById[id].solid).length
+], (menus, activeTool, numSelectedObjects, numFilledObjects, numSolidObjects) => ({
+  toolbar2d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, nestChildren(menus, menus[TOOLBAR2D])),
+  toolbar3d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, nestChildren(menus, menus[TOOLBAR3D])),
+  context: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, nestChildren(menus, menus[CONTEXT]))
 }));
 
 const style = document.createElement('style');
@@ -404,13 +410,13 @@ style.innerHTML = `
 	height: 41px;
 }
 #hole-toggle-solid, #hole-toggle-solid-menu {
-	background-image: url('../img/contextmenu/btnShapeFill.png');
+	background-image: url('../img/contextmenu/btnSolid.png');
 	background-size: 33px auto;
 	width: 33px;
 	height: 41px;
 }
 #hole-toggle-hole, #hole-toggle-hole-menu {
-	background-image: url('../img/contextmenu/btnShapeOutline.png');
+	background-image: url('../img/contextmenu/btnHole.png');
 	background-size: 33px auto;
 	width: 33px;
 	height: 41px;
