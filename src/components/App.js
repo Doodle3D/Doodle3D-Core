@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'proptypes';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../actions/index.js';
 import Logo from './Logo.js';
 import D2Panel from './D2Panel.js';
 import D3Panel from './D3Panel.js';
@@ -58,15 +58,55 @@ const styles = {
 
 class App extends React.Component {
   static propTypes = {
+    openSketch: PropTypes.func.isRequired,
+    addImage: PropTypes.func.isRequired,
     undo: PropTypes.func.isRequired,
     redo: PropTypes.func.isRequired,
     classes: PropTypes.objectOf(PropTypes.string)
   };
 
+  componentDidMount() {
+    const { container } = this.refs;
+
+    container.addEventListener('dragover', event => event.preventDefault());
+    container.addEventListener('drop', this.onDrop);
+  }
+
+  onDrop = async event => {
+    const { openSketch, addImage } = this.props;
+    event.preventDefault();
+
+    for (const file of event.dataTransfer.files) {
+      const [name, ...extentions] = file.name.split('.');
+
+      switch (extentions.pop().toUpperCase()) {
+        case 'D3SKETCH':
+        case 'JSON':
+          const url = URL.createObjectURL(file);
+          const data = await fetch(url).then(result => result.json());
+          const sketchData = await JSONToSketchData(data);
+          openSketch({ data: sketchData });
+          break;
+        case 'JPG':
+        case 'JPEG':
+        case 'PNG':
+        case 'GIF':
+          await addImage(file);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  componentWillUnmount() {
+    container.removeEventListener('drop', this.onDrop);
+  }
+
   render() {
     const { classes, undo, redo } = this.props;
     return (
-      <div className={classes.container}>
+      <div ref="container" className={classes.container}>
         <InlineIconsLoader />
         <div className={classes.appContainer}>
           <D2Panel />
@@ -84,8 +124,9 @@ class App extends React.Component {
   }
 }
 
-
 export default injectSheet(styles)(connect(null, {
   undo: actions.undo.undo,
-  redo: actions.undo.redo
+  redo: actions.undo.redo,
+  openSketch: actions.openSketch,
+  addImage: actions.addImage,
 })(App));

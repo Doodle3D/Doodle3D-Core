@@ -26,37 +26,7 @@ import actionWrapper from 'redux-action-wrapper';
 import * as actions from './src/actions/index.js';
 window.actions = actionWrapper(actions, store.dispatch);
 
-import JSONToSketchData from './src/shape/JSONToSketchData.js';
-window.addEventListener('drop', async (event) => {
-  event.preventDefault();
-
-  for (const file of event.dataTransfer.files) {
-      const [name, ...extentions] = file.name.split('.');
-
-      switch (extentions.pop().toUpperCase()) {
-        case 'D3SKETCH':
-        case 'JSON':
-          const url = URL.createObjectURL(file);
-          const data = await fetch(url).then(result => result.json());
-          const sketchData = await JSONToSketchData(data);
-          store.dispatch(actions.openSketch({data:sketchData}));
-          break;
-        case 'JPG':
-        case 'JPEG':
-        case 'PNG':
-        case 'GIF':
-          await store.dispatch(actions.addImage(file));
-          break;
-        default:
-          break;
-      }
-  }
-});
-
-window.addEventListener('dragover', (event) => {
-  event.preventDefault();
-});
-
+// add inital shapes
 import * as CAL from 'cal';
 store.dispatch(actions.addObject({
   type: 'STAR',
