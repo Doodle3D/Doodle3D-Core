@@ -165,4 +165,3 @@ export async function createFile(state, type, options) {
       throw new Error(`did not regonize type ${type}`);
   }
 }
-window.createFile = createFile;
