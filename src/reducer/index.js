@@ -206,7 +206,7 @@ function sketcherReducer(state = initialState, action) {
       return state;
 
     case actions.CLEAR:
-      return initialState;
+      return update(initialState, {});
 
     case actions.OPEN_SKETCH:
       let first = true;
