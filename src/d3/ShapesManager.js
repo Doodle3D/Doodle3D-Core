@@ -7,10 +7,8 @@ import ThreeBSP from 'three-js-csg';
 const THREE_BSP = ThreeBSP(THREE);
 
 export default class ShapesManager extends THREE.Object3D {
-  constructor({ toonShader }) {
+  constructor() {
     super();
-
-    this._toonShader = toonShader;
 
     this._meshes = {};
     this._spaces = {};
@@ -137,7 +135,7 @@ export default class ShapesManager extends THREE.Object3D {
   _handleShapeAdded(shapeData, active) {
     if (!SHAPE_TYPE_PROPERTIES[shapeData.type].D3Visible) return;
     const { space } = shapeData;
-    const mesh = new ShapeMesh(shapeData, active, this._toonShader);
+    const mesh = new ShapeMesh(shapeData, active);
     this._meshes[shapeData.UID] = { mesh, space };
 
     this._spaces[space].add(mesh);

@@ -20,6 +20,7 @@ import RenderChain from '../d3/RenderChain';
 import BaseTransformer from '../d3/transformers/BaseTransformer.js';
 import Camera from '../d3/Camera.js';
 import ReactResizeDetector from 'react-resize-detector';
+import { load as loadMatcapMaterial } from '../d3/MatcapMaterial.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:d3');
 
@@ -74,6 +75,7 @@ class D3Panel extends React.Component {
       plane: this.plane
     });
 
+    loadMatcapMaterial.then(this.renderRequest);
     this.DOM = null;
   }
 
@@ -117,7 +119,7 @@ class D3Panel extends React.Component {
     const ambientLight = new THREE.AmbientLight(0x505050);
     this.scene.add(ambientLight);
 
-    this.shapesManager = new ShapesManager({ toonShader: hasExtensionsFor.toonShaderPreview });
+    this.shapesManager = new ShapesManager();
 
     this.UIContainer = new EventObject3D();
     this.UIContainer.matrixAutoUpdate = false;

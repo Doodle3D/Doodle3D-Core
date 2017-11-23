@@ -3,6 +3,7 @@ import { applyMatrixOnPath } from '../utils/vectorUtils.js';
 import { shapeToPointsCornered } from '../shape/shapeToPoints.js';
 import * as THREE from 'three';
 import { getPointsBounds, shapeChanged } from '../shape/shapeDataUtils.js';
+import MatcapMaterial from './MatcapMaterial.js';
 import { DESELECT_TRANSPARENCY, LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
 import ThreeBSP from 'three-js-csg';
 
@@ -16,31 +17,17 @@ const MAX_HEIGHT_BASE = 5;
 const isValidNumber = (num) => typeof num === 'number' && !isNaN(num);
 
 class ShapeMesh extends THREE.Object3D {
-  constructor(shapeData, active, toonShader) {
+  constructor(shapeData, active) {
     super();
     this.name = shapeData.UID;
 
     const { sculpt, rotate, twist, height, type, transform, z, color, fill, solid } = shapeData;
 
-    let material;
-    if (toonShader) {
-      material = new THREE.MeshToonMaterial({
-        color: new THREE.Color(color),
-        shading: THREE.SmoothShading,
-        side: THREE.DoubleSide
-      });
-    } else {
-      material = new THREE.MeshLambertMaterial({
-        color: new THREE.Color(color),
-        side: THREE.DoubleSide
-      });
-    }
+    const material = new MatcapMaterial({ color: new THREE.Color(color) });
 
     this._mesh = new THREE.Mesh(new THREE.BufferGeometry(), material.clone());
     this._mesh.name = shapeData.UID;
     this._mesh.isShapeMesh = true;
-
-    this._toonShader = toonShader;
 
     this._shapes = [];
     this._shapesMap = [];
@@ -221,7 +208,8 @@ class ShapeMesh extends THREE.Object3D {
       throw new Error(`Cannot update object ${this.name}: color is an invalid value.`);
     }
 
-    this._holeMesh.material.color.setHex(color);
+    this._mesh.material.color = new THREE.Color(color);
+    this._holeMesh.material.color = new THREE.Color(color);
     this._color = color;
   }
 
