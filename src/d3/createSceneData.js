@@ -1,4 +1,5 @@
 import shortid from 'shortid';
+import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 
 export default function docToShapeData(docData) {
   const sketchData = {
@@ -14,7 +15,8 @@ export default function docToShapeData(docData) {
     for (const object of spaceData.objects) {
       const UID = shortid.generate();
       objectIds.push(UID);
-      sketchData.objectsById[UID] = { ...object, UID, space };
+      const { defaultProperties } = SHAPE_TYPE_PROPERTIES[object.type];
+      sketchData.objectsById[UID] = { ...defaultProperties, ...object, UID, space };
     }
 
     sketchData.spaces[space] = {
