@@ -48,7 +48,7 @@ export default class ShapesManager extends THREE.Object3D {
     if (this._state) {
       for (const id in this._state.objectsById) {
         if (!state.objectsById[id]) {
-          if (this._state.objectsById[id].solid) holesChanged = true;
+          if (!this._state.objectsById[id].solid) holesChanged = true;
           this._handleShapeRemove(id);
           render = true;
         }
