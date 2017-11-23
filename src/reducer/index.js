@@ -212,7 +212,7 @@ function sketcherReducer(state = initialState, action) {
       let first = true;
       for (const space of action.data.data.spaces) {
         if (first) {
-          state = addSpaceActive(state, space.matrix, 'world');
+          if (!state.spaces.world) state = addSpaceActive(state, space.matrix, 'world');
         } else {
           state = addSpaceActive(state, space.matrix);
         }

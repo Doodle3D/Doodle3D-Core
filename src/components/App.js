@@ -12,6 +12,7 @@ import vlineImageURL from '../../img/vline.png';
 import btnUndoImageURL from '../../img/mainmenu/btnUndo.png';
 import btnRedoImageURL from '../../img/mainmenu/btnRedo.png';
 import InlineIconsLoader from './InlineIconsLoader.js';
+import JSONToSketchData from '../shape/JSONToSketchData.js';
 
 const styles = {
   container: {
