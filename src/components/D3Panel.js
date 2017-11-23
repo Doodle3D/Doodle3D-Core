@@ -16,7 +16,6 @@ import TwistTransformer from '../d3/transformers/TwistTransformer.js';
 import SculptTransformer from '../d3/transformers/SculptTransformer.js';
 import StampTransformer from '../d3/transformers/StampTransformer.js';
 import SelectionBox from '../d3/SelectionBox.js';
-import ToonShaderRenderChain from '../d3/ToonShaderRenderChain';
 import RenderChain from '../d3/RenderChain';
 import BaseTransformer from '../d3/transformers/BaseTransformer.js';
 import Camera from '../d3/Camera.js';
@@ -68,17 +67,12 @@ class D3Panel extends React.Component {
   componentWillMount() {
     this.createScene();
 
-    if (hasExtensionsFor.toonShaderPreview) {
-      this.renderChain = new ToonShaderRenderChain(this.renderer, this.scene, this.camera, {
-        UI: this.UIContainer,
-        shapes: this.shapesManager,
-        boundingBox: this.selectionBox,
-        plane: this.plane
-      });
-    } else {
-      this.renderer.setClearColor(0xffffff);
-      this.renderChain = new RenderChain(this.renderer, this.scene, this.camera);
-    }
+    this.renderChain = new RenderChain(this.renderer, this.scene, this.camera, hasExtensionsFor.toonShaderPreview, {
+      UI: this.UIContainer,
+      shapes: this.shapesManager,
+      boundingBox: this.selectionBox,
+      plane: this.plane
+    });
 
     this.DOM = null;
   }
@@ -95,7 +89,7 @@ class D3Panel extends React.Component {
   }
 
   createScene() {
-    this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, preserveDrawingBuffer: true });
 
     this.scene = new EventScene(this.renderer.domElement);
 
@@ -224,7 +218,7 @@ class D3Panel extends React.Component {
 
   resizeHandler = (width, height) => {
     // set renderer size
-    this.renderChain.setSize(width, height, PIXEL_RATIO);
+    this.renderChain.setSize(width, height, PIXEL_RATIO, false);
 
     this.renderRequest();
   };
@@ -249,7 +243,7 @@ class D3Panel extends React.Component {
   renderScene = () => {
     if (this.needRender) {
       this.scene.updateMatrixWorld();
-      this.renderChain.render(true);
+      this.renderChain.render();
       this.needRender = false;
     }
   };

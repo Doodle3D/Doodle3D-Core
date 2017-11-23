@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import ShapesManager from './ShapesManager.js';
-import ToonShaderRenderChain from './ToonShaderRenderChain.js';
+import RenderChain from './RenderChain.js';
 import { hasExtensionsFor } from '../utils/webGLSupport.js';
 import { CANVAS_SIZE } from '../constants/d2Constants.js';
 
@@ -43,32 +43,14 @@ export default function createScene(state, canvas) {
   const light = new THREE.AmbientLight(0x505050);
   scene.add(light);
 
-  let render;
-  let setSizeRenderer;
-  if (hasExtensionsFor.toonShaderThumbnail) {
-    const renderChain = new ToonShaderRenderChain(renderer, scene, camera, {
-      plane,
-      UI: new THREE.Object3D(),
-      shapes: shapesManager,
-      boundingBox: new THREE.Object3D()
-    });
-    setSizeRenderer = renderChain.setSize.bind(renderChain);
-    render = renderChain.render.bind(renderChain);
-  } else {
-    renderer.setClearColor(0xffffff);
-
-    setSizeRenderer = renderer.setSize.bind(renderer);
-    render = renderer.render.bind(renderer, scene, camera);
-  }
-
-  const setSize = (width, height, pixelRatio) => {
-    setSizeRenderer(width, height, pixelRatio);
-
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
-    render();
-  };
+  const renderChain = new RenderChain(renderer, scene, camera, hasExtensionsFor.toonShaderThumbnail, {
+    plane,
+    UI: new THREE.Object3D(),
+    shapes: shapesManager,
+    boundingBox: new THREE.Object3D()
+  });
+  const setSize = renderChain.setSize.bind(renderChain);
+  const render = renderChain.render.bind(renderChain);
 
   return { scene, camera, renderer, render, setSize };
 }

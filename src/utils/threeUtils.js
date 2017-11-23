@@ -69,6 +69,7 @@ export class CanvasPlane extends THREE.Mesh {
     const texture = new THREE.Texture(canvas);
     const material = new THREE.MeshBasicMaterial({
       map: texture,
+      depthTest: false,
       side: THREE.DoubleSide
     });
 
