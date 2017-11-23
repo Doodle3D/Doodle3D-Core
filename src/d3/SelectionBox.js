@@ -3,7 +3,6 @@ import { Vector } from 'cal';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:preview:selectionBox');
 
-
 export default class SelectionBox extends THREE.Object3D {
   matrixAutoUpdate = false;
 
