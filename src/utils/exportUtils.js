@@ -10,7 +10,7 @@ import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import { LINE_WIDTH } from '../constants/exportConstants.js';
 import { bufferToBase64 } from '../utils/binaryUtils.js';
-import { IMAGE_TYPE, IMAGE_QUALIT } from '../constants/saveConstants.js';
+import { IMAGE_TYPE, IMAGE_QUALITY } from '../constants/saveConstants.js';
 import createScene from '../d3/createScene.js';
 
 const THREE_BSP = ThreeBSP(THREE);
@@ -166,7 +166,7 @@ export async function createFile(state, type, options) {
   }
 }
 
-export function generateThumb(state, responseType = 'blob', width = THUMBNAIL_WIDTH, height = THUMBNAIL_HEIGHT) {
+export function generateThumb(state, width, height, responseType = 'blob') {
   return new Promise((resolve) => {
     const { render, renderer, setSize } = createScene(state);
 
