@@ -37,12 +37,6 @@ export default function createScene(state, canvas) {
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 
-  const directionalLight = new THREE.PointLight(0xffffff, 0.6);
-  camera.add(directionalLight);
-
-  const light = new THREE.AmbientLight(0x505050);
-  scene.add(light);
-
   const renderChain = new RenderChain(renderer, scene, camera, hasExtensionsFor.toonShaderThumbnail, {
     plane,
     UI: new THREE.Object3D(),

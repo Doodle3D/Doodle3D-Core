@@ -113,12 +113,6 @@ class D3Panel extends React.Component {
     this.plane.isBedPlane = true;
     this.scene.add(this.plane);
 
-    const directionalLight = new THREE.PointLight(0xffffff, 0.6);
-    this.camera.add(directionalLight);
-
-    const ambientLight = new THREE.AmbientLight(0x505050);
-    this.scene.add(ambientLight);
-
     this.shapesManager = new ShapesManager();
 
     this.UIContainer = new EventObject3D();
