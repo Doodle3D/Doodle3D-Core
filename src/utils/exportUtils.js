@@ -10,7 +10,7 @@ import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import { LINE_WIDTH } from '../constants/exportConstants.js';
 import { bufferToBase64 } from '../utils/binaryUtils.js';
-import { IMAGE_TYPE, IMAGE_QUALIT } from 'doodle3d-core/constants/saveConstants.js';
+import { IMAGE_TYPE, IMAGE_QUALIT } from '../constants/saveConstants.js';
 import createScene from '../d3/createScene.js';
 
 const THREE_BSP = ThreeBSP(THREE);
@@ -91,8 +91,6 @@ export function generateExportMesh(state, options = {}) {
     const shapeData = exportState.objectsById[mesh.name];
     if (mesh instanceof THREE.Mesh && shapeData.solid) {
       const { geometry, material } = mesh;
-
-      console.log('mesh: ', mesh);
 
       let objectGeometry = geometry.clone();
       objectGeometry.mergeVertices();
