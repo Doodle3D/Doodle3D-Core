@@ -1,3 +1,4 @@
+import 'blueimp-canvas-to-blob'; // canvas toBlob polyfill
 import { Matrix } from '@doodle3d/cal';
 import * as exportSTL from '@doodle3d/threejs-export-stl';
 import * as exportOBJ from '@doodle3d/threejs-export-obj';
