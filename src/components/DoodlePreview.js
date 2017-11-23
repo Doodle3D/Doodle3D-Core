@@ -58,7 +58,7 @@ class DoodlePreview extends React.Component {
     this.editorControls = new THREE.EditorControls(scene.camera, canvas);
     this.editorControls.addEventListener('change', scene.render);
 
-    loadMatcapMaterial.then(scene.render;
+    loadMatcapMaterial.then(scene.render);
   }
 
   componentWillUnmount() {
