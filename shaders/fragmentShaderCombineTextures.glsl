@@ -1,4 +1,3 @@
-export default `
 uniform sampler2D tDiffuse;
 uniform sampler2D tNormal;
 uniform sampler2D tDepth;
@@ -15,4 +14,3 @@ void main() {
 
   gl_FragColor = mix(max(colorDiffuse - colorDepth - colorNormal, 0.0), colorUI, colorUI.w);
 }
-`;

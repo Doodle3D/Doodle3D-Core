@@ -1,4 +1,3 @@
-export default `
 // edge detection based on http://williamchyr.com/tag/unity/page/2/
 uniform sampler2D tDiffuse;
 uniform float threshold;
@@ -20,4 +19,3 @@ void main() {
 
   gl_FragColor = difference > threshold ? vec4(vec3(1.0), 0.0) : vec4(0.0);
 }
-`;

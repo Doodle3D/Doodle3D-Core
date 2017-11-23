@@ -1,4 +1,3 @@
-export default `
 uniform sampler2D tDiffuse;
 uniform float threshold;
 uniform vec2 aspect;
@@ -25,4 +24,3 @@ void main() {
 
   gl_FragColor = (length(sobel) > threshold) ? vec4(vec3(1.0), 0.0) : vec4(0.0);
 }
-`;

@@ -63,7 +63,7 @@ module.exports = {
           }
         }
       }, {
-        test: /\.svg$/,
+        test: /\.(svg|glsl)$/,
         use: {
           loader: 'raw-loader'
         }

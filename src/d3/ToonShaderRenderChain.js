@@ -3,12 +3,12 @@ import 'three/examples/js/postprocessing/EffectComposer.js';
 import 'three/examples/js/postprocessing/RenderPass.js';
 import 'three/examples/js/postprocessing/ShaderPass.js';
 import 'three/examples/js/shaders/CopyShader.js';
-import vertexShaderPostprocessing from './shaders/vertexShaderPostprocessing.js';
-import fragmentShaderSobelDepth from './shaders/fragmentShaderSobelDepth.js';
-import fragmentShaderSobelNormal from './shaders/fragmentShaderSobelNormal.js';
-import fragmentShaderCombineTextures from './shaders/fragmentShaderCombineTextures.js';
-import fragmentShaderDepth from './shaders/fragmentShaderDepth.js';
-import vertexShaderDepth from './shaders/vertexShaderDepth.js';
+import vertexShaderPostprocessing from '../../shaders/vertexShaderPostprocessing.glsl';
+import fragmentShaderSobelDepth from '../../shaders/fragmentShaderSobelDepth.glsl';
+import fragmentShaderSobelNormal from '../../shaders/fragmentShaderSobelNormal.glsl';
+import fragmentShaderCombineTextures from '../../shaders/fragmentShaderCombineTextures.glsl';
+import fragmentShaderDepth from '../../shaders/fragmentShaderDepth.glsl';
+import vertexShaderDepth from '../../shaders/vertexShaderDepth.glsl';
 
 // Based on Doodle3D/Toon-Shader
 

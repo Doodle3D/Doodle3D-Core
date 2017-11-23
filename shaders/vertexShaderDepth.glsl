@@ -1,4 +1,3 @@
-export default `
 varying float vFragDepth;
 uniform float logDepthBufFC;
 
@@ -13,4 +12,3 @@ void main() {
 	// gl_Position.z = log2(max( EPSILON, gl_Position.w + 1.0 )) * logDepthBufFC;
 	vFragDepth = 1.0 + gl_Position.w;
 }
-`;
