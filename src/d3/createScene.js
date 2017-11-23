@@ -35,7 +35,7 @@ export default function createScene(state, canvas) {
   plane.name = 'bed-plane';
   scene.add(plane);
 
-  const renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true, canvas });
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 
   const directionalLight = new THREE.PointLight(0xffffff, 0.6);
   camera.add(directionalLight);

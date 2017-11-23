@@ -89,12 +89,9 @@ class D3Panel extends React.Component {
   }
 
   createScene() {
-    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, preserveDrawingBuffer: true });
-
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.scene = new EventScene(this.renderer.domElement);
-
     this.camera = new Camera(50, 1, 1, 10000);
-
     this.scene.add(this.camera);
 
     // this.grid = new THREE.GridHelper(200, 20);
