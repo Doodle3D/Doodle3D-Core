@@ -2,6 +2,7 @@ import update from 'react-addons-update';
 import * as contextTools from '../constants/contextTools.js';
 import { COLOR_STRING_TO_HEX, COLOR_HEX_TO_STRING } from '../constants/general.js';
 import { ERASER_SIZES, BRUSH_SIZES } from '../constants/d2Constants.js';
+import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import * as actions from '../actions/index.js';
 import { select } from './menusReducer.js';
 import { getSelectedObjectsSelector, getBoundingBox } from '../utils/selectionUtils.js';
@@ -102,7 +103,9 @@ export default function (state, action) {
 
       return update(state, {
         objectsById: state.selection.objects.reduce((updateObject, { id }) => {
-          updateObject[id] = { fill: { $set: fill } };
+          const { type } = state.objectsById[id];
+          const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
+          if (d3Visible) updateObject[id] = { fill: { $set: fill } };
           return updateObject;
         }, {})
       });
@@ -114,8 +117,9 @@ export default function (state, action) {
 
       return update(state, {
         objectsById: state.selection.objects.reduce((updateObject, { id }) => {
-          const { fill } = state.objectsById[id];
-          if (fill) updateObject[id] = { solid: { $set: solid } };
+          const { fill, type } = state.objectsById[id];
+          const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
+          if (fill && d3Visible) updateObject[id] = { solid: { $set: solid } };
           return updateObject;
         }, {})
       });

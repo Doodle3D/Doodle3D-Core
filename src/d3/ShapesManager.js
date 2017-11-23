@@ -48,7 +48,7 @@ export default class ShapesManager extends THREE.Object3D {
     if (this._state) {
       for (const id in this._state.objectsById) {
         if (!state.objectsById[id]) {
-          if (!this._meshes[id].mesh._shapeData.solid) holesChanged = true;
+          if (this._state.objectsById[id].solid) holesChanged = true;
           this._handleShapeRemove(id);
           render = true;
         }
@@ -82,7 +82,9 @@ export default class ShapesManager extends THREE.Object3D {
       this._holes = null;
       for (let i = 0; i < ids.length; i ++) {
         const id = ids[i];
-        if (!state.objectsById[id].solid) {
+        const { solid, type } = state.objectsById[id];
+        const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
+        if (!solid && d3Visible) {
           const hole = this._meshes[id].mesh._mesh;
           const holeGeometry = new THREE.Geometry().fromBufferGeometry(hole.geometry);
           const holeBSP = new THREE_BSP(holeGeometry);
@@ -99,7 +101,9 @@ export default class ShapesManager extends THREE.Object3D {
     for (let i = 0; i < ids.length; i ++) {
       const id = ids[i];
       const active = activeShapes[id];
-      if (!active && state.objectsById[id].solid) {
+      const { solid, type } = state.objectsById[id];
+      const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
+      if (!active && solid && d3Visible) {
         const shape = this._meshes[id].mesh;
         if (shape.updateHoleGeometry(this._holes)) {
           render = true;
