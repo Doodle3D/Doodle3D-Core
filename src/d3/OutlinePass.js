@@ -22,6 +22,7 @@ export default class OutlinePass {
       vertexShader: normalDepthVert,
       fragmentShader: normalDepthFrag
     });
+    this._normalDepthMateral.side = THREE.DoubleSide;
 
     this._edgeMaterial = new THREE.ShaderMaterial({
       uniforms: {
