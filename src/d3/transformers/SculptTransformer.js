@@ -15,6 +15,7 @@ const ARROW_HELPER = false;
 const HANDLE_SCALE = 0.125;
 const LINE_HIT_DISTANCE = 5.0;
 const lineMaterial = new THREE.LineBasicMaterial({
+  depthTest: false,
   color: 0x72bcd4
 });
 
