@@ -33,6 +33,9 @@ class ShapeMesh extends THREE.Object3D {
     this._shapesMap = [];
 
     this._center = new Vector();
+    this._holeMesh = new THREE.Mesh(new THREE.Geometry(), material.clone());
+    this._holeMesh.name = shapeData.UID;
+    this._holeMesh.isShapeMesh = true;
 
     this._sculpt = sculpt;
     this._rotate = rotate;
@@ -41,16 +44,10 @@ class ShapeMesh extends THREE.Object3D {
     this._type = type;
     this._transform = transform;
     this._z = z;
-    this._shapeData = shapeData;
     this._color = color;
     this._fill = fill;
-    this.updatePoints(shapeData);
-
-    this._holeMesh = new THREE.Mesh(new THREE.Geometry().fromBufferGeometry(this._mesh.geometry), material.clone());
-    this._holeMesh.name = shapeData.UID;
-    this._holeMesh.isShapeMesh = true;
-
     this.updateSolid(solid, active);
+    this.updatePoints(shapeData);
   }
 
   add(object) {
@@ -85,42 +82,13 @@ class ShapeMesh extends THREE.Object3D {
   update(shapeData, active) {
     let changed = false;
 
-    if (shapeChanged(this._shapeData, shapeData)) {
-      this.updatePoints(shapeData);
-      changed = true;
-    }
-
-    if (shapeData.transform !== this._transform || shapeData.z !== this._z) {
-      this.updateTransform(shapeData.transform, shapeData.z);
-      changed = true;
-    }
-
-    if (shapeData.height !== this._height) {
-      this.updateHeight(shapeData.height);
-      changed = true;
-    }
-
-    if (shapeData.sculpt !== this._sculpt) {
-      this.updateSculpt(shapeData.sculpt);
-      changed = true;
-    }
-
-    if (shapeData.twist !== this._twist) {
-      this.updateTwist(shapeData.twist);
-      changed = true;
-    }
-
-    if (shapeData.color !== this._color) {
-      this.updateColor(shapeData.color);
-      changed = true;
-    }
-
-    let solidChanged = false;
-    if (shapeData.solid !== this._solid || active !== this._active) {
-      this.updateSolid(shapeData.solid, active);
-      changed = true;
-      solidChanged = true;
-    }
+    if (this.updatePoints(shapeData)) changed = true;
+    if (this.updateTransform(shapeData.transform, shapeData.z)) changed = true;
+    if (this.updateHeight(shapeData.height)) changed = true;
+    if (this.updateSculpt(shapeData.sculpt)) changed = true;
+    if (this.updateTwist(shapeData.twist)) changed = true;
+    if (this.updateColor(shapeData.color)) changed = true;
+    if (this.updateSolid(shapeData.solid, active)) changed = true;
 
     this._shapeData = shapeData;
     return changed;
@@ -129,6 +97,8 @@ class ShapeMesh extends THREE.Object3D {
   setOpaque(opaque) {
     this._holeMesh.material.opacity = opaque ? 1.0 : DESELECT_TRANSPARENCY;
     this._holeMesh.material.transparent = !opaque;
+    this._mesh.material.opacity = opaque ? 1.0 : DESELECT_TRANSPARENCY;
+    this._mesh.material.transparent = !opaque;
   }
 
   dispose() {
@@ -137,6 +107,8 @@ class ShapeMesh extends THREE.Object3D {
   }
 
   updatePoints(shapeData) {
+    if (this._shapeData && !shapeChanged(this._shapeData, shapeData)) return false;
+
     this._fill = shapeData.fill;
     this._points = shapeData.points;
     this._rectSize = shapeData.rectSize;
@@ -159,9 +131,13 @@ class ShapeMesh extends THREE.Object3D {
       this._updateFaces();
     }
     this._updateVertices();
+
+    return true;
   }
 
   updateSculpt(sculpt) {
+    if (sculpt === this._sculpt) return false;
+
     if (!sculpt.every(({ pos, scale }) => isValidNumber(pos) && isValidNumber(scale))) {
       throw new Error(`Cannot update object ${this.name}: sculpt contains invalid values.`);
     }
@@ -169,9 +145,13 @@ class ShapeMesh extends THREE.Object3D {
     this._sculpt = sculpt;
     this._updateSide();
     this._updateVertices();
+
+    return true;
   }
 
   updateTwist(twist) {
+    if (twist === this._twist) return false;
+
     if (!isValidNumber(twist)) {
       throw new Error(`Cannot update object ${this.name}: twist is an invalid value.`);
     }
@@ -179,9 +159,13 @@ class ShapeMesh extends THREE.Object3D {
     this._twist = twist;
     this._updateSide();
     this._updateVertices();
+
+    return true;
   }
 
   updateHeight(height) {
+    if (height === this._height) return false;
+
     if (!isValidNumber(height)) {
       throw new Error(`Cannot update object ${this.name}: height is an invalid value.`);
     }
@@ -189,9 +173,13 @@ class ShapeMesh extends THREE.Object3D {
     this._height = height;
     this._updateSide();
     this._updateVertices();
+
+    return true;
   }
 
   updateTransform(transform, z) {
+    if (transform === this._transform && z === this._z) return false;
+
     // TODO
     // transform.matrix.every could improved performance wise
     if (!transform.matrix.every(isValidNumber)) {
@@ -201,9 +189,13 @@ class ShapeMesh extends THREE.Object3D {
     this._transform = transform;
     this._z = z;
     this._updateVertices();
+
+    return true;
   }
 
   updateColor(color) {
+    if (color === this._color) return false;
+
     if (!isValidNumber(color)) {
       throw new Error(`Cannot update object ${this.name}: color is an invalid value.`);
     }
@@ -211,9 +203,13 @@ class ShapeMesh extends THREE.Object3D {
     this._mesh.material.color = new THREE.Color(color);
     this._holeMesh.material.color = new THREE.Color(color);
     this._color = color;
+
+    return true;
   }
 
   updateSolid(solid, active) {
+    if (solid === this._solid && active === this._active) return false;
+
     this._mesh.material.opacity = solid ? 1.0 : 0.0;
     this._mesh.material.transparent = !solid;
     this.visible = solid || active;
@@ -228,6 +224,8 @@ class ShapeMesh extends THREE.Object3D {
 
     this._solid = solid;
     this._active = active;
+
+    return true;
   }
 
   _getPoint(point, heightStep, center) {
