@@ -186,7 +186,7 @@ function shapeToPointsRaw(shapeData) {
         new ClipperShape([points, ...holes], true, true, false, false)
           .simplify('pftEvenOdd')
           .seperateShapes()
-          .map(shape => {
+          .forEach(shape => {
             const [points, ...holes] = shape
               .mapToLower()
               .map(pathToVectorPath)
