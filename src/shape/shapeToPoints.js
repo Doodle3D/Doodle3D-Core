@@ -219,8 +219,43 @@ function shapeToPointsRaw(shapeData) {
 }
 
 export const shapeToPointsCornered = memoize(shapeToPointsCorneredRaw, { max: SHAPE_CACHE_LIMIT });
-function shapeToPointsCorneredRaw(shapeData) {
-  return shapeToPoints(shapeData).map(({ points: oldPoints, holes: oldHoles }) => {
+function shapeToPointsCorneredRaw(shapeData, target) {
+  let shapes = shapeToPoints(shapeData);
+
+  if (!shapeData.fill && !shapeData.solid) {
+    const newShapes = [];
+    for (const shape of shapes) {
+      const { points } = shape;
+      new ClipperShape([points], false, true, false, false)
+        .scaleUp(CLIPPER_PRECISION)
+        .round().removeDuplicates()
+        .offset(CLIPPER_PRECISION, {
+          jointType: 'jtSquare',
+          endType: 'etOpenSquare',
+          miterLimit: 2.0,
+          roundPrecision: 0.25
+        })
+        .scaleDown(CLIPPER_PRECISION)
+        .seperateShapes()
+        .forEach(shape => {
+          let [points, ...holes] = shape
+            .mapToLower()
+            .map(pathToVectorPath)
+            .map(path => {
+              path.push(path[0]);
+              return path;
+            });
+
+          points = setDirectionClockWise(points);
+          holes = holes.map(setDirectionCounterClockWise);
+
+          newShapes.push({ points, holes });
+        });
+    }
+    shapes = newShapes;
+  }
+
+  return shapes.map(({ points: oldPoints, holes: oldHoles }) => {
     const { path: points, map: pointsMap } = addCorners(oldPoints);
     const { paths: holes, maps: holesMaps } = oldHoles
       .map(hole => addCorners(hole))

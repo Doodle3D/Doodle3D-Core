@@ -15,10 +15,11 @@ export function shapeChanged(oldShapeData, newShapeData) {
   const textChanged = oldShapeData.text !== newShapeData.text;
   const polyPoints = oldShapeData.polyPoints !== newShapeData.polyPoints;
   const fillChanged = oldShapeData.fill !== newShapeData.fill;
+  const solidChanged = oldShapeData.solid !== newShapeData.solid;
   const heartChanged = oldShapeData.heart !== newShapeData.heart;
 
   return pointsChanged || holesChanged || rectSizeChanged || triangleSizeChanged ||
-    circleChanged || starChanged || textChanged || polyPoints || fillChanged || heartChanged;
+    circleChanged || starChanged || textChanged || polyPoints || fillChanged || solidChanged || heartChanged;
 }
 
 export const getPointsBounds = memoize(getPointsBoundsRaw, { max: SHAPE_CACHE_LIMIT });

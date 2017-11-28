@@ -171,7 +171,7 @@ function filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidO
           return numSelectedObjects > 0;
 
         case contextTools.FILL_TOGGLE:
-          return numSelectedObjects > 0 && numSolidObjects === numSelectedObjects;
+          return numSelectedObjects > 0;
 
         case contextTools.ALIGN:
           return numSelectedObjects > 1;
@@ -188,7 +188,7 @@ function filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidO
           return activeTool === d2Tools.BRUSH;
 
         case contextTools.HOLE_TOGGLE:
-          return numSelectedObjects > 0 && numFilledObjects === numSelectedObjects;
+          return numSelectedObjects > 0;
 
         default:
           return true;

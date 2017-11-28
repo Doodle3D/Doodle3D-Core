@@ -45,7 +45,6 @@ class ShapeMesh extends THREE.Object3D {
     this._transform = transform;
     this._z = z;
     this._color = color;
-    this._fill = fill;
     this.updateSolid(solid, active);
     this.updatePoints(shapeData);
   }
@@ -109,7 +108,7 @@ class ShapeMesh extends THREE.Object3D {
   updatePoints(shapeData) {
     if (this._shapeData && !shapeChanged(this._shapeData, shapeData)) return false;
 
-    this._fill = shapeData.fill;
+    this._fill = shapeData.fill || !shapeData.solid;
     this._points = shapeData.points;
     this._rectSize = shapeData.rectSize;
     this._circle = shapeData.circle;

@@ -117,9 +117,9 @@ export default function (state, action) {
 
       return update(state, {
         objectsById: state.selection.objects.reduce((updateObject, { id }) => {
-          const { fill, type } = state.objectsById[id];
+          const { type } = state.objectsById[id];
           const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
-          if (fill && d3Visible) updateObject[id] = { solid: { $set: solid } };
+          if (d3Visible) updateObject[id] = { solid: { $set: solid } };
           return updateObject;
         }, {})
       });

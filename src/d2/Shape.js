@@ -105,16 +105,8 @@ export default class Shape extends Matrix {
     const lineWidth = PIXEL_RATIO * LINE_WIDTH;
 
     context.globalAlpha = this.alpha;
-    if (!this._shapeData.solid) {
-      context.fillStyle = holePatern;
-      context.fill();
-
-      context.strokeStyle = 'black'; //'#888888';
-      context.lineWidth = lineWidth / 2.0;
-      context.stroke();
-
-    } else if (this._shapeData.fill) {
-      context.fillStyle = this.color;
+    if (this._shapeData.fill) {
+      context.fillStyle = this._shapeData.solid ? this.color : holePatern;
       context.fill();
 
       context.strokeStyle = 'black';
@@ -129,7 +121,7 @@ export default class Shape extends Matrix {
       context.stroke();
 
       if (innerLineWidth > 0) {
-        context.strokeStyle = this.color;
+        context.strokeStyle = this._shapeData.solid ? this.color : holePatern;
         context.lineWidth = innerLineWidth;
         context.stroke();
       }

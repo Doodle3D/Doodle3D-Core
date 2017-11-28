@@ -29,11 +29,11 @@ window.actions = actionWrapper(actions, store.dispatch);
 // add inital shapes
 import * as CAL from 'cal';
 store.dispatch(actions.addObject({
-  type: 'STAR',
-  fill: true,
+  type: 'FREE_HAND',
+  fill: false,
   solid: false,
-  star: { innerRadius: 10, outerRadius: 20, rays: 5 },
-  transform: new CAL.Matrix({ x: -20, y: 0 })
+  points: [new CAL.Vector(-20, 0), new CAL.Vector(10, 1)],
+  transform: new CAL.Matrix({ x: 0, y: 0 })
 }));
 store.dispatch(actions.addObject({
   type: 'RECT',
