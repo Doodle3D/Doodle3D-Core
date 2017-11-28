@@ -9,6 +9,12 @@ import { SHAPE_CACHE_LIMIT } from '../constants/general.js';
 import { createText } from '../utils/textUtils.js';
 import { segmentBezierPath } from '../utils/curveUtils.js';
 
+const setDirection = (clockwise) => (path) => {
+  return (THREE.ShapeUtils.isClockWise(path) === clockwise) ? path : path.reverse();
+};
+const setDirectionClockWise = setDirection(true);
+const setDirectionCounterClockWise = setDirection(false);
+
 const HEART_BEZIER_PATH = [
   new Vector(0.0, -0.5),
   new Vector(0.1, -1.1),
@@ -203,11 +209,6 @@ function shapeToPointsRaw(shapeData) {
 
   // make sure all shapes are clockwise and all holes are counter-clockwise
   if (shapeData.fill) {
-    const setDirection = (clockwise) => (path) => {
-      return (THREE.ShapeUtils.isClockWise(path) === clockwise) ? path : path.reverse();
-    };
-    const setDirectionClockWise = setDirection(true);
-    const setDirectionCounterClockWise = setDirection(false);
     for (const shape of shapes) {
       shape.points = setDirectionClockWise(shape.points);
       shape.holes = shape.holes.map(setDirectionCounterClockWise);
