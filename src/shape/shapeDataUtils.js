@@ -99,7 +99,7 @@ export const determineActiveShape3d = (state) => {
   const selectedObjects = state.selection.objects.map(({ id }) => id);
   const activeShapes = {};
   for (const id in state.objectsById) {
-    activeShapes[id] = activeTransformer;
+    activeShapes[id] = activeTransformer || state.d2.activeShape === id;
   }
   return activeShapes;
 };
