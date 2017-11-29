@@ -8,7 +8,6 @@ import { shapeToPoints } from '../../../shape/shapeToPoints.js';
 import { applyMatrixOnShape, pathToVectorPath } from '../../../utils/vectorUtils.js';
 import { addObject } from '../../../reducer/objectReducers.js';
 import subtractShapeFromState from '../../../utils/subtractShapeFromState.js';
-import { getColor, getFirst, filterType, getObjectsFromIds } from '../../../utils/objectSelectors.js';
 import createDebug from 'debug';
 const debug = createDebug('d3d:reducer:bucket');
 
@@ -20,19 +19,6 @@ export default function bucketReducer(state, action) {
   switch (action.type) {
     case actions.D2_TAP:
       const color = state.context.color;
-      // if (experimentalColorPicker) {
-      //   const imageColor = getColor(
-      //     getFirst(
-      //       filterType(
-      //         getObjectsFromIds(state, action.objects),
-      //         'IMAGE_GUIDE'
-      //       )
-      //     ),
-      //     action.position,
-      //     action.screenMatrixZoom
-      //   );
-      //   if (imageColor !== null) color = imageColor;
-      // }
 
       // if clicked on a filled shape change shape color
       const filledPathIndex = action.objects.findIndex(id => (

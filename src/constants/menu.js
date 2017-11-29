@@ -66,7 +66,7 @@ const context = {
         { value: contextTools.LIGHT_GREEN, svg: '#color-picker-empty-fill' },
         { value: contextTools.LIGHT_PINK, svg: '#color-picker-empty-fill' },
         { value: contextTools.LIGHT_YELLOW, svg: '#color-picker-empty-fill' },
-        // { value: contextTools.HOLE_MATERIAL, svg: '#color-picker-empty-fill' },
+        { value: contextTools.PIPETTE },
         { value: contextTools.BLUE, svg: '#color-picker-empty-fill' },
         { value: contextTools.GREEN, svg: '#color-picker-empty-fill' },
         { value: contextTools.PINK, svg: '#color-picker-empty-fill' },

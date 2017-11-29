@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import Button from './Button.js';
 import Menu from './Menu.js';
 import bowser from 'bowser';
+import { connect } from 'react-redux';
+import { hexToStyle } from '../utils/colorUtils.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:ui:submenu');
 
-export default class SubMenu extends React.Component {
+class SubMenu extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func,
     onOpen: PropTypes.func,
@@ -64,12 +66,17 @@ export default class SubMenu extends React.Component {
     }
   };
   render() {
-    const { id, value, selected, open, selectedValue, children, svg, toggleBehavior } = this.props;
+    const { id, value, selected, open, selectedValue, children, svg, toggleBehavior, color, solid } = this.props;
+
+    const style = {};
+    if (id === 'color-picker-tool') {
+      style.fill = solid ? hexToStyle(color) : 'url(#holepattern)';
+    }
 
     let className = 'submenu';
     if (open) className += ' open';
     return (
-      <li id={id} className={className} ref="li">
+      <li id={id} className={className} ref="li" style={style}>
         <Button
           id={`${selectedValue}-menu`}
           value={selectedValue}
@@ -89,3 +96,8 @@ export default class SubMenu extends React.Component {
     );
   }
 }
+
+export default connect(state => ({
+  color: state.sketcher.present.context.color,
+  solid: state.sketcher.present.context.solid
+}))(SubMenu);

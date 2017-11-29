@@ -21,6 +21,7 @@ export const DARK_GREEN = 'color-dark-green';
 export const DARK_PINK = 'color-dark-pink';
 export const DARK_YELLOW = 'color-dark-yellow';
 export const HOLE_MATERIAL = 'color-hole-material';
+export const PIPETTE = 'pipette-tool';
 
 export const COLORS = [
   LIGHT_BLUE,

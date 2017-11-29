@@ -131,3 +131,19 @@ function deselectAll(state) {
     });
   }
 }
+
+export function updateColor(state, color) {
+  return update(state, {
+    objectsById: state.selection.objects.reduce((updateObject, { id }) => {
+      updateObject[id] = {
+        color: { $set: color },
+        solid: { $set: true }
+      };
+      return updateObject;
+    }, {}),
+    context: {
+      solid: { $set: true },
+      color: { $set: color }
+    }
+  });
+}

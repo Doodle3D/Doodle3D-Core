@@ -18,22 +18,3 @@ export const COLOR_STRING_TO_HEX = {
   [contextTools.DARK_PINK]: 0xe94481,
   [contextTools.DARK_YELLOW]: 0xdfde24
 };
-export const COLOR_HEX_TO_STRING = Object
-  .entries(COLOR_STRING_TO_HEX)
-  .reduce((obj, [key, value]) => {
-    obj[value] = key;
-    return obj;
-  }, {});
-
-// LEGACY
-// add old color codes to corresponding color strings
-// so old doodles with old colors are previewd correctly in color picker color selector
-COLOR_HEX_TO_STRING[0x96cbef] = contextTools.BLUE;
-COLOR_HEX_TO_STRING[0x9bca87] = contextTools.GREEN;
-COLOR_HEX_TO_STRING[0xf08eb2] = contextTools.PINK;
-COLOR_HEX_TO_STRING[0xfff59a] = contextTools.YELLOW;
-COLOR_HEX_TO_STRING[0x7098b3] = contextTools.DARK_BLUE;
-COLOR_HEX_TO_STRING[0x7ab063] = contextTools.DARK_GREEN;
-COLOR_HEX_TO_STRING[0xb36984] = contextTools.DARK_PINK;
-COLOR_HEX_TO_STRING[0xf5e872] = contextTools.DARK_YELLOW;
-COLOR_HEX_TO_STRING[0x00DDFF] = contextTools.BLUE;

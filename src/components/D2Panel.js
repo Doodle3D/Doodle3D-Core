@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as CAL from 'cal';
 import * as toolNames from '../constants/d2Tools';
+import { PIPETTE } from '../constants/contextTools.js';
 import { CANVAS_SIZE } from '../constants/d2Constants';
 import createRAFOnce from '../utils/rafOnce.js';
 import Grid from '../d2/Grid.js';
@@ -13,6 +14,7 @@ import EraserTool from '../d2/tools/EraserTool.js';
 import BrushTool from '../d2/tools/BrushTool.js';
 import PolygonTool from '../d2/tools/PolygonTool.js';
 import CircleTool from '../d2/tools/CircleTool.js';
+import PipetteTool from '../d2/tools/PipetteTool.js';
 import TextTool from '../d2/tools/TextTool.js';
 import BucketTool from '../d2/tools/BucketTool.js';
 import PhotoGuideTool from '../d2/tools/PhotoGuideTool.js';
@@ -30,14 +32,15 @@ const CANVAS_WIDTH = CANVAS_SIZE * 2;
 const CANVAS_HEIGHT = CANVAS_SIZE * 2;
 
 const tools = {
-  [toolNames.TRANSFORM]:          TransformTool,
-  [toolNames.ERASER]:             EraserTool,
-  [toolNames.TEXT]:               TextTool,
-  [toolNames.BUCKET]:             BucketTool,
-  [toolNames.PHOTO_GUIDE]:        PhotoGuideTool,
-  [toolNames.BRUSH]:              BrushTool,
-  [toolNames.POLYGON]:            PolygonTool,
-  [toolNames.CIRCLE]:             CircleTool
+  [toolNames.TRANSFORM]: TransformTool,
+  [toolNames.ERASER]: EraserTool,
+  [toolNames.TEXT]: TextTool,
+  [toolNames.BUCKET]: BucketTool,
+  [toolNames.PHOTO_GUIDE]: PhotoGuideTool,
+  [toolNames.BRUSH]: BrushTool,
+  [toolNames.POLYGON]: PolygonTool,
+  [toolNames.CIRCLE]: CircleTool,
+  [PIPETTE]: PipetteTool
 };
 
 // TODO the same as 3d

@@ -7,6 +7,8 @@ import * as actions from '../actions/index.js';
 import { select } from './menusReducer.js';
 import { getSelectedObjectsSelector, getBoundingBox } from '../utils/selectionUtils.js';
 import { Matrix } from 'cal';
+import { updateTool as updateTool2d } from './d2/toolReducer.js';
+import { updateColor } from './selectionReducer.js';
 
 export default function (state, action) {
   switch (action.category) {
@@ -16,15 +18,7 @@ export default function (state, action) {
       const [firstSelected] = state.selection.objects;
       const isSolid = firstSelected ? state.objectsById[firstSelected.id].solid : true;
 
-      let color;
-      if (!isSolid) {
-        color = contextTools.HOLE_MATERIAL;
-      } else {
-        const colorHex = firstSelected ? state.objectsById[firstSelected.id].color : state.context.color;
-        // pick current draw color when color is unknown
-        color = COLOR_HEX_TO_STRING[colorHex] || COLOR_HEX_TO_STRING[state.context.color];
-      }
-
+      const color = isSolid ? contextTools.PIPETTE : contextTools.HOLE_MATERIAL;
       menus = select(menus, color);
 
       const fillBool = firstSelected && state.objectsById[firstSelected.id].fill;
@@ -40,7 +34,8 @@ export default function (state, action) {
 
   switch (action.type) {
     case actions.D2_CHANGE_TOOL: {
-      const color = state.context.solid ? COLOR_HEX_TO_STRING[state.context.color] : contextTools.HOLE_MATERIAL;
+      const color = state.context.solid ? contextTools.PIPETTE : contextTools.HOLE_MATERIAL;
+
       return update(state, {
         menus: { $set: select(state.menus, color) }
       });
@@ -51,6 +46,17 @@ export default function (state, action) {
   }
 
   switch (action.tool) {
+    case contextTools.PIPETTE: {
+      state = update(state, {
+        context: {
+          lastTool: { $set: state.d2.tool }
+        }
+      });
+      state = updateTool2d(state, contextTools.PIPETTE);
+
+      return state;
+    }
+
     case contextTools.HOLE_MATERIAL: {
       return update(state, {
         objectsById: state.selection.objects.reduce((updateObject, { id }) => {
@@ -76,19 +82,7 @@ export default function (state, action) {
     case contextTools.DARK_PINK:
     case contextTools.DARK_YELLOW: {
       const color = COLOR_STRING_TO_HEX[action.tool];
-      return update(state, {
-        objectsById: state.selection.objects.reduce((updateObject, { id }) => {
-          updateObject[id] = {
-            color: { $set: color },
-            solid: { $set: true }
-          };
-          return updateObject;
-        }, {}),
-        context: {
-          solid: { $set: true },
-          color: { $set: color }
-        }
-      });
+      return updateColor(state, color);
     }
 
     case contextTools.ERASER_SIZE_SMALL:

@@ -5,6 +5,7 @@ export const TRANSFORM = 'transform-tool';
 export const ERASER = 'eraser-tool';
 export const TEXT = 'text-tool';
 export const PHOTO_GUIDE = 'photo-guide-tool';
+export const PIPETTE = 'pipette-tool';
 
 export const CIRCLE = 'circle-tool';
 export const CIRCLE_SEGMENT = 'circle-segment-tool';

@@ -12,8 +12,10 @@ import textReducer from './tools/textReducer.js';
 import photoGuideReducer from './tools/photoGuideReducer.js';
 import { transformReducer } from './tools/transformReducer.js';
 import eraserReducer from './tools/eraserReducer.js';
+import pipetteReducer from './tools/pipetteReducer.js';
 import * as actions from '../../actions/index.js';
 import * as tools from '../../constants/d2Tools.js';
+import { PIPETTE } from '../../constants/contextTools.js';
 import createDebug from 'debug';
 const debug = createDebug('d3d:reducer:d2:tool');
 
@@ -32,7 +34,8 @@ const reducers = {
   [tools.PHOTO_GUIDE]: photoGuideReducer,
   [tools.BUCKET]: bucketReducer,
   [tools.TEXT]: textReducer,
-  [tools.BRUSH]: penReducer
+  [tools.BRUSH]: penReducer,
+  [PIPETTE]: pipetteReducer
 };
 
 export default function toolReducer(state, action) {
@@ -56,7 +59,7 @@ export default function toolReducer(state, action) {
   }
 }
 
-function updateTool(state, newTool) {
+export function updateTool(state, newTool) {
   if (newTool === state.d2.tool) {
     return state;
   } else {
