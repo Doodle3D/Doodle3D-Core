@@ -14,18 +14,22 @@ export default function (state, action) {
       let menus = state.menus;
 
       const [firstSelected] = state.selection.objects;
-      const colorHex = firstSelected ? state.objectsById[firstSelected.id].color : state.context.color;
-      // pick current draw color when color is unknown
-      const color = COLOR_HEX_TO_STRING[colorHex] || COLOR_HEX_TO_STRING[state.context.color];
+      const isSolid = firstSelected ? state.objectsById[firstSelected.id].solid : true;
+
+      let color;
+      if (!isSolid) {
+        color = contextTools.HOLE_MATERIAL;
+      } else {
+        const colorHex = firstSelected ? state.objectsById[firstSelected.id].color : state.context.color;
+        // pick current draw color when color is unknown
+        color = COLOR_HEX_TO_STRING[colorHex] || COLOR_HEX_TO_STRING[state.context.color];
+      }
+
       menus = select(menus, color);
 
       const fillBool = firstSelected && state.objectsById[firstSelected.id].fill;
       const fill = fillBool ? contextTools.FILL_TOGGLE_FILL : contextTools.FILL_TOGGLE_OUTLINE;
       menus = select(menus, fill);
-
-      const solidBool = firstSelected && state.objectsById[firstSelected.id].solid;
-      const solid = solidBool ? contextTools.HOLE_TOGGLE_SOLID : contextTools.HOLE_TOGGLE_HOLE;
-      menus = select(menus, solid);
 
       return update(state, { menus: { $set: menus } });
     }
@@ -36,7 +40,7 @@ export default function (state, action) {
 
   switch (action.type) {
     case actions.D2_CHANGE_TOOL: {
-      const color = COLOR_HEX_TO_STRING[state.context.color];
+      const color = state.context.solid ? COLOR_HEX_TO_STRING[state.context.color] : contextTools.HOLE_MATERIAL;
       return update(state, {
         menus: { $set: select(state.menus, color) }
       });
@@ -47,6 +51,18 @@ export default function (state, action) {
   }
 
   switch (action.tool) {
+    case contextTools.HOLE_MATERIAL: {
+      return update(state, {
+        objectsById: state.selection.objects.reduce((updateObject, { id }) => {
+          updateObject[id] = { solid: { $set: false } };
+          return updateObject;
+        }, {}),
+        context: {
+          solid: { $set: false }
+        }
+      });
+    }
+
     case contextTools.LIGHT_BLUE:
     case contextTools.LIGHT_GREEN:
     case contextTools.LIGHT_PINK:
@@ -62,10 +78,14 @@ export default function (state, action) {
       const color = COLOR_STRING_TO_HEX[action.tool];
       return update(state, {
         objectsById: state.selection.objects.reduce((updateObject, { id }) => {
-          updateObject[id] = { color: { $set: color } };
+          updateObject[id] = {
+            color: { $set: color },
+            solid: { $set: true }
+          };
           return updateObject;
         }, {}),
         context: {
+          solid: { $set: true },
           color: { $set: color }
         }
       });
@@ -106,20 +126,6 @@ export default function (state, action) {
           const { type } = state.objectsById[id];
           const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
           if (d3Visible) updateObject[id] = { fill: { $set: fill } };
-          return updateObject;
-        }, {})
-      });
-    }
-
-    case contextTools.HOLE_TOGGLE_HOLE:
-    case contextTools.HOLE_TOGGLE_SOLID: {
-      const solid = action.tool === contextTools.HOLE_TOGGLE_SOLID;
-
-      return update(state, {
-        objectsById: state.selection.objects.reduce((updateObject, { id }) => {
-          const { type } = state.objectsById[id];
-          const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
-          if (d3Visible) updateObject[id] = { solid: { $set: solid } };
           return updateObject;
         }, {})
       });

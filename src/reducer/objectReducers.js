@@ -15,6 +15,7 @@ export function addObject(state, object, UID = generateUID(state)) {
   object = {
     ...defaultProperties,
     color: state.context.color,
+    solid: state.context.solid,
     space: state.activeSpace,
     ...object,
     UID

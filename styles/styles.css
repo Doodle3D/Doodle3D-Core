@@ -108,14 +108,8 @@
 #context .menu {
 	z-index: 1;
 	position: absolute;
-	top: 50px;
-	/* Using transform to center submenu
-	   Needed because some browser don't support flex-box's changed behaivior:
-		 https://developers.google.com/web/updates/2016/06/absolute-positioned-children
-	   Can't use the bottom toolbar's positioning system
-	   because this submenu needs to be in line with the flex direction */
-	left: 50%;
-	transform: translateX(-50%);
+	top: 30px;
+	left: 30px;
 }
 #context .button {
 	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -253,8 +247,9 @@
 }
 
 #color-picker-tool .menu {
-	width: 185px;
+	width: 230px;
 	flex-wrap: wrap;
+	justify-content: flex-end;
 }
 
 #align-tool .menu {
@@ -298,6 +293,10 @@
 #color-dark-yellow, #color-dark-yellow-menu {
 	fill: #dfde24;
 }
+#color-hole-material, #color-hole-material-menu {
+	fill: url(#holepattern);
+}
+
 /* menu's */
 .menu {
 	list-style: none;

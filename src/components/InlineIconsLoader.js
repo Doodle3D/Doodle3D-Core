@@ -4,9 +4,12 @@ import btnColorOption from '../../img/contextmenu/btnColorOption.svg';
 import btnColor from '../../img/contextmenu/btnColor.svg';
 import injectSheet from 'react-jss';
 
+// if dispaly is set to none patterns don't work
 const styles = {
   container: {
-    display: 'none'
+    position: 'absolute',
+    opacity: 0.0
+    // display: 'none'
   }
 };
 

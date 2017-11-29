@@ -20,6 +20,7 @@ export const DARK_BLUE = 'color-dark-blue';
 export const DARK_GREEN = 'color-dark-green';
 export const DARK_PINK = 'color-dark-pink';
 export const DARK_YELLOW = 'color-dark-yellow';
+export const HOLE_MATERIAL = 'color-hole-material';
 
 export const COLORS = [
   LIGHT_BLUE,
@@ -62,14 +63,6 @@ export const FILL_TOGGLE_OUTLINE = 'fill-toggle-outline';
 export const FILL_TOGGLE_TOOLS = [
   FILL_TOGGLE_FILL,
   FILL_TOGGLE_OUTLINE
-];
-
-export const HOLE_TOGGLE_HOLE = 'hole-toggle-hole';
-export const HOLE_TOGGLE_SOLID = 'hole-toggle-solid';
-
-export const HOLE_TOGGLE_TOOLS = [
-  HOLE_TOGGLE_HOLE,
-  HOLE_TOGGLE_SOLID
 ];
 
 export const ALIGN_LEFT = 'align-left';

@@ -36,6 +36,7 @@ const initialState = {
   activeSpace: 'world',
   objectIdCounter: 0,
   context: {
+    solid: true,
     color: 0x96cbef
   },
   selection: {

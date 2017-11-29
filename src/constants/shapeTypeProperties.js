@@ -20,8 +20,7 @@ const defaultProperties = {
   z: 0.0,
   sculpt: [{ pos: 0.0, scale: 1.0 }, { pos: 1.0, scale: 1.0 }],
   twist: 0.0,
-  fill: false,
-  solid: true
+  fill: false
 };
 
 export const SHAPE_TYPE_PROPERTIES = {

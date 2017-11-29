@@ -58,12 +58,24 @@ const context = {
     { value: contextTools.DELETE },
     {
       value: contextTools.COLOR_PICKER,
-      svg: `#layer1`,
+      svg: `#btnColor`,
       selected: contextTools.BLUE,
-      children: contextTools.COLORS.map(value => ({
-        value,
-        svg: `#color-picker-empty-fill`
-      })),
+      children: [
+        { value: contextTools.HOLE_MATERIAL, svg: '#color-picker-empty-fill' },
+        { value: contextTools.LIGHT_BLUE, svg: '#color-picker-empty-fill' },
+        { value: contextTools.LIGHT_GREEN, svg: '#color-picker-empty-fill' },
+        { value: contextTools.LIGHT_PINK, svg: '#color-picker-empty-fill' },
+        { value: contextTools.LIGHT_YELLOW, svg: '#color-picker-empty-fill' },
+        // { value: contextTools.HOLE_MATERIAL, svg: '#color-picker-empty-fill' },
+        { value: contextTools.BLUE, svg: '#color-picker-empty-fill' },
+        { value: contextTools.GREEN, svg: '#color-picker-empty-fill' },
+        { value: contextTools.PINK, svg: '#color-picker-empty-fill' },
+        { value: contextTools.YELLOW, svg: '#color-picker-empty-fill' },
+        { value: contextTools.DARK_BLUE, svg: '#color-picker-empty-fill' },
+        { value: contextTools.DARK_GREEN, svg: '#color-picker-empty-fill' },
+        { value: contextTools.DARK_PINK, svg: '#color-picker-empty-fill' },
+        { value: contextTools.DARK_YELLOW, svg: '#color-picker-empty-fill' }
+      ],
       ...selectorBehavior
     }, {
       value: contextTools.ERASER_SIZE,
@@ -79,11 +91,6 @@ const context = {
       value: contextTools.FILL_TOGGLE,
       selected: contextTools.FILL_TOGGLE_FILL,
       children: contextTools.FILL_TOGGLE_TOOLS.map(value => ({ value })),
-      ...toggleBehavior
-    }, {
-      value: contextTools.HOLE_TOGGLE,
-      selected: contextTools.HOLE_TOGGLE_SOLID,
-      children: contextTools.HOLE_TOGGLE_TOOLS.map(value => ({ value })),
       ...toggleBehavior
     }, {
       value: contextTools.ALIGN,
