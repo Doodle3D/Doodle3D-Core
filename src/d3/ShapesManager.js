@@ -85,6 +85,7 @@ export default class ShapesManager extends THREE.Object3D {
         if (!solid && d3Visible) {
           const hole = this._meshes[id].mesh._mesh;
           const holeGeometry = new THREE.Geometry().fromBufferGeometry(hole.geometry);
+          if (holeGeometry.vertices.length === 0) continue;
           const holeBSP = new THREE_BSP(holeGeometry);
           if (!this._holes) {
             this._holes = holeBSP;
