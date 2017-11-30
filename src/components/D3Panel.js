@@ -41,15 +41,9 @@ const styles = {
   container: {
     flexGrow: 1,
     width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
     overflow: 'hidden'
   },
   canvasContainer: {
-    flexGrow: 1,
-    margin: '0px',
-    overflow: 'hidden',
     '& canvas': {
       position: 'absolute'
     }
