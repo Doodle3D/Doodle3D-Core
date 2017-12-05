@@ -47,6 +47,7 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
+    "webpack-bundle-analyzer": "^2.9.1",
     "babel-cli": "6.24.1",
     "babel-core": "6.24.1",
     "babel-loader": "^7.0.0",

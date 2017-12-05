@@ -1,5 +1,5 @@
 const path = require('path');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
@@ -80,6 +80,7 @@ module.exports = {
       inject: false,
       appMountId: 'app'
     }),
+    // new BundleAnalyzerPlugin()
   ],
   devtool: "source-map",
   devServer: {
