@@ -218,7 +218,7 @@ class D3Panel extends React.Component {
   render() {
     const { state, classes } = this.props;
     this.update(state);
-    this.renderScene();
+    rafOnce(this.renderScene);
     return (
       <div className={classes.container}>
         <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
