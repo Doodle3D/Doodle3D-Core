@@ -9,6 +9,9 @@ import injectSheet from 'react-jss';
 import ReactResizeDetector from 'react-resize-detector';
 import requestAnimationFrame from 'raf';
 import { load as loadMatcapMaterial } from '../d3/MatcapMaterial.js';
+import createRAFOnce from '../utils/rafOnce.js';
+
+const rafOnce = createRAFOnce();
 
 const styles = {
   container: {
@@ -56,7 +59,7 @@ class DoodlePreview extends React.Component {
     this.setState(scene);
 
     this.editorControls = new THREE.EditorControls(scene.camera, canvas);
-    this.editorControls.addEventListener('change', scene.render);
+    this.editorControls.addEventListener('change', rafOnce(scene.render));
 
     loadMatcapMaterial.then(scene.render);
   }
