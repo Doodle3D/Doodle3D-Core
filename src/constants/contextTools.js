@@ -6,7 +6,8 @@ export const BRUSH_SIZE = 'brush-size-tool';
 export const FILL_TOGGLE = 'fill-toggle-tool';
 export const HOLE_TOGGLE = 'hole-toggle-tool';
 export const ALIGN = 'align-tool';
-export const ADVANCED = 'advanced-tool';
+export const UNION = 'union-tool';
+export const INTERSECT = 'intersect-tool';
 
 export const LIGHT_BLUE = 'color-light-blue';
 export const LIGHT_GREEN = 'color-light-green';
@@ -80,12 +81,4 @@ export const ALIGN_TOOLS = [
   ALIGN_TOP,
   ALIGN_VERTICAL,
   ALIGN_BOTTOM
-];
-
-export const UNION = 'union-tool';
-export const INTERSECT = 'intersect-tool';
-
-export const ADVANCED_TOOLS = [
-  UNION,
-  INTERSECT
 ];

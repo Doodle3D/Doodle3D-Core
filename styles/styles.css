@@ -131,19 +131,11 @@
 	background-image: url('../img/contextmenu/btnGroup.png');
 	background-size: 33px auto;
 	height: 41px;
-	width: 30px;
 }
 #context #intersect-tool {
 	background-image: url('../img/contextmenu/btnCutOut.png');
 	background-size: 33px auto;
 	height: 41px;
-	width: 30px;
-}
-#union-tool-menu, #intersect-tool-menu {
-	background-image: url('../img/contextmenu/btnMore.png');
-	background-size: 33px auto;
-	height: 41px;
-	width: 30px;
 }
 #brush-size-small, #brush-size-small-menu,
 #eraser-size-small, #eraser-size-small-menu {

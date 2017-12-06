@@ -97,12 +97,9 @@ const context = {
       selected: contextTools.ALIGN_HORIZONTAL,
       children: contextTools.ALIGN_TOOLS.map(value => ({ value })),
       ...selectorBehavior
-    }, {
-      value: contextTools.ADVANCED,
-      selected: contextTools.UNION,
-      children: contextTools.ADVANCED_TOOLS.map(value => ({ value })),
-      ...selectorBehavior
-    }
+    },
+    { value: contextTools.UNION },
+    { value: contextTools.INTERSECT }
   ]
 };
 
