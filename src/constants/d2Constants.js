@@ -35,9 +35,9 @@ export const ERASER_SIZES = {
 };
 // sizes are in mm
 export const BRUSH_SIZES = {
-  [contextTools.BRUSH_SIZE_SMALL]: 5,
-  [contextTools.BRUSH_SIZE_MEDIUM]: 10,
-  [contextTools.BRUSH_SIZE_LARGE]: 15
+  [contextTools.BRUSH_SIZE_SMALL]: 1,
+  [contextTools.BRUSH_SIZE_MEDIUM]: 2,
+  [contextTools.BRUSH_SIZE_LARGE]: 5
 };
 
 export const CLIPPER_PRECISION = 100; // accurate to the hundredth
