@@ -9,11 +9,6 @@ export default class SelectionBox extends THREE.Object3D {
   constructor() {
     super();
 
-    this._box = new THREE.BoxHelper();
-
-    this._box.material.color.setHex(0x72bcd4);
-    this._box.name = 'bounding-box';
-
     const material = new THREE.MeshBasicMaterial();
     const geometry = new THREE.BoxGeometry(1, 1, 1);
 
@@ -23,7 +18,8 @@ export default class SelectionBox extends THREE.Object3D {
 
     const mesh = new THREE.Mesh(geometry, material);
 
-    this._box.update(mesh);
+    this._box = new THREE.BoxHelper(mesh, 0x72bcd4);
+    this._box.name = 'bounding-box';
 
     this.add(this._box);
   }
@@ -62,5 +58,7 @@ export default class SelectionBox extends THREE.Object3D {
 
     this._box.scale.y = this._boundingBox.max.y - this._boundingBox.min.y;
     this._box.position.y = this._boundingBox.min.y;
+
+    this._box.updateMatrix();
   }
 }
