@@ -1,8 +1,11 @@
+const webpack = require('webpack');
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const CordovaPlugin = require('webpack-cordova-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
+const appMode = process.env.TARGET === 'app';
 
 const babelLoader = {
   loader: 'babel-loader',
@@ -74,13 +77,26 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'TARGET': JSON.stringify(process.env.TARGET)
+      }
+    }),
     new HTMLWebpackPlugin({
       title: 'Doodle3D Core - Simple example',
       template: require('html-webpack-template'),
       inject: false,
+      scripts: appMode ? ['cordova.js'] : null,
       appMountId: 'app'
     }),
-    // new BundleAnalyzerPlugin()
+    ...(appMode ? [
+      new CordovaPlugin({
+        config: 'config.xml',
+        src: 'index.html',
+        platform: 'ios',
+        version: true
+      })
+    ] : [])
   ],
   devtool: "source-map",
   devServer: {

@@ -49,10 +49,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import App from './src/components/App.js';
-import sketcherReducer from './src/reducer/index.js';
 
-render((
-  <Provider store={store}>
-    <App />
-  </Provider>
-), document.getElementById('app'));
+async function init() {
+  if (process.env.TARGET === 'app') {
+    await new Promise(resolve => document.addEventListener('deviceready', resolve, false));
+  }
+
+  render((
+    <Provider store={store}>
+      <App />
+    </Provider>
+  ), document.getElementById('app'));
+}
+init();
