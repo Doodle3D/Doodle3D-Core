@@ -9,34 +9,58 @@ export const ALIGN = 'align-tool';
 export const UNION = 'union-tool';
 export const INTERSECT = 'intersect-tool';
 
-export const LIGHT_BLUE = 'color-light-blue';
-export const LIGHT_GREEN = 'color-light-green';
-export const LIGHT_PINK = 'color-light-pink';
-export const LIGHT_YELLOW = 'color-light-yellow';
-export const BLUE = 'color-blue';
-export const GREEN = 'color-green';
-export const PINK = 'color-pink';
-export const YELLOW = 'color-yellow';
-export const DARK_BLUE = 'color-dark-blue';
-export const DARK_GREEN = 'color-dark-green';
-export const DARK_PINK = 'color-dark-pink';
-export const DARK_YELLOW = 'color-dark-yellow';
+export const LIGHT_BLUE_A = 'color-light-blue-a';
+export const LIGHT_BLUE_B = 'color-light-blue-b';
+export const LIGHT_BLUE_C = 'color-light-blue-c';
+export const DARK_BLUE_A = 'color-dark-blue-a';
+export const DARK_BLUE_B = 'color-dark-blue-b';
+export const DARK_BLUE_C = 'color-dark-blue-c';
+export const PURPLE_A = 'color-purple-a';
+export const PURPLE_B = 'color-purple-b';
+export const PURPLE_C = 'color-purple-c';
+export const PINK_A = 'color-pink-a';
+export const PINK_B = 'color-pink-b';
+export const PINK_C = 'color-pink-c';
+export const RED_A = 'color-red-a';
+export const RED_B = 'color-red-b';
+export const RED_C = 'color-red-c';
+export const YELLOW_A = 'color-yellow-a';
+export const YELLOW_B = 'color-yellow-b';
+export const YELLOW_C = 'color-yellow-c';
+export const GREEN_A = 'color-green-a';
+export const GREEN_B = 'color-green-b';
+export const GREEN_C = 'color-green-c';
+export const BLACK_A = 'color-black-a';
+export const BLACK_B = 'color-black-b';
+export const BLACK_C = 'color-black-c';
 export const HOLE_MATERIAL = 'color-hole-material';
 export const PIPETTE = 'pipette-tool';
 
 export const COLORS = [
-  LIGHT_BLUE,
-  LIGHT_GREEN,
-  LIGHT_PINK,
-  LIGHT_YELLOW,
-  BLUE,
-  GREEN,
-  PINK,
-  YELLOW,
-  DARK_BLUE,
-  DARK_GREEN,
-  DARK_PINK,
-  DARK_YELLOW
+  LIGHT_BLUE_A,
+  LIGHT_BLUE_B,
+  LIGHT_BLUE_C,
+  DARK_BLUE_A,
+  DARK_BLUE_B,
+  DARK_BLUE_C,
+  PURPLE_A,
+  PURPLE_B,
+  PURPLE_C,
+  PINK_A,
+  PINK_B,
+  PINK_C,
+  RED_A,
+  RED_B,
+  RED_C,
+  YELLOW_A,
+  YELLOW_B,
+  YELLOW_C,
+  GREEN_A,
+  GREEN_B,
+  GREEN_C,
+  BLACK_A,
+  BLACK_B,
+  BLACK_C
 ];
 
 export const ERASER_SIZE_SMALL = 'eraser-size-small';
