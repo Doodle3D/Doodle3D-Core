@@ -66,7 +66,7 @@ module.exports = {
           }
         }
       }, {
-        test: /\.(svg|glsl)$/,
+        test: /\.(svg|glsl|d3sketch)$/,
         use: {
           loader: 'raw-loader'
         }

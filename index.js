@@ -27,22 +27,12 @@ import actionWrapper from 'redux-action-wrapper';
 import * as actions from './src/actions/index.js';
 window.actions = actionWrapper(actions, store.dispatch);
 
-// add inital shapes
-import * as CAL from 'cal';
-// store.dispatch(actions.addObject({
-//   type: 'FREE_HAND',
-//   fill: false,
-//   solid: false,
-//   points: [new CAL.Vector(-20, 0), new CAL.Vector(10, 1)],
-//   transform: new CAL.Matrix({ x: 0, y: 0 })
-// }));
-store.dispatch(actions.addObject({
-  type: 'RECT',
-  fill: true,
-  rectSize: new CAL.Vector(20, 20),
-  height: 40,
-  transform: new CAL.Matrix({ x: -10, y: -10 })
-}));
+import modelData from './models/noodlebot.d3sketch';
+import JSONToSketchData from './src/shape/JSONToSketchData.js';
+(async () => {
+  const data = await JSONToSketchData(JSON.parse(modelData));
+  store.dispatch(actions.openSketch({ data }));
+})();
 
 // render dom
 import React from 'react';
