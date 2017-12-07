@@ -5,3 +5,11 @@ lib
 module
 
 node_modules
+
+www
+
+plugins
+
+platforms
+
+config.xml
