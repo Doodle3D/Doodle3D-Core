@@ -10,6 +10,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
+import sketcherReducer from './src/reducer/index.js';
 const reducer = combineReducers({ sketcher: sketcherReducer });
 const enhancer = compose(applyMiddleware(thunkMiddleware, promiseMiddleware(), createLogger({ collapsed: true })));
 const store = createStore(reducer, enhancer);
