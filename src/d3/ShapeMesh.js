@@ -49,6 +49,12 @@ class ShapeMesh extends THREE.Object3D {
     this.updatePoints(shapeData);
   }
 
+  _isReverse() {
+    const sx = this._transform.sx > 0;
+    const sy = this._transform.sy > 0;
+    return sx !== sy;
+  }
+
   add(object) {
     if (!this.children.includes(object)) super.add(object);
   }
@@ -116,10 +122,12 @@ class ShapeMesh extends THREE.Object3D {
     this._triangleSize = shapeData.triangleSize;
 
     const compoundPaths = shapeToPointsCornered(shapeData);
-    this._shapes = compoundPaths.map(({ points, holes = [], pointsMap, holesMaps = [] }) => ({
-      shape: [points, ...holes],
-      maps: [pointsMap, ...holesMaps]
-    }));
+    this._shapes = compoundPaths.map(({ points, holes = [], pointsMap, holesMaps = [] }) => {
+      const shape = [points, ...holes];
+      const maps = [pointsMap, ...holesMaps];
+
+      return { shape, maps };
+    });
 
     const { min, max } = getPointsBounds(compoundPaths);
     this._center.copy(min.add(max).scale(0.5));
@@ -246,18 +254,10 @@ class ShapeMesh extends THREE.Object3D {
     return { x: point.x, y: y + this._z, z: point.y };
   }
 
-  _reversePath() {
-    const sx = this._transform.sx > 0;
-    const sy = this._transform.sy > 0;
-
-    return sx !== sy;
-  }
-
   _updateVerticesHorizontal(heightStep, paths, center, indexCounter) {
     for (let pathindex = 0; pathindex < paths.length; pathindex ++) {
       const path = applyMatrixOnPath(paths[pathindex], this._transform);
-
-      if (this._reversePath()) path.reverse();
+      if (this._isReverse()) path.reverse();
 
       for (let pathIndex = 0; pathIndex < path.length; pathIndex ++) {
         let point = path[pathIndex];
@@ -290,8 +290,7 @@ class ShapeMesh extends THREE.Object3D {
 
       for (let pathsIndex = 0; pathsIndex < paths.length; pathsIndex ++) {
         const path = applyMatrixOnPath(paths[pathsIndex], this._transform);
-
-        if (this._reversePath()) path.reverse();
+        if (this._isReverse()) path.reverse();
 
         for (let pathIndex = 0; pathIndex < path.length; pathIndex ++) {
           const point = path[pathIndex];
@@ -405,20 +404,30 @@ class ShapeMesh extends THREE.Object3D {
           })
           .map(path => path.map(({ x, y }) => new THREE.Vector2(x, y)));
 
+        if (this._isReverse()) {
+          points.reverse();
+          holes.map(hole => hole.reverse());
+        }
+
         // triangulate
-        const triangulatedBottom = THREE.ShapeUtils.triangulateShape(points, holes)
+        const triangulatedTop = THREE.ShapeUtils.triangulateShape(points, holes)
           .reduce((a, b) => a.concat(b), [])
           // // map mapped indexes back to original indexes
           .map(value => flatMap[value])
           .map(value => value + vertexOffset);
         // reverse index order for bottom so faces are flipped
-        const triangulatedTop = triangulatedBottom
+        const triangulatedBottom = triangulatedTop
           .map(value => value + numPoints)
-          .reverse();
+
+        if (this._isReverse()) {
+          triangulatedTop.reverse();
+        } else {
+          triangulatedBottom.reverse();
+        }
 
         triangulatedIndexes.push(triangulatedBottom.concat(triangulatedTop));
 
-        indexBufferLength += triangulatedBottom.length + triangulatedTop.length;
+        indexBufferLength += triangulatedTop.length + triangulatedBottom.length;
         vertexBufferLength += numPoints * 6;
         vertexOffsets.push(vertexOffset + numPoints * 2);
       } else {
