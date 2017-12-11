@@ -1,6 +1,6 @@
 import * as contextTools from './contextTools.js';
 
-export const VERSION = '0.17.3';
+export const VERSION = '0.17.4';
 export const SHAPE_CACHE_LIMIT = 50;
 export const PIXEL_RATIO = 1.0;
 
