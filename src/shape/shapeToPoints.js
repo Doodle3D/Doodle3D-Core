@@ -219,7 +219,7 @@ function shapeToPointsRaw(shapeData) {
 }
 
 export const shapeToPointsCornered = memoize(shapeToPointsCorneredRaw, { max: SHAPE_CACHE_LIMIT });
-function shapeToPointsCorneredRaw(shapeData, target) {
+function shapeToPointsCorneredRaw(shapeData) {
   let shapes = shapeToPoints(shapeData);
 
   if (!shapeData.fill && !shapeData.solid) {
