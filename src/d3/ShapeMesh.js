@@ -245,9 +245,19 @@ class ShapeMesh extends THREE.Object3D {
 
     return { x: point.x, y: y + this._z, z: point.y };
   }
+
+  _reversePath() {
+    const sx = this._transform.sx > 0;
+    const sy = this._transform.sy > 0;
+
+    return sx !== sy;
+  }
+
   _updateVerticesHorizontal(heightStep, paths, center, indexCounter) {
     for (let pathindex = 0; pathindex < paths.length; pathindex ++) {
       const path = applyMatrixOnPath(paths[pathindex], this._transform);
+
+      if (this._reversePath()) path.reverse();
 
       for (let pathIndex = 0; pathIndex < path.length; pathIndex ++) {
         let point = path[pathIndex];
@@ -281,8 +291,10 @@ class ShapeMesh extends THREE.Object3D {
       for (let pathsIndex = 0; pathsIndex < paths.length; pathsIndex ++) {
         const path = applyMatrixOnPath(paths[pathsIndex], this._transform);
 
+        if (this._reversePath()) path.reverse();
+
         for (let pathIndex = 0; pathIndex < path.length; pathIndex ++) {
-          let point = path[pathIndex];
+          const point = path[pathIndex];
 
           for (let heightStep = 0; heightStep < numHeightSteps; heightStep ++) {
             const { x, y, z } = this._getPoint(point, heightStep, center);
