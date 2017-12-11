@@ -74,6 +74,7 @@ class ShapeMesh extends THREE.Object3D {
     }
 
     const objectGeometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
+    objectGeometry.mergeVertices();
     let objectBSP = new THREE_BSP(objectGeometry);
     objectGeometry.dispose();
     objectBSP = objectBSP.subtract(holes);
