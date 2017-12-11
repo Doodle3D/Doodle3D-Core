@@ -60,10 +60,7 @@ module.exports = {
       }, {
         test: /\.(png|jpg|gif)$/,
         use: {
-          loader: 'file-loader',
-          options: {
-            name: '[path][name].[ext]'
-          }
+          loader: 'url-loader?name=images/[name].[ext]'
         }
       }, {
         test: /\.(svg|glsl|d3sketch)$/,
