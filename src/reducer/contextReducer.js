@@ -69,18 +69,30 @@ export default function (state, action) {
       });
     }
 
-    case contextTools.LIGHT_BLUE:
-    case contextTools.LIGHT_GREEN:
-    case contextTools.LIGHT_PINK:
-    case contextTools.LIGHT_YELLOW:
-    case contextTools.BLUE:
-    case contextTools.GREEN:
-    case contextTools.PINK:
-    case contextTools.YELLOW:
-    case contextTools.DARK_BLUE:
-    case contextTools.DARK_GREEN:
-    case contextTools.DARK_PINK:
-    case contextTools.DARK_YELLOW: {
+    case contextTools.LIGHT_BLUE_A:
+    case contextTools.LIGHT_BLUE_B:
+    case contextTools.LIGHT_BLUE_C:
+    case contextTools.DARK_BLUE_A:
+    case contextTools.DARK_BLUE_B:
+    case contextTools.DARK_BLUE_C:
+    case contextTools.PURPLE_A:
+    case contextTools.PURPLE_B:
+    case contextTools.PURPLE_C:
+    case contextTools.PINK_A:
+    case contextTools.PINK_B:
+    case contextTools.PINK_C:
+    case contextTools.RED_A:
+    case contextTools.RED_B:
+    case contextTools.RED_C:
+    case contextTools.YELLOW_A:
+    case contextTools.YELLOW_B:
+    case contextTools.YELLOW_C:
+    case contextTools.GREEN_A:
+    case contextTools.GREEN_B:
+    case contextTools.GREEN_C:
+    case contextTools.BLACK_A:
+    case contextTools.BLACK_B:
+    case contextTools.BLACK_C: {
       const color = COLOR_STRING_TO_HEX[action.tool];
       return updateColor(state, color);
     }

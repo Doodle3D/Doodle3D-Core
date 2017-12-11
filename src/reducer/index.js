@@ -4,6 +4,7 @@ import undoFilter from '../utils/undoFilter.js';
 import * as actions from '../actions/index.js';
 import * as d2Tools from '../constants/d2Tools.js';
 import * as d3Tools from '../constants/d3Tools.js';
+import { COLOR_STRING_TO_HEX } from '../constants/general.js';
 import * as contextTools from '../constants/contextTools.js';
 import { ERASER_SIZES, BRUSH_SIZES } from '../constants/d2Constants.js';
 import update from 'react-addons-update';
@@ -37,7 +38,7 @@ const initialState = {
   objectIdCounter: 0,
   context: {
     solid: true,
-    color: 0x96cbef
+    color: COLOR_STRING_TO_HEX[contextTools.LIGHT_BLUE_B]
   },
   selection: {
     transform: new Matrix(),

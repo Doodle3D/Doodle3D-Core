@@ -239,7 +239,7 @@
 }
 
 #color-picker-tool .menu {
-	width: 230px;
+	width: 420px;
 	flex-wrap: wrap;
 	justify-content: flex-end;
 }
@@ -249,42 +249,79 @@
 	flex-wrap: wrap;
 }
 
-#color-light-blue {
-	fill: #c8e4f7;
+#color-light-blue-a {
+	fill: #bcffff;
 }
-#color-light-green {
-	fill: #cbe6c0;
+#color-light-blue-b {
+	fill: #69e1fd;
 }
-#color-light-pink {
-	fill: #f8c4d8;
+#color-light-blue-c {
+	fill: #00b8ff;
 }
-#color-light-yellow {
-	fill: #f5f5c0;
+#color-dark-blue-a {
+	fill: #c8e2ff;
 }
-#color-blue {
-	fill: #92c8ef;
+#color-dark-blue-b {
+	fill: #7dacfc;
 }
-#color-green {
-	fill: #99cc81;
+#color-dark-blue-c {
+	fill: #0357ff;
 }
-#color-pink {
-	fill: #f28bb1;
+#color-purple-a {
+	fill: #efc9ff;
 }
-#color-yellow {
-	fill: #ebea7f;
+#color-purple-b {
+	fill: #c57efc;
 }
-#color-dark-blue {
-	fill: #50a8e4;
+#color-purple-c {
+	fill: #820ef9;
 }
-#color-dark-green {
-	fill: #5aae31;
+#color-pink-a {
+	fill: #ffc7ee;
 }
-#color-dark-pink {
-	fill: #e94481;
+#color-pink-b {
+	fill: #fd7cc1;
 }
-#color-dark-yellow {
-	fill: #dfde24;
+#color-pink-c {
+	fill: #fa047b;
 }
+#color-red-a {
+	fill: #ffcdce;
+}
+#color-red-b {
+	fill: #fd898a;
+}
+#color-red-c {
+	fill: #fd898a;
+}
+#color-yellow-a {
+	fill: #fffea0;
+}
+#color-yellow-b {
+	fill: #fffb39;
+}
+#color-yellow-c {
+	fill: #fdac05;
+}
+#color-green-a {
+	fill: #daffd4;
+}
+#color-green-b {
+	fill: #97f194;
+}
+#color-green-c {
+	fill: #31d22d;
+}
+#color-black-a {
+	fill: #f4f4f4;
+}
+#color-black-b {
+	fill: #7f7f7f;
+}
+#color-black-c {
+	fill: #1f1f1f;
+}
+
 #color-hole-material {
 	fill: url(#holepattern);
 }
