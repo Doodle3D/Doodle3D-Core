@@ -37,6 +37,7 @@ class ShapeMesh extends THREE.Object3D {
     this._holeMesh.name = shapeData.UID;
     this._holeMesh.isShapeMesh = true;
 
+    this._reverse = shapeData.transform.sx > 0 !== shapeData.transform.sy > 0;
     this._sculpt = sculpt;
     this._rotate = rotate;
     this._twist = twist;
@@ -47,12 +48,6 @@ class ShapeMesh extends THREE.Object3D {
     this._color = color;
     this.updateSolid(solid, active);
     this.updatePoints(shapeData);
-  }
-
-  _isReverse() {
-    const sx = this._transform.sx > 0;
-    const sy = this._transform.sy > 0;
-    return sx !== sy;
   }
 
   add(object) {
@@ -194,6 +189,12 @@ class ShapeMesh extends THREE.Object3D {
       throw new Error(`Cannot update object ${this.name}: transform contains invalid values.`);
     }
 
+    const reverse = this._transform.sx > 0 !== this._transform.sy > 0;
+    if (reverse !== this._reverse) {
+      this._reverse = reverse;
+      this._updateFaces();
+    }
+
     this._transform = transform;
     this._z = z;
     this._updateVertices();
@@ -258,7 +259,6 @@ class ShapeMesh extends THREE.Object3D {
   _updateVerticesHorizontal(heightStep, paths, center, indexCounter) {
     for (let pathindex = 0; pathindex < paths.length; pathindex ++) {
       const path = applyMatrixOnPath(paths[pathindex], this._transform);
-      if (this._isReverse()) path.reverse();
 
       for (let pathIndex = 0; pathIndex < path.length; pathIndex ++) {
         let point = path[pathIndex];
@@ -291,7 +291,6 @@ class ShapeMesh extends THREE.Object3D {
 
       for (let pathsIndex = 0; pathsIndex < paths.length; pathsIndex ++) {
         const path = applyMatrixOnPath(paths[pathsIndex], this._transform);
-        if (this._isReverse()) path.reverse();
 
         for (let pathIndex = 0; pathIndex < path.length; pathIndex ++) {
           const point = path[pathIndex];
@@ -405,11 +404,6 @@ class ShapeMesh extends THREE.Object3D {
           })
           .map(path => path.map(({ x, y }) => new THREE.Vector2(x, y)));
 
-        if (this._isReverse()) {
-          points.reverse();
-          holes.map(hole => hole.reverse());
-        }
-
         // triangulate
         const triangulatedTop = THREE.ShapeUtils.triangulateShape(points, holes)
           .reduce((a, b) => a.concat(b), [])
@@ -419,12 +413,7 @@ class ShapeMesh extends THREE.Object3D {
         // reverse index order for bottom so faces are flipped
         const triangulatedBottom = triangulatedTop
           .map(value => value + numPoints)
-
-        if (this._isReverse()) {
-          triangulatedTop.reverse();
-        } else {
-          triangulatedBottom.reverse();
-        }
+          .reverse();
 
         triangulatedIndexes.push(triangulatedBottom.concat(triangulatedTop));
 
@@ -453,6 +442,7 @@ class ShapeMesh extends THREE.Object3D {
       const { shape } = this._shapes[i];
 
       if (this._fill) {
+        if (this._reverse) triangulatedIndexes[i].reverse();
         for (let j = 0; j < triangulatedIndexes[i].length; j ++) {
           indexes[indexCounter ++] = triangulatedIndexes[i][j];
         }
@@ -466,14 +456,23 @@ class ShapeMesh extends THREE.Object3D {
           let base = (pointIndexOffset + pointIndex) * numHeightSteps + vertexOffsets[i];
 
           for (let heightStep = 0; heightStep < (numHeightSteps - 1); heightStep ++) {
-            indexes[indexCounter ++] = base;
-            indexes[indexCounter ++] = base + numHeightSteps;
-            indexes[indexCounter ++] = base + 1;
+            if (this._reverse) {
+              indexes[indexCounter ++] = base + 1;
+              indexes[indexCounter ++] = base + numHeightSteps;
+              indexes[indexCounter ++] = base;
 
-            indexes[indexCounter ++] = base + 1;
-            indexes[indexCounter ++] = base + numHeightSteps;
-            indexes[indexCounter ++] = base + numHeightSteps + 1;
+              indexes[indexCounter ++] = base + numHeightSteps + 1;
+              indexes[indexCounter ++] = base + numHeightSteps;
+              indexes[indexCounter ++] = base + 1;
+            } else {
+              indexes[indexCounter ++] = base;
+              indexes[indexCounter ++] = base + numHeightSteps;
+              indexes[indexCounter ++] = base + 1;
 
+              indexes[indexCounter ++] = base + 1;
+              indexes[indexCounter ++] = base + numHeightSteps;
+              indexes[indexCounter ++] = base + numHeightSteps + 1;
+            }
             base ++;
           }
         }
