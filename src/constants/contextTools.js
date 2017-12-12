@@ -36,33 +36,6 @@ export const BLACK_C = 'color-black-c';
 export const HOLE_MATERIAL = 'color-hole-material';
 export const PIPETTE = 'pipette-tool';
 
-export const COLORS = [
-  LIGHT_BLUE_A,
-  LIGHT_BLUE_B,
-  LIGHT_BLUE_C,
-  DARK_BLUE_A,
-  DARK_BLUE_B,
-  DARK_BLUE_C,
-  PURPLE_A,
-  PURPLE_B,
-  PURPLE_C,
-  PINK_A,
-  PINK_B,
-  PINK_C,
-  RED_A,
-  RED_B,
-  RED_C,
-  YELLOW_A,
-  YELLOW_B,
-  YELLOW_C,
-  GREEN_A,
-  GREEN_B,
-  GREEN_C,
-  BLACK_A,
-  BLACK_B,
-  BLACK_C
-];
-
 export const ERASER_SIZE_SMALL = 'eraser-size-small';
 export const ERASER_SIZE_MEDIUM = 'eraser-size-medium';
 export const ERASER_SIZE_LARGE = 'eraser-size-large';
