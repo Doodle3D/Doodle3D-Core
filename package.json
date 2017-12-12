@@ -68,6 +68,8 @@
     "css-loader": "^0.28.7",
     "html-webpack-plugin": "^2.30.1",
     "html-webpack-template": "^6.0.2",
+    "jss-preset-default": "^4.0.1",
+    "normalize-jss": "^4.0.0",
     "raw-loader": "^0.5.1",
     "react-dom": "^16.1.1",
     "react-router-redux": "^4.0.8",

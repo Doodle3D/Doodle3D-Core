@@ -15,24 +15,32 @@ const reducer = combineReducers({ sketcher: sketcherReducer });
 const enhancer = compose(applyMiddleware(thunkMiddleware, promiseMiddleware(), createLogger({ collapsed: true })));
 const store = createStore(reducer, enhancer);
 
-// prepare html (SHOULDN'T BE DONE LIKE THIS)
-document.body.style.margin = 0;
-document.body.style.padding = 0;
-document.body.style.height = '100%';
-document.documentElement.style.height = '100%';
-document.documentElement.style.overflow = 'hidden';
-document.getElementById('app').style.height = '100%';
-
+// add actions to window
 import actionWrapper from 'redux-action-wrapper';
 import * as actions from './src/actions/index.js';
 window.actions = actionWrapper(actions, store.dispatch);
 
+// add model to store
 import modelData from './models/noodlebot.d3sketch';
 import JSONToSketchData from './src/shape/JSONToSketchData.js';
-(async () => {
-  const data = await JSONToSketchData(JSON.parse(modelData));
+JSONToSketchData(JSON.parse(modelData)).then(data => {
   store.dispatch(actions.openSketch({ data }));
-})();
+});
+
+// default css
+import jss from 'jss';
+import preset from 'jss-preset-default';
+import normalize from 'normalize-jss';
+jss.setup(preset());
+jss.createStyleSheet({
+  '@global body, html, #app': {
+    height: '100%'
+  },
+  '@global body': {
+    overflow: 'hidden'
+  },
+  ...normalize
+}).attach();
 
 // render dom
 import React from 'react';
