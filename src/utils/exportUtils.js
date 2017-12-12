@@ -86,7 +86,6 @@ export function generateExportMesh(state, options = {}) {
   shapesManager.update(exportState);
 
   const materials = [];
-  const objectMatrix = new THREE.Matrix4();
   let exportGeometry;
   shapesManager.traverse(mesh => {
     const shapeData = exportState.objectsById[mesh.name];
@@ -95,7 +94,7 @@ export function generateExportMesh(state, options = {}) {
 
       let objectGeometry = geometry.clone();
       objectGeometry.mergeVertices();
-      objectGeometry.applyMatrix(objectMatrix.multiplyMatrices(state.spaces[shapeData.space].matrix, matrix));
+      objectGeometry.applyMatrix(new THREE.Matrix4().multiplyMatrices(state.spaces[shapeData.space].matrix, matrix));
 
       const colorHex = material.color.getHex();
       let materialIndex = materials.findIndex(exportMaterial => exportMaterial.color.getHex() === colorHex);
@@ -104,13 +103,12 @@ export function generateExportMesh(state, options = {}) {
         materials.push(material);
       }
 
-      if (unionGeometry) objectGeometry = new THREE_BSP(objectGeometry, materialIndex);
-
       if (unionGeometry) {
-        if (!exportGeometry) {
-          exportGeometry = objectGeometry;
-        } else {
+        objectGeometry = new THREE_BSP(objectGeometry, materialIndex);
+        if (exportGeometry) {
           exportGeometry = exportGeometry.union(objectGeometry);
+        } else {
+          exportGeometry = objectGeometry;
         }
       } else {
         if (!exportGeometry) exportGeometry = new THREE.Geometry();
