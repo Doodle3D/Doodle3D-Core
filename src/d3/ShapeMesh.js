@@ -62,11 +62,12 @@ class ShapeMesh extends THREE.Object3D {
     if (holes === this._holes && !this._changedGeometry) return false;
 
     if (holes === null || !this._fill || this._type === 'EXPORT_SHAPE') {
-      if (this._holeMeshIsOriginal) return false;
+      if (this._holeMeshIsOriginal && !this._changedGeometry) return false;
 
       this._holeMesh.geometry.dispose();
       this._holeMesh.geometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
       this._holeMeshIsOriginal = true;
+      this._changedGeometry = false;
       return true;
     }
 
