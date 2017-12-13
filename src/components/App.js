@@ -101,6 +101,7 @@ class App extends React.Component {
   };
 
   componentWillUnmount() {
+    const { container } = this.refs;
     container.removeEventListener('drop', this.onDrop);
   }
 
