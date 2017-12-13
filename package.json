@@ -45,7 +45,8 @@
     "shortid": "^2.2.8",
     "three": "^0.88.0",
     "three-js-csg": "github:Doodle3D/three-js-csg",
-    "valid-url": "^1.0.9"
+    "valid-url": "^1.0.9",
+    "react-svg-inline": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
@@ -73,7 +74,6 @@
     "raw-loader": "^0.5.1",
     "react-dom": "^16.1.1",
     "react-router-redux": "^4.0.8",
-    "react-svg-inline": "^2.0.1",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-action-wrapper": "^1.0.1",
