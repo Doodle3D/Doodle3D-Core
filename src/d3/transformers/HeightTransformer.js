@@ -38,7 +38,7 @@ export default class HeightTransformer extends BaseTransformer {
   dragStart(event) {
     const handle = this.includesHandle(event.intersections);
     if (handle) {
-      this.dispatch(actions.heightStart(handle));
+      this.dispatch(actions.changeHeightStart(handle));
     } else {
       super.dragStart(event);
     }
@@ -47,7 +47,7 @@ export default class HeightTransformer extends BaseTransformer {
   drag(event) {
     if (this._active) {
       const delta = event.position.subtract(event.previousPosition);
-      this.dispatch(actions.height(delta));
+      this.dispatch(actions.changeHeight(delta));
     } else {
       super.drag(event);
     }
@@ -55,7 +55,7 @@ export default class HeightTransformer extends BaseTransformer {
 
   dragEnd(event) {
     if (this._active) {
-      this.dispatch(actions.heightEnd());
+      this.dispatch(actions.changeHeightEnd());
     } else {
       super.dragEnd(event);
     }

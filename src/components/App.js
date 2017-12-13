@@ -78,9 +78,9 @@ class App extends React.Component {
     event.preventDefault();
 
     for (const file of event.dataTransfer.files) {
-      const [name, ...extentions] = file.name.split('.');
+      const extentions = file.name.split('.').pop();
 
-      switch (extentions.pop().toUpperCase()) {
+      switch (extentions.toUpperCase()) {
         case 'D3SKETCH':
         case 'JSON':
           const url = URL.createObjectURL(file);
@@ -130,5 +130,5 @@ export default injectSheet(styles)(connect(null, {
   undo: actions.undo.undo,
   redo: actions.undo.redo,
   openSketch: actions.openSketch,
-  addImage: actions.addImage,
+  addImage: actions.addImage
 })(App));

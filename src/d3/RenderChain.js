@@ -62,7 +62,7 @@ export default class RenderChain extends THREE.EffectComposer {
     }
   }
 
-  setSize(width, height, pixelRatio, rerender = true) {
+  setSize(width, height, pixelRatio, render = true) {
     this._renderer.setPixelRatio(pixelRatio);
     this._renderer.setSize(width, height);
     super.setSize(width * pixelRatio, height * pixelRatio);
@@ -70,7 +70,7 @@ export default class RenderChain extends THREE.EffectComposer {
     this._camera.aspect = width / height;
     this._camera.updateProjectionMatrix();
 
-    if (rerender) this.render();
+    if (render) this.render();
   }
 
   render() {

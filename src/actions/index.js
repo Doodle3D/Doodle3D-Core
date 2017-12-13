@@ -228,13 +228,13 @@ export function d3ChangeTool(tool) {
 export function contextChangeTool(tool) {
   return { type: CONTEXT_CHANGE_TOOL, tool };
 }
-export function heightStart(handle) {
+export function changeHeightStart(handle) {
   return { type: HEIGHT_START, handle };
 }
-export function height(delta) {
+export function changeHeight(delta) {
   return { type: HEIGHT, delta, log: false };
 }
-export function heightEnd() {
+export function changeHeightEnd() {
   return { type: HEIGHT_END };
 }
 export function twistStart() {
@@ -378,7 +378,10 @@ export function addImage(file) {
     }).catch(error => {
       URL.revokeObjectURL(url);
 
-      dispatch(notification.error({ position: 'tc', title: 'Error loading image, please try again with another image' }));
+      dispatch(notification.error({
+        position: 'tc',
+        title: 'Error loading image, please try again with another image'
+      }));
 
       throw error; // rethrow for other listeners
     });
