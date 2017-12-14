@@ -74,9 +74,7 @@ function floodFill(imageData, start, tolerance) {
     for (let i = 0; i < neighbours.length; i ++) {
       const neighbourIndex = neighbours[i];
 
-      if (!done[neighbourIndex]) {
-        stack.push(neighbourIndex);
-      }
+      if (!done[neighbourIndex]) stack.push(neighbourIndex);
       done[neighbourIndex] = true;
     }
   }

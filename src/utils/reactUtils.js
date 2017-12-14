@@ -45,5 +45,5 @@ export function asyncValidateForm(dispatch, form, asyncValidate, formData) {
     dispatch(stopAsyncValidation(form));
   }).catch(error => {
     dispatch(stopAsyncValidation(form, error));
-  })
+  });
 }

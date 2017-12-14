@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { loadImage } from './imageUtils.js'
+import { loadImage } from './imageUtils.js';
 import createDebug from 'debug';
 const debug = createDebug('d3d:threeUtils');
 

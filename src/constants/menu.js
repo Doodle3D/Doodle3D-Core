@@ -46,7 +46,7 @@ const toolbar3d = {
   children: [
     { value: d3Tools.HEIGHT },
     { value: d3Tools.SCULPT },
-    { value: d3Tools.TWIST },
+    { value: d3Tools.TWIST }
     // { value: d3Tools.STAMP }
   ]
 };

@@ -20,7 +20,7 @@ export function getDbUrl(db) {
   } else {
     return `${db.protocol}${db.host}`;
   }
-};
+}
 
 const dbs = {};
 export function getDb(dbUrl) {

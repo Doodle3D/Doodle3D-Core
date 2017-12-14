@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import { shapeToPoints } from '../shape/shapeToPoints.js'
-import { getPointsBounds } from '../shape/shapeDataUtils.js'
+import { shapeToPoints } from '../shape/shapeToPoints.js';
+import { getPointsBounds } from '../shape/shapeDataUtils.js';
 import { Vector } from 'cal';
 import arrayMemoizer from './arrayMemoizer.js';
 import memoize from 'memoizee';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:util:selection');
 
-// Memoized selector that returns the same array of shapeSata's when
+// Memoized selector that returns the same array of shapeData's when
 // - the selection array didn't change
 // - the objects in the resulting array didn't change
 // enables memoization of utils that use this array

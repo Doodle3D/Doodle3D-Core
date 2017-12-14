@@ -62,7 +62,7 @@ class D3Panel extends React.Component {
   componentWillMount() {
     this.createScene();
 
-    const toonShader = hasExtensionsFor.toonShaderPreview
+    const toonShader = hasExtensionsFor.toonShaderPreview;
     this.renderChain = new RenderChain(this.renderer, this.scene, this.camera, toonShader, {
       UI: this.UIContainer,
       shapes: this.shapesManager,

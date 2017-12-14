@@ -26,8 +26,8 @@ export default class OutlinePass {
 
     this._edgeMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        "tDiffuse": { type: 't', value: this._depthNormalRenderTarget.texture },
-        "resolution": { type: 'v2', value: new THREE.Vector2() }
+        tDiffuse: { type: 't', value: this._depthNormalRenderTarget.texture },
+        resolution: { type: 'v2', value: new THREE.Vector2() }
       },
       vertexShader: edgeVert,
       fragmentShader: edgeFrag
@@ -35,12 +35,12 @@ export default class OutlinePass {
 
     this._copyEdge = new THREE.ShaderMaterial({
       uniforms: {
-        "tDiffuse": { type: 't', value: null },
-        "uTexArray" : { type: 'tv', value: [this._edgeRenderTarget.texture] }
+        tDiffuse: { type: 't', value: null },
+        uTexArray : { type: 'tv', value: [this._edgeRenderTarget.texture] }
       },
       vertexShader: combineVert,
       fragmentShader: combineFrag
-    })
+    });
 
     this._camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     this._scene = new THREE.Scene();
@@ -55,7 +55,7 @@ export default class OutlinePass {
     this._edgeMaterial.uniforms.resolution.value.set(width, height);
   }
 
-  render(renderer, writeBuffer, readBuffer, delta, maskActive) {
+  render(renderer, writeBuffer, readBuffer) {
     if (this._callbackBeforeRender) this._callbackBeforeRender();
 
     this._copyEdge.uniforms.tDiffuse.value = readBuffer.texture;

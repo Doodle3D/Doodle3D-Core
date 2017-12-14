@@ -79,7 +79,10 @@ export function generateExportMesh(state, options = {}) {
   };
 
   for (const id in state.objectsById) {
-    exportState.objectsById[id] = createExportShapeData(state.objectsById[id], offsetSingleWalls || unionGeometry, lineWidth);
+    const shapeData = state.objectsById[id];
+    if (!SHAPE_TYPE_PROPERTIES[shapeData.type].D3Visible) continue;
+    const exportShapeData = createExportShapeData(shapeData, offsetSingleWalls || unionGeometry, lineWidth);
+    exportState.objectsById[id] = exportShapeData;
   }
 
   const shapesManager = new ShapesManager({ toonShader: false });
@@ -91,10 +94,11 @@ export function generateExportMesh(state, options = {}) {
     const shapeData = exportState.objectsById[mesh.name];
     if (mesh instanceof THREE.Mesh && shapeData.solid) {
       const { geometry, material } = mesh;
+      const objectMatrix = state.spaces[shapeData.space].matrix;
 
       let objectGeometry = geometry.clone();
       objectGeometry.mergeVertices();
-      objectGeometry.applyMatrix(new THREE.Matrix4().multiplyMatrices(state.spaces[shapeData.space].matrix, matrix));
+      objectGeometry.applyMatrix(new THREE.Matrix4().multiplyMatrices(objectMatrix, matrix));
 
       const colorHex = material.color.getHex();
       let materialIndex = materials.findIndex(exportMaterial => exportMaterial.color.getHex() === colorHex);
@@ -149,7 +153,7 @@ export async function createFile(state, type, options) {
     }
     case 'stl-blob': {
       const buffer = exportSTL.fromMesh(exportMesh, true);
-      return new Blob([buffer], { type: 'application/vnd.ms-pki.stl' })
+      return new Blob([buffer], { type: 'application/vnd.ms-pki.stl' });
     }
     case 'obj-blob': {
       const buffer = await exportOBJ.fromMesh(exportMesh);

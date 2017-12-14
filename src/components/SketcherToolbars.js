@@ -20,20 +20,20 @@ const CONTEXT = 'context';
 
 const styles = {
   contextMenuContainer: {
-  	position: 'absolute',
-  	left: 0,
-  	bottom: 0,
-  	right: 0,
-  	top: 0,
-  	display: 'flex',
-  	justifyContent: 'center',
-  	alignItems: 'center',
-  	pointerEvents: 'none', /* enable clicking through object */
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    right: 0,
+    top: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    pointerEvents: 'none', /* enable clicking through object */
     '& *': {
-    	pointerEvents: 'visible' /* enable clicking in children */
+      pointerEvents: 'visible' /* enable clicking in children */
     }
   }
-}
+};
 
 class SketcherToolbars extends React.Component {
 
@@ -41,7 +41,8 @@ class SketcherToolbars extends React.Component {
     dispatch: PropTypes.func.isRequired,
     toolbar2d: PropTypes.object, // TODO: specify further
     toolbar3d: PropTypes.object, // TODO: specify further
-    context: PropTypes.object // TODO: specify further
+    context: PropTypes.object, // TODO: specify further
+    classes: PropTypes.objectOf(PropTypes.string)
   };
   onSelect2D = ({ value }) => {
     const { dispatch } = this.props;
