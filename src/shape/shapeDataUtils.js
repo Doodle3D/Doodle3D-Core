@@ -96,7 +96,7 @@ export const determineActiveShape3d = (state) => {
     state.d3.sculpt.activeHandle !== null ||
     state.d3.twist.active;
 
-  const selectedObjects = state.selection.objects.map(({ id }) => id);
+  // const selectedObjects = state.selection.objects.map(({ id }) => id);
   const activeShapes = {};
   for (const id in state.objectsById) {
     activeShapes[id] = activeTransformer || state.d2.activeShape === id;

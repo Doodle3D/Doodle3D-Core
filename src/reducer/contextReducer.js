@@ -1,6 +1,6 @@
 import update from 'react-addons-update';
 import * as contextTools from '../constants/contextTools.js';
-import { COLOR_STRING_TO_HEX, COLOR_HEX_TO_STRING } from '../constants/general.js';
+import { COLOR_STRING_TO_HEX } from '../constants/general.js';
 import { ERASER_SIZES, BRUSH_SIZES } from '../constants/d2Constants.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import * as actions from '../actions/index.js';
