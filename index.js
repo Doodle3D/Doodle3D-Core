@@ -19,9 +19,20 @@ const store = createStore(reducer, enhancer);
 import actionWrapper from 'redux-action-wrapper';
 import * as actions from './src/actions/index.js';
 window.actions = actionWrapper(actions, store.dispatch);
+import { saveAs as saveAsLib } from 'file-saver';
+
+// download file
+import { createFile } from './src/utils/exportUtils.js';
+window.downloadStl = () => {
+  store.dispatch(async (dispatch, getState) => {
+    const state = getState();
+    const blob = await createFile(state.sketcher.present, 'stl-blob');
+    saveAsLib(blob, 'doodle.stl');
+  });
+};
 
 // add model to store
-import modelData from './models/noodlebot.d3sketch';
+import modelData from './models/simple_hole.d3sketch';
 import JSONToSketchData from './src/shape/JSONToSketchData.js';
 JSONToSketchData(JSON.parse(modelData)).then(data => {
   store.dispatch(actions.openSketch({ data }));
