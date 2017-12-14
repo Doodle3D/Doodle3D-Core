@@ -1,5 +1,5 @@
 import { shapeDataToShape, determineActiveShape2d } from '../shape/shapeDataUtils.js';
-// import R from 'ramda';
+import _ from 'lodash';
 
 export default class ShapesManager {
   constructor(objectContainerActive, objectContainerInactive) {
@@ -21,11 +21,9 @@ export default class ShapesManager {
 
     if (
       this._objectsById === objectsById &&
-      true &&
+      _.isEqual(activeShapes, this._activeShapes) &&
       state.activeSpace === this._activeSpace
-    ) {
-      return needRender;
-    }
+    ) return needRender;
 
     // object ids that are in the current space
     const spaceObjectIds = state.spaces[state.activeSpace].objectIds;
