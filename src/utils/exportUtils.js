@@ -60,6 +60,7 @@ function createExportShapeData(shapeData, offsetSingleWalls, lineWidth) {
     ...shapeData,
     transform: new Matrix(),
     type: 'EXPORT_SHAPE',
+    originalFill: shapeData.fill,
     fill,
     shapes
   };

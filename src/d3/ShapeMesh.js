@@ -48,6 +48,8 @@ class ShapeMesh extends THREE.Object3D {
     this._color = color;
     this.updateSolid(solid, active);
     this.updatePoints(shapeData);
+
+    this._shapeData = shapeData;
   }
 
   add(object) {
@@ -61,7 +63,8 @@ class ShapeMesh extends THREE.Object3D {
     if (!this._solid) return false;
     if (holes === this._holes && !this._changedGeometry) return false;
 
-    if (holes === null || !this._fill || this._type === 'EXPORT_SHAPE') {
+    const fill = this._shapeData.type === 'EXPORT_SHAPE' ? !this._shapeData.originalFill : !this._fill;
+    if (holes === null || fill) {
       if (this._holeMeshIsOriginal && !this._changedGeometry) return false;
 
       this._holeMesh.geometry.dispose();
@@ -81,6 +84,7 @@ class ShapeMesh extends THREE.Object3D {
     this._holes = holes;
     this._changedGeometry = false;
     this._holeMeshIsOriginal = false;
+
     return true;
   }
 
