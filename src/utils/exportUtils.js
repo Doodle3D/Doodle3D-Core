@@ -1,4 +1,3 @@
-import 'blueimp-canvas-to-blob'; // canvas toBlob polyfill
 import { Matrix } from '@doodle3d/cal';
 import * as exportSTL from '@doodle3d/threejs-export-stl';
 import * as exportOBJ from '@doodle3d/threejs-export-obj';
@@ -11,8 +10,6 @@ import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import { LINE_WIDTH } from '../constants/exportConstants.js';
 import { bufferToBase64 } from '../utils/binaryUtils.js';
-import { IMAGE_TYPE, IMAGE_QUALITY } from '../constants/saveConstants.js';
-import createScene from '../d3/createScene.js';
 
 const THREE_BSP = ThreeBSP(THREE);
 
@@ -173,35 +170,4 @@ export async function createFile(state, type, options) {
     default:
       throw new Error(`did not regonize type ${type}`);
   }
-}
-
-export function generateThumb(state, width, height, responseType = 'blob') {
-  return new Promise((resolve) => {
-    const { render, renderer, setSize } = createScene(state);
-
-    setSize(width, height, 1.0);
-    render();
-
-    // possible to add encoder options for smaller file setSize
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
-    switch (responseType) {
-      case 'base64':
-        const base64 = renderer.domElement.toDataURL(IMAGE_TYPE, IMAGE_QUALITY);
-        resolve(base64);
-        break;
-
-      case 'objectURL':
-        renderer.domElement.toCanvas((blob) => {
-          const objectURL = URL.createObjectURL(blob);
-          resolve(objectURL);
-        }, IMAGE_TYPE, IMAGE_QUALITY);
-        break;
-
-      default:
-        renderer.domElement.toBlob((blob) => {
-          resolve(blob);
-        }, IMAGE_TYPE, IMAGE_QUALITY);
-        break;
-    }
-  });
 }
