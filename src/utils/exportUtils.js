@@ -101,11 +101,16 @@ export function generateExportMesh(state, options = {}) {
       objectGeometry.mergeVertices();
       objectGeometry.applyMatrix(new THREE.Matrix4().multiplyMatrices(objectMatrix, matrix));
 
-      const colorHex = material.color.getHex();
-      let materialIndex = materials.findIndex(exportMaterial => exportMaterial.color.getHex() === colorHex);
+      const color = material.color.getHex();
+      const side = shapeData.fill ? THREE.FrontSide : THREE.DoubleSide;
+      let materialIndex = materials.findIndex(exportMaterial => {
+        return exportMaterial.color.getHex() === color && exportMaterial.side === side;
+      });
       if (materialIndex === -1) {
         materialIndex = materials.length;
-        materials.push(material);
+        const exportMaterial = new THREE.MeshBasicMaterial({ color });
+        exportMaterial.side = side;
+        materials.push(exportMaterial);
       }
 
       if (unionGeometry) {
