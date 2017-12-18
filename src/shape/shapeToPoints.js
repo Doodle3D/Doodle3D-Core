@@ -83,8 +83,8 @@ function shapeToPointsRaw(shapeData) {
       const { radius, segment } = shapeData.circle;
       const points = [];
       const circumference = 2 * radius * Math.PI;
-      const numSegments = Math.min(circumference * 2, 64);
-      for (let rad = 0; rad <= segment; rad += Math.PI * 2 / numSegments) {
+      const numSegments = Math.max(3, Math.min(circumference * 2, 32));
+      for (let rad = 0; rad < segment; rad += Math.PI * 2 / numSegments) {
         const x = Math.sin(rad) * radius;
         const y = -Math.cos(rad) * radius;
         points.push(new Vector(x, y));
