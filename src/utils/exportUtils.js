@@ -98,11 +98,11 @@ export function generateExportMesh(state, options = {}) {
       objectGeometry.mergeVertices();
       objectGeometry.applyMatrix(new THREE.Matrix4().multiplyMatrices(objectMatrix, matrix));
 
+      const materialIndex = materials.length;
       const exportMaterial = new THREE.MeshBasicMaterial({ color: material.color.getHex() });
       exportMaterial.side = shapeData.fill ? THREE.FrontSide : THREE.DoubleSide;
       materials.push(exportMaterial);
 
-      const materialIndex = materials.length;
       if (unionGeometry) {
         objectGeometry = new THREE_BSP(objectGeometry, materialIndex);
         if (exportGeometry) {
