@@ -83,6 +83,10 @@ export function generateExportMesh(state, options = {}) {
     exportState.objectsById[id] = exportShapeData;
   }
 
+  if (Object.keys(exportState.objectsById).length === 0) {
+    throw new Error('sketch is empty');
+  }
+
   const shapesManager = new ShapesManager({ toonShader: false });
   shapesManager.update(exportState);
 
