@@ -64,7 +64,7 @@ class ShapeMesh extends THREE.Object3D {
     if (holes === this._holes && !this._changedGeometry) return false;
 
     const fill = this._shapeData.type === 'EXPORT_SHAPE' ? !this._shapeData.originalFill : !this._fill;
-    if (holes === null || fill) {
+    if (holes.length === 0 || fill) {
       if (this._holeMeshIsOriginal && !this._changedGeometry) return false;
 
       this._holeMesh.geometry.dispose();
@@ -76,10 +76,16 @@ class ShapeMesh extends THREE.Object3D {
 
     const objectGeometry = new THREE.Geometry().fromBufferGeometry(this._mesh.geometry);
     objectGeometry.mergeVertices();
-    let objectBSP = new THREE_BSP(objectGeometry);
+    const box = new THREE.Box3().setFromPoints(objectGeometry.vertices);
+    let bsp = new THREE_BSP(objectGeometry);
     objectGeometry.dispose();
-    objectBSP = objectBSP.subtract(holes);
-    this._holeMesh.geometry = objectBSP.toMesh().geometry;
+
+    for (const hole of holes) {
+      if (hole.box.intersectsBox(box)) {
+        bsp = bsp.subtract(hole.bsp);
+      }
+    }
+    this._holeMesh.geometry = bsp.toMesh().geometry;
 
     this._holes = holes;
     this._changedGeometry = false;
