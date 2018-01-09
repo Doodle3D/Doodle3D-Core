@@ -6,7 +6,7 @@ import * as actions from '../actions/index.js';
 import * as CAL from 'cal';
 import { TEXT_TOOL_FONT_SIZE } from '../constants/d2Constants.js';
 
-document.createElement('canvas');
+const CONTEXT = document.createElement('canvas').getContext('2d');
 
 const styles = {
   textInputContainer: {
@@ -63,6 +63,11 @@ class InputText extends React.Component {
         .multiplyMatrix(state.d2.canvasMatrix)
         .multiplyMatrix(screenMatrix);
 
+      const { family, style, weight, text } = shapeData.text;
+
+      CONTEXT.font = `${style} normal ${weight} ${TEXT_TOOL_FONT_SIZE}px ${family}`;
+      const width = Math.max(10, CONTEXT.measureText(shapeData.text.text).width);
+
       return (
         <div
           className={classes.textInputContainer}
@@ -70,8 +75,13 @@ class InputText extends React.Component {
         >
           <input
             className={classes.textInput}
-            style={{ fontFamily: shapeData.text.family }}
-            value={shapeData.text.text}
+            style={{
+              fontFamily: family,
+              fontStyle: style,
+              fontWeight: weight,
+              width: `${width}px`
+            }}
+            value={text}
             ref="text"
             spellCheck="false"
             autoFocus
