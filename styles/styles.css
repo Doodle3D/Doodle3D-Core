@@ -256,6 +256,17 @@
 	height: 40px;
 }
 
+#font-tool .menu {
+	flex-direction: column;
+	max-height: 170px;
+	width: 120px;
+	overflow-y: auto;
+}
+
+#font-tool .menu .menuitem {
+	text-align: center;
+}
+
 #color-light-blue-a { fill: #BCFFFF; }
 #color-light-blue-b { fill: #68E1FD; }
 #color-light-blue-c { fill: #01B8FF; }
