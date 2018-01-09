@@ -8,7 +8,7 @@ import starReducer from './tools/shapes/starReducer.js';
 import triangleReducer from './tools/shapes/triangleReducer.js';
 import bucketReducer from './tools/bucketReducer.js';
 import penReducer from './tools/penReducer.js';
-import textReducer from './tools/textReducer.js';
+import textReducer, { removeEmptyText } from './tools/textReducer.js';
 import photoGuideReducer from './tools/photoGuideReducer.js';
 import { transformReducer } from './tools/transformReducer.js';
 import eraserReducer from './tools/eraserReducer.js';
@@ -44,6 +44,7 @@ export default function toolReducer(state, action) {
   // change 2D tool after explicit tool change action or on some selection
   if (action.type === actions.D2_CHANGE_TOOL) {
     state = updateTool(state, action.tool);
+    state = removeEmptyText(state);
   }
   if (action.category === actions.CAT_SELECTION) {
     state = updateTool(state, tools.TRANSFORM);

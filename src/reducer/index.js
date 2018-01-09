@@ -142,7 +142,6 @@ function sketcherReducer(state = initialState, action) {
     case actions.MULTITOUCH_TRANSFORM_END:
     case actions.D2_TEXT_INIT:
     case actions.D2_TEXT_INPUT_CHANGE:
-    case actions.D2_TEXT_ADD:
     case actions.MOVE_SELECTION:
       return d2ToolReducer(state, action);
 
@@ -188,11 +187,11 @@ function sketcherReducer(state = initialState, action) {
       return d3ToolReducer(state, action);
 
     case actions.D2_CHANGE_TOOL:
-      state = setActive2D(state, null);
       state = selectionReducer(state, action);
       state = d2ToolReducer(state, action); // switch and initialize tool
       state = updateMenus(state, action);
       state = contextReducer(state, action);
+      state = setActive2D(state, null);
       return state;
 
     case actions.D3_CHANGE_TOOL:

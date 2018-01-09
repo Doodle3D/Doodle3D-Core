@@ -14,7 +14,6 @@ const INCLUDE = [
   actions.DESELECT_ALL,
   actions.STAMP,
   actions.SELECT,
-  actions.D2_TEXT_ADD,
   actions.CLEAR,
   actions.TWIST_END,
   actions.SCULPT_END,

@@ -8,10 +8,11 @@ const debug = createDebug('d3d:reducer:text');
 export default function textReducer(state, action) {
   if (action.log !== false) debug(action.type);
 
-  const activeShape = state.d2.activeShape;
 
   switch (action.type) {
     case actions.D2_TEXT_INIT: {
+      state = removeEmptyText(state);
+
       const { position, textId, screenMatrixZoom } = action;
       const screenPosition = (position && screenMatrixZoom) ?
         position.applyMatrix(screenMatrixZoom.inverseMatrix()) :
@@ -29,6 +30,7 @@ export default function textReducer(state, action) {
     }
     case actions.D2_TEXT_INPUT_CHANGE: {
       const { text, family, style, weight, fill } = action;
+      const { activeShape } = state.d2;
       return update(state, {
         objectsById: {
           [activeShape]: {
@@ -43,16 +45,16 @@ export default function textReducer(state, action) {
         }
       });
     }
-    case actions.D2_TEXT_ADD: {
-      if (activeShape && state.objectsById[activeShape].text.text.length === 0) {
-        return setActive2D(removeObject(state, activeShape), null);
-      } else {
-        return setActive2D(state, null);
-      }
-      break;
-    }
     default:
       return state;
+  }
+}
+
+export function removeEmptyText(state) {
+  const { activeShape } = state.d2;
+
+  if (activeShape && state.objectsById[activeShape].text.text === '') {
+    return setActive2D(removeObject(state, activeShape), null);
   }
   return state;
 }
