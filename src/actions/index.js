@@ -390,8 +390,8 @@ export function d2textInit(position, textId, screenMatrixContainer, screenMatrix
     dispatch({ type: D2_TEXT_INIT, position, textId, screenMatrixContainer, screenMatrixZoom });
   };
 }
-export function d2textInputChange(text, family, weight, style, fill) {
-  return { type: D2_TEXT_INPUT_CHANGE, text, family, weight, style, fill };
+export function d2textInputChange(text) {
+  return { type: D2_TEXT_INPUT_CHANGE, text };
 }
 
 const traceDragThrottle = createThrottle();

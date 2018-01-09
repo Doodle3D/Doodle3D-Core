@@ -37,10 +37,9 @@ class InputText extends React.Component {
     if (!shapeData) return;
 
     const { changeText } = this.props;
-    const { family, weight, style } = shapeData.text;
     const text = this.refs.text.value;
 
-    changeText(text, family, weight, style, true);
+    changeText(text);
   };
 
   getShapeData = () => {
@@ -71,7 +70,7 @@ class InputText extends React.Component {
         >
           <input
             className={classes.textInput}
-            style={{ family: shapeData.text.family }}
+            style={{ fontFamily: shapeData.text.family }}
             value={shapeData.text.text}
             ref="text"
             spellCheck="false"

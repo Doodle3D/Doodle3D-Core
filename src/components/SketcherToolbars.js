@@ -9,6 +9,8 @@ import * as contextTools from '../constants/contextTools.js';
 import * as d2Tools from '../constants/d2Tools.js';
 import { createSelector } from 'reselect';
 import injectSheet from 'react-jss';
+import { FONT_TOOLS } from '../constants/contextTools.js';
+import { FONT_FACE } from '../constants/general.js';
 // TODO move this to jss instead of css
 import '../../styles/styles.css';
 // import createDebug from 'debug';
@@ -120,6 +122,7 @@ function renderChildren(children) {
 
   for (const child of children) {
     let component;
+
     if (child.children.length > 0) {
       component = (
         <SubMenu
@@ -134,6 +137,18 @@ function renderChildren(children) {
         >
           {renderChildren(child.children)}
         </SubMenu>
+      );
+    } else if (FONT_TOOLS.includes(child.value)) {
+      component = (
+        <MenuItem
+          id={child.value}
+          value={child.value}
+          key={child.value}
+          svg={child.svg}
+          disabled={child.disabled}
+        >
+          <p style={{ fontFamily: FONT_FACE[child.value] }}>{FONT_FACE[child.value]}</p>
+        </MenuItem>
       );
     } else {
       component = (
@@ -151,7 +166,7 @@ function renderChildren(children) {
   return components;
 }
 
-function filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, menus) {
+function filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, menus) {
   const showUnion = activeTool === d2Tools.TRANSFORM && numFilledObjects && numSelectedObjects >= 2;
   const showIntersect = activeTool === d2Tools.TRANSFORM && numSelectedObjects >= 1;
   return {
@@ -191,11 +206,14 @@ function filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidO
         case contextTools.HOLE_TOGGLE:
           return numSelectedObjects > 0;
 
+        case contextTools.FONT:
+          return selectionIncludesText || activeTool === d2Tools.TEXT;
+
         default:
           return true;
       }
     }).map(child => {
-      return filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, child);
+      return filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, child);
     })
   };
 }
@@ -217,11 +235,12 @@ const getMenus = createSelector([
   state => state.sketcher.present.d2.tool,
   state => state.sketcher.present.selection.objects.length,
   state => state.sketcher.present.selection.objects.filter(({ id }) => state.sketcher.present.objectsById[id].fill).length,
-  state => state.sketcher.present.selection.objects.filter(({ id }) => state.sketcher.present.objectsById[id].solid).length
-], (menus, activeTool, numSelectedObjects, numFilledObjects, numSolidObjects) => ({
-  toolbar2d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, nestChildren(menus, menus[TOOLBAR2D])),
-  toolbar3d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, nestChildren(menus, menus[TOOLBAR3D])),
-  context: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, nestChildren(menus, menus[CONTEXT]))
+  state => state.sketcher.present.selection.objects.filter(({ id }) => state.sketcher.present.objectsById[id].solid).length,
+  state => state.sketcher.present.selection.objects.some(({ id }) => state.sketcher.present.objectsById[id].type === 'TEXT')
+], (menus, activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText) => ({
+  toolbar2d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, nestChildren(menus, menus[TOOLBAR2D])),
+  toolbar3d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, nestChildren(menus, menus[TOOLBAR3D])),
+  context: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, nestChildren(menus, menus[CONTEXT]))
 }));
 
 export default injectSheet(styles)(connect(getMenus)(SketcherToolbars));

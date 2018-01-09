@@ -3,6 +3,7 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CordovaPlugin = require('webpack-cordova-plugin');
+const GoogleFontsPlugin = require('google-fonts-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 const appMode = process.env.TARGET === 'app';
@@ -75,9 +76,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': {
-        'TARGET': JSON.stringify(process.env.TARGET)
-      }
+      'process.env.TARGET': JSON.stringify(process.env.TARGET)
     }),
     new HTMLWebpackPlugin({
       title: 'Doodle3D Core - Simple example',
@@ -85,6 +84,18 @@ module.exports = {
       inject: false,
       scripts: appMode ? ['cordova.js'] : null,
       appMountId: 'app'
+    }),
+    new GoogleFontsPlugin({
+      fonts: [
+        { family: 'Oswald' },
+        { family: 'Ranga' },
+        { family: 'Joti One' },
+        { family: 'Bellefair' },
+        { family: 'Lobster' },
+        { family: 'Abril Fatface' },
+        { family: 'Play' },
+        { family: 'Fascinate' }
+      ]
     }),
     ...(appMode ? [
       new CordovaPlugin({
@@ -95,7 +106,7 @@ module.exports = {
       })
     ] : [])
   ],
-  devtool: "source-map",
+  devtool: 'source-map',
   devServer: {
     contentBase: 'dist'
   }

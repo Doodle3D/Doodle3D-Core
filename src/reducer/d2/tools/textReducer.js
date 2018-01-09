@@ -8,7 +8,6 @@ const debug = createDebug('d3d:reducer:text');
 export default function textReducer(state, action) {
   if (action.log !== false) debug(action.type);
 
-
   switch (action.type) {
     case actions.D2_TEXT_INIT: {
       state = removeEmptyText(state);
@@ -23,24 +22,26 @@ export default function textReducer(state, action) {
       } else {
         return addObjectActive2D(state, {
           transform: new Matrix({ x: screenPosition.x, y: screenPosition.y }),
-          type: 'TEXT'
+          type: 'TEXT',
+          text: {
+            text: '',
+            family: state.context.font,
+            weight: 'normal',
+            style: 'normal'
+          }
         });
       }
       return state;
     }
     case actions.D2_TEXT_INPUT_CHANGE: {
-      const { text, family, style, weight, fill } = action;
+      const { text } = action;
       const { activeShape } = state.d2;
       return update(state, {
         objectsById: {
           [activeShape]: {
             text: {
-              text: { $set: text },
-              family: { $set: family },
-              style: { $set: style },
-              weight: { $set: weight }
-            },
-            fill: { $set: fill }
+              text: { $set: text }
+            }
           }
         }
       });
