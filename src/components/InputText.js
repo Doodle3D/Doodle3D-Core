@@ -71,9 +71,7 @@ class InputText extends React.Component {
         >
           <input
             className={classes.textInput}
-            style={{
-              family: shapeData.text.family
-            }}
+            style={{ family: shapeData.text.family }}
             value={shapeData.text.text}
             ref="text"
             spellCheck="false"
