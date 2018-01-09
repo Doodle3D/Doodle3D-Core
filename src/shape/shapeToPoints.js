@@ -8,6 +8,7 @@ import { MAX_ANGLE } from '../constants/d3Constants.js';
 import { SHAPE_CACHE_LIMIT } from '../constants/general.js';
 import { createText } from '../utils/textUtils.js';
 import { segmentBezierPath } from '../utils/curveUtils.js';
+import { TEXT_TOOL_FONT_SIZE } from '../constants/d2Constants.js';
 
 const setDirection = (clockwise) => (path) => {
   return (THREE.ShapeUtils.isClockWise(path) === clockwise) ? path : path.reverse();
@@ -120,7 +121,7 @@ function shapeToPointsRaw(shapeData) {
     }
     case 'TEXT': {
       const { text, family, style, weight } = shapeData.text;
-      const textShapes = createText(text, 400, family, style, weight)
+      const textShapes = createText(text, TEXT_TOOL_FONT_SIZE, 10, family, style, weight)
         .map(([points, ...holes]) => ({ points, holes }));
 
       shapes.push(...textShapes);

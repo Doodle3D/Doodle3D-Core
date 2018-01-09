@@ -82,7 +82,6 @@
     "normalize-jss": "^4.0.0",
     "raw-loader": "^0.5.1",
     "react-dom": "^16.1.1",
-    "react-router-redux": "^4.0.8",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-action-wrapper": "^1.0.1",

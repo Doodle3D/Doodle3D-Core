@@ -41,3 +41,4 @@ export const BRUSH_SIZES = {
 };
 
 export const CLIPPER_PRECISION = 100; // accurate to the hundredth
+export const TEXT_TOOL_FONT_SIZE = 40;
