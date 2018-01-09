@@ -65,7 +65,7 @@ function shapeToPointsRaw(shapeData) {
       const points = [];
       let even = false;
       const numLines = rays * 2;
-      for (let i = 0, rad = 0; i <= numLines; i++, rad += Math.PI / rays) {
+      for (let i = 0, rad = 0; i <= numLines; i ++, rad += Math.PI / rays, even = !even) {
         if (i === numLines) { // last line?
           points.push(points[0].clone()); // go to first point
         } else {
@@ -73,7 +73,6 @@ function shapeToPointsRaw(shapeData) {
           let x = Math.sin(rad) * radius;
           let y = -Math.cos(rad) * radius;
           points.push(new Vector(x, y));
-          even = !even;
         }
       }
       shapes.push({ points, holes: [] });
