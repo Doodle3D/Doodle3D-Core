@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import normalDepthVert from '../../shaders/normal_depth_vert.glsl';
-import normalDepthFrag from '../../shaders/normal_depth_frag.glsl';
-import edgeVert from '../../shaders/edge_vert.glsl';
-import edgeFrag from '../../shaders/edge_frag.glsl';
-import combineVert from '../../shaders/combine_vert.glsl';
-import combineFrag from '../../shaders/combine_frag.glsl';
+import normalDepthVert from '../../../shaders/normal_depth_vert.glsl';
+import normalDepthFrag from '../../../shaders/normal_depth_frag.glsl';
+import edgeVert from '../../../shaders/edge_vert.glsl';
+import edgeFrag from '../../../shaders/edge_frag.glsl';
+import combineVert from '../../../shaders/combine_vert.glsl';
+import combineFrag from '../../../shaders/combine_frag.glsl';
 
 export default class OutlinePass {
   constructor(scene, camera, callbackBeforeRender) {
