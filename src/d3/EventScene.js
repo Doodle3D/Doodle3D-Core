@@ -3,6 +3,7 @@ import { Utils } from 'cal';
 import createListener from 'touch-events';
 import bowser from 'bowser';
 import { convertEvent, isMouseEvent } from '../utils/pointerUtils.js';
+import normalizeWheel from 'normalize-wheel';
 
 const events = ['wheel', 'tap', 'dragstart', 'drag', 'dragend', 'seconddragstart', 'seconddrag',
   'seconddragend', 'multitouchstart', 'multitouch', 'multitouchend'];
@@ -41,7 +42,7 @@ export class EventScene extends THREE.Scene {
     if (event.event) gestureEvent.position = _convertEvent(event.event);
     if (event.events) gestureEvent.positions = event.events.map(_convertEvent);
     if (event.preEvents) gestureEvent.preDrags = event.preEvents.map(_convertEvent);
-    if (event.event && event.event.deltaY !== undefined) gestureEvent.wheelDelta = event.event.deltaY;
+    if (event.event && event.event.deltaY !== undefined) gestureEvent.wheelDelta = normalizeWheel(event.event).pixelY;
 
     this.onEvent(gestureEvent);
   };

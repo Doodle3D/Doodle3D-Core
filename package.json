@@ -33,6 +33,7 @@
     "keycode": "^2.1.9",
     "lodash": "^4.17.4",
     "memoizee": "^0.3.9",
+    "normalize-wheel": "^1.0.1",
     "pouchdb": "^6.3.4",
     "proptypes": "^1.1.0",
     "raf": "^3.4.0",
