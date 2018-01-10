@@ -2,8 +2,6 @@ import * as THREE from 'three';
 import * as actions from '../../actions/index.js';
 import { EventObject3D } from '../EventScene.js';
 import transposeEvents from '../../utils/transposeEvents.js';
-import ShapeMesh from '../ShapeMesh.js';
-import { SpriteHandle } from '../../utils/threeUtils.js';
 
 const RAY_CASTER = new THREE.Raycaster();
 const MOUSE = new THREE.Vector2();
