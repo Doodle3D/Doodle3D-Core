@@ -58,24 +58,6 @@ export default class PolygonTool extends BaseTool {
       context.restore();
 
       context.beginPath();
-
-      // const anglePosition = this.anglePosition.applyMatrix(matrix);
-      // context.arc(anglePosition.x, anglePosition.y, 20, 0, this.angleDegrees, this.angleDegrees > Math.PI);
-      //
-      // context.strokeStyle = 'black';
-      // context.lineWidth = 1;
-      // context.stroke();
-      //
-      // const angleTextPos = new Vector(28, 0)
-      //   .rotate((this.angleDegrees < Math.PI ? this.angleDegrees : this.angleDegrees - Math.PI * 2.0) / 2)
-      //   .add(anglePosition);
-      // context.textAlign = 'start';
-      // context.textBaseline = 'middle';
-      // context.fillStyle = '#000';
-      // context.font = '10px Arial';
-      //
-      // const angleDegrees = this.angleDegrees < Math.PI ? this.angleDegrees : Math.PI * 2 - this.angleDegrees;
-      // dimensionsText.drawText(context, humanReadable.degrees(angleDegrees), angleTextPos.x, angleTextPos.y);
     }
   }
 }

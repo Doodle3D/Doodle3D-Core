@@ -45,7 +45,7 @@ class DoodlePreview extends React.Component {
     scene: null
   };
 
-  async componentDidMount() {
+  async componentWillMount() {
     let { docData, sketchData } = this.props;
 
     if (docData) sketchData = await JSONToSketchData(this.props.docData);

@@ -55,7 +55,7 @@ export default class AnaglyphPass {
     this._renderTargetR.setSize(width * pixelRatio, height * pixelRatio);
   }
 
-  render(renderer, writeBuffer, readBuffer, delta, maskActive) {
+  render(renderer, writeBuffer, readBuffer) {
     this.scene.updateMatrixWorld();
     this._stereo.update(this.camera);
 

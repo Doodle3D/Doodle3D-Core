@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 export default class RenderPass {
   constructor(scene, camera, callbackBeforeRender) {
     this.scene = scene;
@@ -10,10 +8,10 @@ export default class RenderPass {
     this.renderToScreen = false;
   }
 
-  setSize(width, height) {
+  setSize() {
   }
 
-  render(renderer, writeBuffer, readBuffer, delta, maskActive) {
+  render(renderer, writeBuffer, readBuffer) {
     if (this._callbackBeforeRender) this._callbackBeforeRender();
 
     let oldAutoClear;

@@ -1,5 +1,4 @@
 import { CANVAS_SIZE } from '../../constants/d2Constants';
-import ShapeMesh from '../ShapeMesh.js';
 import * as THREE from 'three';
 import BaseTransformer from './BaseTransformer.js';
 import * as actions from '../../actions/index.js';

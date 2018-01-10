@@ -234,13 +234,19 @@ const getMenus = createSelector([
   state => state.sketcher.present.menus,
   state => state.sketcher.present.d2.tool,
   state => state.sketcher.present.selection.objects.length,
-  state => state.sketcher.present.selection.objects.filter(({ id }) => state.sketcher.present.objectsById[id].fill).length,
-  state => state.sketcher.present.selection.objects.filter(({ id }) => state.sketcher.present.objectsById[id].solid).length,
-  state => state.sketcher.present.selection.objects.some(({ id }) => state.sketcher.present.objectsById[id].type === 'TEXT')
-], (menus, activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText) => ({
-  toolbar2d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, nestChildren(menus, menus[TOOLBAR2D])),
-  toolbar3d: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, nestChildren(menus, menus[TOOLBAR3D])),
-  context: filterMenus(activeTool, numSelectedObjects, numFilledObjects, numSolidObjects, selectionIncludesText, nestChildren(menus, menus[CONTEXT]))
+  state => state.sketcher.present.selection.objects.filter(({ id }) => {
+    return state.sketcher.present.objectsById[id].fill;
+  }).length,
+  state => state.sketcher.present.selection.objects.filter(({ id }) => {
+    return state.sketcher.present.objectsById[id].solid;
+  }).length,
+  state => state.sketcher.present.selection.objects.some(({ id }) => {
+    return state.sketcher.present.objectsById[id].type === 'TEXT';
+  })
+], (menus, ...args) => ({
+  toolbar2d: filterMenus(...args, nestChildren(menus, menus[TOOLBAR2D])),
+  toolbar3d: filterMenus(...args, nestChildren(menus, menus[TOOLBAR3D])),
+  context: filterMenus(...args, nestChildren(menus, menus[CONTEXT]))
 }));
 
 export default injectSheet(styles)(connect(getMenus)(SketcherToolbars));

@@ -42,7 +42,9 @@ export class EventScene extends THREE.Scene {
     if (event.event) gestureEvent.position = _convertEvent(event.event);
     if (event.events) gestureEvent.positions = event.events.map(_convertEvent);
     if (event.preEvents) gestureEvent.preDrags = event.preEvents.map(_convertEvent);
-    if (event.event && event.event.deltaY !== undefined) gestureEvent.wheelDelta = normalizeWheel(event.event).pixelY;
+    if (event.event && event.event.deltaY !== undefined) {
+      gestureEvent.wheelDelta = normalizeWheel(event.event).pixelY;
+    }
 
     this.onEvent(gestureEvent);
   };

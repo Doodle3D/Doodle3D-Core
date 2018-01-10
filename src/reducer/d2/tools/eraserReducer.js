@@ -31,5 +31,8 @@ function handleEraser(state, path, screenMatrixZoom) {
     roundPrecision: 0.25
   });
 
-  return subtractShapeFromState(state, eraserShape, d2Tools.ERASER, { matrix: screenMatrixZoom, scale: CLIPPER_PRECISION });
+  return subtractShapeFromState(state, eraserShape, d2Tools.ERASER, {
+    matrix: screenMatrixZoom,
+    scale: CLIPPER_PRECISION
+  });
 }
