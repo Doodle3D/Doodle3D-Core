@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button.js';
 import Menu from './Menu.js';
-import bowser from 'bowser';
 import { connect } from 'react-redux';
 import { hexToStyle } from '../utils/colorUtils.js';
 // import createDebug from 'debug';
@@ -21,7 +20,9 @@ class SubMenu extends React.Component {
     svg: PropTypes.string,
     children: PropTypes.node,
     selectOnOpen: PropTypes.bool,
-    toggleBehavior: PropTypes.bool
+    toggleBehavior: PropTypes.bool,
+    color: PropTypes.number,
+    solid: PropTypes.bool
   };
   componentWillMount = () => {
     // Listeners to close the submenu when anywhere else is clicked

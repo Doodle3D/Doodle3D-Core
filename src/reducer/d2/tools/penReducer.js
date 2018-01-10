@@ -139,6 +139,16 @@ export default function penReducer(state, action) {
           .filter(({ distance }) => distance < snappingDistance)
           .sort((a, b) => a.distance - b.distance);
 
+        const hits = snappingPoints.map(snappingPoint => snappingPoint.hit);
+        if (hits.includes('start-end') && hits.includes('end-end')) {
+          const index = Math.max(hits.indexOf('start-end') && hits.indexOf('end-end'));
+          snappingPoints.splice(index, 1);
+        }
+        if (hits.includes('start-start') && hits.includes('end-start')) {
+          const index = Math.max(hits.indexOf('start-start') && hits.indexOf('end-start'));
+          snappingPoints.splice(index, 1);
+        }
+
         // the active shape's start and end points can only be connected to one other shape,
         // this variable can be used to check if the start or end point is already been snapped to
         // when the point has a connection it stores the shape UID of the connected shape

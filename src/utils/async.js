@@ -52,13 +52,13 @@ export function createThrottle() {
 
     if (!startLoop) return null;
 
-    return function loop() {
+    return (function loop() {
       const promise = next().then(() => {
         if (typeof next === 'function') return loop();
       });
       next = true;
       return promise;
-    }().then(() => {
+    })().then(() => {
       next = null;
     });
   };

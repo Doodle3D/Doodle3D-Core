@@ -249,78 +249,37 @@
 	flex-wrap: wrap;
 }
 
-#color-light-blue-a {
-	fill: #bcffff;
-}
-#color-light-blue-b {
-	fill: #69e1fd;
-}
-#color-light-blue-c {
-	fill: #00b8ff;
-}
-#color-dark-blue-a {
-	fill: #c8e2ff;
-}
-#color-dark-blue-b {
-	fill: #7dacfc;
-}
-#color-dark-blue-c {
-	fill: #0357ff;
-}
-#color-purple-a {
-	fill: #efc9ff;
-}
-#color-purple-b {
-	fill: #c57efc;
-}
-#color-purple-c {
-	fill: #820ef9;
-}
-#color-pink-a {
-	fill: #ffc7ee;
-}
-#color-pink-b {
-	fill: #fd7cc1;
-}
-#color-pink-c {
-	fill: #fa047b;
-}
-#color-red-a {
-	fill: #ffcdce;
-}
-#color-red-b {
-	fill: #fd898a;
-}
-#color-red-c {
-	fill: #fd898a;
-}
-#color-yellow-a {
-	fill: #fffea0;
-}
-#color-yellow-b {
-	fill: #fffb39;
-}
-#color-yellow-c {
-	fill: #fdac05;
-}
-#color-green-a {
-	fill: #daffd4;
-}
-#color-green-b {
-	fill: #97f194;
-}
-#color-green-c {
-	fill: #31d22d;
-}
-#color-black-a {
-	fill: #f4f4f4;
-}
-#color-black-b {
-	fill: #7f7f7f;
-}
-#color-black-c {
-	fill: #1f1f1f;
-}
+#color-light-blue-a { fill: #BCFFFF; }
+#color-light-blue-b { fill: #68E1FD; }
+#color-light-blue-c { fill: #01B8FF; }
+
+#color-dark-blue-a { fill: #C8E3FF; }
+#color-dark-blue-b { fill: #7DACFC; }
+#color-dark-blue-c { fill: #0256FF; }
+
+#color-purple-a { fill: #EFC9FF; }
+#color-purple-b { fill: #C57EFC; }
+#color-purple-c { fill: #820FF9; }
+
+#color-pink-a { fill: #FFC7EE; }
+#color-pink-b { fill: #FD7BC1; }
+#color-pink-c { fill: #FA047B; }
+
+#color-red-a { fill: #FFCDCE; }
+#color-red-b { fill: #FD898A; }
+#color-red-c { fill: #FF2600; }
+
+#color-yellow-a { fill: #FFF76B; }
+#color-yellow-b { fill: #FF9201; }
+#color-yellow-c { fill: #AA7942; }
+
+#color-green-a { fill: #DAFFD5; }
+#color-green-b { fill: #97F294; }
+#color-green-c { fill: #00EA01; }
+
+#color-black-a { fill: #F4F4F4; }
+#color-black-b { fill: #AAAAAA; }
+#color-black-c { fill: #444444; }
 
 #color-hole-material {
 	fill: url(#holepattern);

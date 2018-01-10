@@ -15,24 +15,43 @@ const reducer = combineReducers({ sketcher: sketcherReducer });
 const enhancer = compose(applyMiddleware(thunkMiddleware, promiseMiddleware(), createLogger({ collapsed: true })));
 const store = createStore(reducer, enhancer);
 
-// prepare html (SHOULDN'T BE DONE LIKE THIS)
-document.body.style.margin = 0;
-document.body.style.padding = 0;
-document.body.style.height = '100%';
-document.documentElement.style.height = '100%';
-document.documentElement.style.overflow = 'hidden';
-document.getElementById('app').style.height = '100%';
-
+// add actions to window
 import actionWrapper from 'redux-action-wrapper';
 import * as actions from './src/actions/index.js';
 window.actions = actionWrapper(actions, store.dispatch);
+import { saveAs as saveAsLib } from 'file-saver';
 
-import modelData from './models/noodlebot.d3sketch';
+// download file
+import { createFile } from './src/utils/exportUtils.js';
+window.downloadStl = () => {
+  store.dispatch(async (dispatch, getState) => {
+    const state = getState();
+    const blob = await createFile(state.sketcher.present, 'stl-blob');
+    saveAsLib(blob, 'doodle.stl');
+  });
+};
+
+// add model to store
+import modelData from './models/circle_error.d3sketch';
 import JSONToSketchData from './src/shape/JSONToSketchData.js';
-(async () => {
-  const data = await JSONToSketchData(JSON.parse(modelData));
+JSONToSketchData(JSON.parse(modelData)).then(data => {
   store.dispatch(actions.openSketch({ data }));
-})();
+});
+
+// default css
+import jss from 'jss';
+import preset from 'jss-preset-default';
+import normalize from 'normalize-jss';
+jss.setup(preset());
+jss.createStyleSheet(normalize).attach();
+jss.createStyleSheet({
+  '@global': {
+    '*': { margin: 0, padding: 0 },
+    '#app, body, html': { height: '100%', fontFamily: 'sans-serif' },
+    body: { overflow: 'auto' },
+    html: { overflow: 'hidden' }
+  }
+}).attach();
 
 // render dom
 import React from 'react';

@@ -16,7 +16,7 @@ import TwistTransformer from '../d3/transformers/TwistTransformer.js';
 import SculptTransformer from '../d3/transformers/SculptTransformer.js';
 import StampTransformer from '../d3/transformers/StampTransformer.js';
 import SelectionBox from '../d3/SelectionBox.js';
-import RenderChain from '../d3/RenderChain';
+import RenderChain, { TOONSHADER_OUTLINE, TOONSHADER } from '../d3/RenderChain';
 import BaseTransformer from '../d3/transformers/BaseTransformer.js';
 import Camera from '../d3/Camera.js';
 import ReactResizeDetector from 'react-resize-detector';
@@ -62,7 +62,8 @@ class D3Panel extends React.Component {
   componentWillMount() {
     this.createScene();
 
-    this.renderChain = new RenderChain(this.renderer, this.scene, this.camera, hasExtensionsFor.toonShaderPreview, {
+    const shader = hasExtensionsFor.toonShaderPreview ? TOONSHADER_OUTLINE : TOONSHADER;
+    this.renderChain = new RenderChain(this.renderer, this.scene, this.camera, shader, {
       UI: this.UIContainer,
       shapes: this.shapesManager,
       boundingBox: this.selectionBox,

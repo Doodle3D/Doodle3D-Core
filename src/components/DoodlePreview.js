@@ -51,7 +51,6 @@ class DoodlePreview extends React.Component {
     if (docData) sketchData = await JSONToSketchData(this.props.docData);
 
     const { canvas } = this.refs;
-    const { pixelRatio } = this.props
 
     const sceneData = createSceneData(sketchData);
 
@@ -70,7 +69,7 @@ class DoodlePreview extends React.Component {
 
   resizeHandler = (width, height) => {
     requestAnimationFrame(() => {
-      const { setSize, render } = this.state;
+      const { setSize } = this.state;
       const { pixelRatio } = this.props;
       setSize(width, height, pixelRatio);
     });

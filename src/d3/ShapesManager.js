@@ -14,7 +14,7 @@ export default class ShapesManager extends THREE.Object3D {
     this._spaces = {};
     this.name = 'shapes-manager';
 
-    this._holes = null;
+    this._holes = [];
 
     // this._edges = {};
   }
@@ -77,23 +77,33 @@ export default class ShapesManager extends THREE.Object3D {
     }
 
     if (holesChanged) {
-      this._holes = null;
+      this._holes = [];
       for (let i = 0; i < ids.length; i ++) {
         const id = ids[i];
+        if (activeShapes[id]) continue;
+
         const { solid, type } = state.objectsById[id];
         const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
-        if (!solid && d3Visible) {
-          const hole = this._meshes[id].mesh._mesh;
-          const holeGeometry = new THREE.Geometry().fromBufferGeometry(hole.geometry);
-          if (holeGeometry.vertices.length === 0) continue;
-          const holeBSP = new THREE_BSP(holeGeometry);
-          if (!this._holes) {
-            this._holes = holeBSP;
-          } else {
-            this._holes = this._holes.union(holeBSP);
-          }
-          holeGeometry.dispose();
+        if (solid || !d3Visible) continue;
+
+        const holeMesh = this._meshes[id].mesh._mesh;
+        const geometry = new THREE.Geometry().fromBufferGeometry(holeMesh.geometry);
+        if (geometry.vertices.length === 0) continue;
+
+        const box = new THREE.Box3().setFromPoints(geometry.vertices);
+        const intersectHole = this._holes.find(hole => hole.box.intersectsBox(box));
+
+        const bsp = new THREE_BSP(geometry);
+
+        if (intersectHole) {
+          intersectHole.bsp = intersectHole.bsp.union(bsp);
+          const min = box.min.min(intersectHole.box.min);
+          const max = box.max.max(intersectHole.box.max);
+          intersectHole.box = new THREE.Box3(min, max);
+        } else {
+          this._holes.push({ bsp, box });
         }
+        geometry.dispose();
       }
     }
 
@@ -104,9 +114,7 @@ export default class ShapesManager extends THREE.Object3D {
       const d3Visible = SHAPE_TYPE_PROPERTIES[type].D3Visible;
       if (!active && solid && d3Visible) {
         const shape = this._meshes[id].mesh;
-        if (shape.updateHoleGeometry(this._holes)) {
-          render = true;
-        }
+        if (shape.updateHoleGeometry(this._holes)) render = true;
       }
     }
 

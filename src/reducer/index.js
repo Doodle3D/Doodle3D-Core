@@ -8,7 +8,7 @@ import { COLOR_STRING_TO_HEX } from '../constants/general.js';
 import * as contextTools from '../constants/contextTools.js';
 import { ERASER_SIZES, BRUSH_SIZES } from '../constants/d2Constants.js';
 import update from 'react-addons-update';
-import { defaultCamera, cameraReducer } from './d3/tools/cameraReducer.js';
+import { defaultCamera } from './d3/tools/cameraReducer.js';
 import d2AddImageReducer from './d2/addImageReducer.js';
 import d2ToolReducer from './d2/toolReducer.js';
 import d3ToolReducer from './d3/toolReducer.js';
@@ -19,9 +19,7 @@ import selectionReducer from './selectionReducer.js';
 import selectionOperationReducer from './selectionOperationReducer.js';
 import contextReducer from './contextReducer.js';
 import { Matrix, Vector } from 'cal';
-import {
-  setActiveSpace, addSpaceActive, setActive2D, removeAllObjects, getActive2D, addObject
-} from './objectReducers.js';
+import { setActiveSpace, addSpaceActive, setActive2D, getActive2D, addObject } from './objectReducers.js';
 import menusReducer from './menusReducer.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:reducer:sketcher');

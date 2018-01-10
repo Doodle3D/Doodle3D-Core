@@ -12,9 +12,9 @@ export default class MatcapMaterial extends THREE.ShaderMaterial {
   constructor({ color = new THREE.Color(), opacity = 1 }) {
     super({
       uniforms: {
-        "opacity": { type: 'f', value: opacity },
-        "tMatcap": { type: 't', value: matcapTexture },
-        "color": { type: 'vec3', value: new THREE.Vector3() }
+        opacity: { type: 'f', value: opacity },
+        tMatcap: { type: 't', value: matcapTexture },
+        color: { type: 'vec3', value: new THREE.Vector3() }
       },
       vertexShader: matcapVert,
       fragmentShader: matcapFrag
@@ -35,7 +35,8 @@ export default class MatcapMaterial extends THREE.ShaderMaterial {
 
   set opacity(opacity) {
     if (!this.uniforms) return opacity;
-    return this.uniforms.opacity.value = opacity;
+    this.uniforms.opacity.value = opacity;
+    return opacity;
   }
 
   clone() {
