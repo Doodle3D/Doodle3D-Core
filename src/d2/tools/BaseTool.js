@@ -133,6 +133,7 @@ export default class BaseTool extends EventGroup {
       .filter(shapeData => {
         const shapeMatrix = shapeData.transform.multiplyMatrix(matrix);
         let shapePoints = shapeToPoints(shapeData);
+        let { fill } = shapeData;
 
         if (shapeData.type === 'TEXT') {
           if (shapeData.text.text === '') return false;
@@ -143,14 +144,15 @@ export default class BaseTool extends EventGroup {
             new Vector(max.x, max.y),
             new Vector(max.x, min.y)
           ], holes: [] }];
+          fill = true;
         }
 
         const isHit = shapePoints
           .some(({ points, holes }) => {
             const shape = applyMatrixOnShape([points, ...holes], shapeMatrix);
-            const clipperShape = new ClipperShape(shape, shapeData.fill, true, true);
+            const clipperShape = new ClipperShape(shape, fill, true, true);
 
-            if (shapeData.fill) {
+            if (fill) {
               return clipperShape
                 .fixOrientation()
                 .pointInShape(position, true, true);
