@@ -109,6 +109,11 @@ const context = {
       selected: contextTools.ALIGN_HORIZONTAL,
       children: contextTools.ALIGN_TOOLS.map(value => ({ value })),
       ...selectorBehavior
+    }, {
+      value: contextTools.FONT,
+      selected: contextTools.OSWALD,
+      children: contextTools.FONT_TOOLS.map(value => ({ value })),
+      ...selectorBehavior
     },
     { value: contextTools.UNION },
     { value: contextTools.INTERSECT }

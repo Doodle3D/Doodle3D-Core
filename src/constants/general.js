@@ -37,3 +37,14 @@ export const COLOR_STRING_TO_HEX = {
   [contextTools.BLACK_B]: 0xAAAAAA,
   [contextTools.BLACK_C]: 0x444444
 };
+
+export const FONT_FACE = {
+  [contextTools.OSWALD]: 'Oswald',
+  [contextTools.RANGA]: 'Ranga',
+  [contextTools.JOTI_ONE]: 'Joti One',
+  [contextTools.BELLEFAIR]: 'Bellefair',
+  [contextTools.LOBSTER]: 'Lobster',
+  [contextTools.ABRIL_FATFACE]: 'Abril Fatface',
+  [contextTools.PLAY]: 'Play',
+  [contextTools.FASCINATE]: 'Fascinate'
+};

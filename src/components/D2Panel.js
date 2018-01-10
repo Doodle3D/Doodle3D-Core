@@ -23,6 +23,7 @@ import ShapesManager from '../d2/ShapesManager.js';
 import EventGroup from '../d2/EventGroup.js';
 import ReactResizeDetector from 'react-resize-detector';
 import { load as loadPattern } from '../d2/Shape.js';
+import InputText from './InputText.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:d2');
 
@@ -62,6 +63,9 @@ class D2Panel extends React.Component {
     state: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     classes: PropTypes.objectOf(PropTypes.string)
+  };
+  state = {
+    screenMatrix: new CAL.Matrix()
   };
   activeNeedRender = false;
   inactiveNeedRender = false;
@@ -117,7 +121,7 @@ class D2Panel extends React.Component {
   }
 
   switchTool(toolName) {
-    if (this.state && toolName === this.state.d2.tool) return;
+    if (this.state.state && toolName === this.state.state.d2.tool) return;
     // cleanup & remove previous tool
     if (this.tool) {
       this.tool.destroy();
@@ -135,18 +139,18 @@ class D2Panel extends React.Component {
     this.objectContainerActive.add(this.tool);
   }
 
-  update(newState) {
-    if (this.state === newState) return;
+  update(state) {
+    if (this.state.state === state) return;
 
-    this.updateTool(newState);
+    this.updateTool(state);
 
-    const shapesNeedRender = this.shapesManager.update(newState);
+    const shapesNeedRender = this.shapesManager.update(state);
     if (shapesNeedRender.active) this.activeNeedRender = true;
     if (shapesNeedRender.inactive) this.inactiveNeedRender = true;
 
     // Update Objects Container Space with zoom & panning
-    const newCanvasMatrix = newState.d2.canvasMatrix;
-    if (this.state && newCanvasMatrix !== this.state.d2.canvasMatrix) {
+    const newCanvasMatrix = state.d2.canvasMatrix;
+    if (this.state.state && newCanvasMatrix !== this.state.state.d2.canvasMatrix) {
       this.objectContainerActive.copyMatrix(newCanvasMatrix);
       this.objectContainerInactive.copyMatrix(newCanvasMatrix);
 
@@ -154,9 +158,9 @@ class D2Panel extends React.Component {
       this.inactiveNeedRender = true;
     }
 
-    const selection = (this.state) ? this.state.selection : null;
-    const newSelection = newState.selection;
-    if (!this.state || newSelection !== selection) {
+    const selection = (this.state.state) ? this.state.state.selection : null;
+    const newSelection = state.selection;
+    if (!this.state.state || newSelection !== selection) {
       const newSelectedObjects = newSelection.objects;
       if (!selection || selection.objects !== newSelectedObjects) {
         const selected = newSelectedObjects.map((object) => object.id);
@@ -167,25 +171,29 @@ class D2Panel extends React.Component {
       }
     }
 
-    const dragSelect = (this.state) ? this.state.d2.transform.dragSelect : null;
-    const newDragSelect = newState.d2.transform.dragSelect;
+    const dragSelect = (this.state.state) ? this.state.state.d2.transform.dragSelect : null;
+    const newDragSelect = state.d2.transform.dragSelect;
     if (!dragSelect || dragSelect !== newDragSelect) {
       this.activeNeedRender = true;
     }
 
-    this.state = newState;
+    this.setState({ state });
   }
 
   resizeHandler = (width, height) => {
     this.sceneActive.setSize(width, height, PIXEL_RATIO);
     this.sceneInactive.setSize(width, height, PIXEL_RATIO);
 
-    this.sceneInactive.x = this.sceneActive.x = Math.round(width / 2 * PIXEL_RATIO);
-    this.sceneInactive.y = this.sceneActive.y = Math.round(height / 2 * PIXEL_RATIO);
-
+    const x = Math.round(width / 2 * PIXEL_RATIO);
+    const y = Math.round(height / 2 * PIXEL_RATIO);
     const scale = Math.min(width * PIXEL_RATIO / CANVAS_WIDTH, height * PIXEL_RATIO / CANVAS_HEIGHT);
 
-    this.sceneInactive.scale = this.sceneActive.scale = scale;
+    const screenMatrix = new CAL.Matrix({ sx: scale, sy: scale, x, y });
+
+    this.sceneInactive.copyMatrix(screenMatrix);
+    this.sceneActive.copyMatrix(screenMatrix);
+
+    this.setState({ screenMatrix });
 
     this.inactiveNeedRender = this.activeNeedRender = true;
     this.renderRequest();
@@ -210,12 +218,14 @@ class D2Panel extends React.Component {
   render() {
     // debug('this.props.state: ', this.props.state);
     const { state, classes } = this.props;
+    const { screenMatrix } = this.state;
     this.update(state);
     this.renderCanvas();
     return (
       <div className={classes.container}>
         <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
         <div className={classes.canvasContainer} ref="canvasContainer" />
+        <InputText screenMatrix={screenMatrix} />
       </div>
     );
   }

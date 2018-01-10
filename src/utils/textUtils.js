@@ -9,19 +9,17 @@ import memoize from 'memoizee';
 const MARGIN = 200;
 
 export const createText = memoize(createTextRaw, { max: SHAPE_CACHE_LIMIT });
-export function createTextRaw(text, size, family, style, weight) {
+export function createTextRaw(text, size, precision, family, style, weight) {
   if (text === '') return [];
 
-  const { width, height, canvas } = createTextCanvas(text, size, family, style, weight);
+  const canvas = createTextCanvas(text, size * precision, family, style, weight);
 
   // TODO merge with potrace in flood fill trace reducer
   const paths = POTRACE.getPaths(POTRACE.traceCanvas(canvas, POTRACE_OPTIONS));
 
-  const halfWidth = width / 2;
-  const halfHeight = height / 2;
   const pathsOffset = paths.map(path => path.map(({ x, y }) => ({
-    x: (x - halfWidth) / 10,
-    y: (y - halfHeight) / 10
+    x: (x - MARGIN) / precision,
+    y: (y - MARGIN) / precision
   })));
 
   const shapes = new ClipperShape(pathsOffset, true, true, false)
@@ -33,7 +31,7 @@ export function createTextRaw(text, size, family, style, weight) {
   return shapes;
 }
 
-const textContext = new Text();
+const textContext = new Text({ baseline: 'top' });
 export function createTextCanvas(text, size, family, style, weight) {
   textContext.size = size;
   textContext.family = family;
@@ -52,7 +50,7 @@ export function createTextCanvas(text, size, family, style, weight) {
   context.fillStyle = 'white';
   context.fillRect(0, 0, width, height);
 
-  textContext.drawText(context, text, MARGIN, height / 2);
+  textContext.drawText(context, text, MARGIN, MARGIN);
 
-  return { width, height, canvas };
+  return canvas;
 }

@@ -1,6 +1,8 @@
 import { Vector, Matrix } from '@doodle3d/cal';
 import * as d2Tools from './d2Tools';
 import * as d3Tools from './d3Tools';
+import * as contextTools from './contextTools';
+import { FONT_FACE } from '../constants/general.js';
 
 const SHAPE = {
   D3Visible: true,
@@ -58,7 +60,7 @@ export const SHAPE_TYPE_PROPERTIES = {
     ...SHAPE,
     defaultProperties: {
       ...defaultProperties,
-      text: { text: '', family: 'Arial', weight: 'normal', style: 'normal' },
+      text: { text: '', family: FONT_FACE[contextTools.OSWALD], weight: 'normal', style: 'normal' },
       fill: true
     }
   },

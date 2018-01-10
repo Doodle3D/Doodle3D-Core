@@ -8,6 +8,7 @@ export const HOLE_TOGGLE = 'hole-toggle-tool';
 export const ALIGN = 'align-tool';
 export const UNION = 'union-tool';
 export const INTERSECT = 'intersect-tool';
+export const FONT = 'font-tool';
 
 export const LIGHT_BLUE_A = 'color-light-blue-a';
 export const LIGHT_BLUE_B = 'color-light-blue-b';
@@ -78,4 +79,24 @@ export const ALIGN_TOOLS = [
   ALIGN_TOP,
   ALIGN_VERTICAL,
   ALIGN_BOTTOM
+];
+
+export const OSWALD = 'oswald';
+export const RANGA = 'ranga';
+export const JOTI_ONE = 'joti-one';
+export const BELLEFAIR = 'bellefair';
+export const LOBSTER = 'lobster';
+export const ABRIL_FATFACE = 'abril-fatface';
+export const PLAY = 'play';
+export const FASCINATE = 'fascinate';
+
+export const FONT_TOOLS = [
+  OSWALD,
+  RANGA,
+  JOTI_ONE,
+  BELLEFAIR,
+  LOBSTER,
+  ABRIL_FATFACE,
+  PLAY,
+  FASCINATE
 ];
