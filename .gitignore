@@ -13,3 +13,4 @@ plugins
 platforms
 
 config.xml
+.DS_Store
