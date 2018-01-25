@@ -1,7 +1,5 @@
 import { updateColor } from '../../selectionReducer.js';
 import { getColor } from '../../../utils/objectSelectors.js';
-import { select } from '../../menusReducer.js';
-import update from 'react-addons-update';
 import { updateTool as updateTool2d } from '../toolReducer.js';
 
 export default function pipetteReducer(state, action) {

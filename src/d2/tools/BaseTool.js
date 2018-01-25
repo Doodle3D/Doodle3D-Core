@@ -8,7 +8,7 @@ import { shapeToPoints } from '../../shape/shapeToPoints';
 import { LINE_COLLISION_MARGIN } from '../../constants/d2Constants';
 import { LINE_WIDTH } from '../../constants/d2Constants';
 import { PIXEL_RATIO } from '../../constants/general';
-import { Matrix } from 'cal';
+import { Matrix, Vector } from 'cal';
 
 const HIT_ORDER = {
   RECT: 0,
@@ -132,13 +132,27 @@ export default class BaseTool extends EventGroup {
     const objects = shapeDatas
       .filter(shapeData => {
         const shapeMatrix = shapeData.transform.multiplyMatrix(matrix);
+        let shapePoints = shapeToPoints(shapeData);
+        let { fill } = shapeData;
 
-        const isHit = shapeToPoints(shapeData)
+        if (shapeData.type === 'TEXT') {
+          if (shapeData.text.text === '') return false;
+          const { min, max } = getPointsBounds(shapePoints);
+          shapePoints = [{ points: [
+            new Vector(min.x, min.y),
+            new Vector(min.x, max.y),
+            new Vector(max.x, max.y),
+            new Vector(max.x, min.y)
+          ], holes: [] }];
+          fill = true;
+        }
+
+        const isHit = shapePoints
           .some(({ points, holes }) => {
             const shape = applyMatrixOnShape([points, ...holes], shapeMatrix);
-            const clipperShape = new ClipperShape(shape, shapeData.fill, true, true);
+            const clipperShape = new ClipperShape(shape, fill, true, true);
 
-            if (shapeData.fill) {
+            if (fill) {
               return clipperShape
                 .fixOrientation()
                 .pointInShape(position, true, true);

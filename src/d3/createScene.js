@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import ShapesManager from './ShapesManager.js';
-import RenderChain from './RenderChain.js';
+import RenderChain, { TOONSHADER, TOONSHADER_OUTLINE } from './RenderChain.js';
 import { hasExtensionsFor } from '../utils/webGLSupport.js';
 import { CANVAS_SIZE } from '../constants/d2Constants.js';
 
@@ -17,7 +17,7 @@ export default function createScene(state, canvas) {
 
   scene.add(camera);
 
-  const shapesManager = new ShapesManager({ toonShader: hasExtensionsFor.toonShaderThumbnail });
+  const shapesManager = new ShapesManager();
   shapesManager.update(state);
 
   scene.add(shapesManager);
@@ -37,7 +37,8 @@ export default function createScene(state, canvas) {
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 
-  const renderChain = new RenderChain(renderer, scene, camera, hasExtensionsFor.toonShaderThumbnail, {
+  const shader = hasExtensionsFor.toonShaderThumbnail ? TOONSHADER_OUTLINE : TOONSHADER;
+  const renderChain = new RenderChain(renderer, scene, camera, shader, {
     plane,
     UI: new THREE.Object3D(),
     shapes: shapesManager,

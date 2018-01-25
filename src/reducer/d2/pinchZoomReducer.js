@@ -1,5 +1,4 @@
 import update from 'react-addons-update';
-import { Matrix } from 'cal';
 import constrainMatrix from './constrainMatrix.js';
 import { calculateGestureMatrix } from '../../utils/matrixUtils.js';
 import * as actions from '../../actions/index.js';

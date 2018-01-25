@@ -21,7 +21,7 @@ class ShapeMesh extends THREE.Object3D {
     super();
     this.name = shapeData.UID;
 
-    const { sculpt, rotate, twist, height, type, transform, z, color, fill, solid } = shapeData;
+    const { sculpt, rotate, twist, height, type, transform, z, color, solid } = shapeData;
 
     const material = new MatcapMaterial({ color: new THREE.Color(color) });
 

@@ -1,6 +1,5 @@
 import { ActionCreators as undo } from 'redux-undo';
 import * as notification from 'react-notification-system-redux';
-import { routerActions as router } from 'react-router-redux';
 import * as selectionUtils from '../utils/selectionUtils.js';
 import { calculatePointInImage, decomposeMatrix } from '../utils/matrixUtils.js';
 import { loadImage, prepareImage } from '../utils/imageUtils.js';
@@ -74,7 +73,6 @@ export const ALIGN = 'ALIGN';
 export const ADD_IMAGE = 'ADD_IMAGE';
 export const D2_TEXT_INIT = 'D2_TEXT_INIT';
 export const D2_TEXT_INPUT_CHANGE = 'D2_TEXT_INPUT_CHANGE';
-export const D2_TEXT_ADD = 'D2_TEXT_ADD';
 export const UNION = 'UNION';
 export const INTERSECT = 'INTERSECT';
 export const MOVE_SELECTION = 'MOVE_SELECTION';
@@ -390,14 +388,10 @@ export function addImage(file) {
 export function d2textInit(position, textId, screenMatrixContainer, screenMatrixZoom) {
   return (dispatch) => {
     dispatch({ type: D2_TEXT_INIT, position, textId, screenMatrixContainer, screenMatrixZoom });
-    dispatch(router.push('/sketch/inputtext'));
   };
 }
-export function d2textInputChange(text, family, weight, style, fill) {
-  return { type: D2_TEXT_INPUT_CHANGE, text, family, weight, style, fill };
-}
-export function d2textAdd() {
-  return { type: D2_TEXT_ADD };
+export function d2textInputChange(text) {
+  return { type: D2_TEXT_INPUT_CHANGE, text };
 }
 
 const traceDragThrottle = createThrottle();

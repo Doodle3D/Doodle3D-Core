@@ -67,7 +67,9 @@ class SubMenu extends React.Component {
     }
   };
   render() {
-    const { id, value, selected, open, selectedValue, children, svg, toggleBehavior, color, solid } = this.props;
+    const {
+      id, value, selected, open, selectedValue, children, svg, toggleBehavior, color, solid
+    } = this.props;
 
     const style = {};
     if (id === 'color-picker-tool') {

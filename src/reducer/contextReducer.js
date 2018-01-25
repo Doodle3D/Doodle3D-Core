@@ -1,6 +1,6 @@
 import update from 'react-addons-update';
 import * as contextTools from '../constants/contextTools.js';
-import { COLOR_STRING_TO_HEX } from '../constants/general.js';
+import { COLOR_STRING_TO_HEX, FONT_FACE } from '../constants/general.js';
 import { ERASER_SIZES, BRUSH_SIZES } from '../constants/d2Constants.js';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import * as actions from '../actions/index.js';
@@ -69,6 +69,33 @@ export default function (state, action) {
       });
     }
 
+    case contextTools.OSWALD:
+    case contextTools.RANGA:
+    case contextTools.JOTI_ONE:
+    case contextTools.BELLEFAIR:
+    case contextTools.LOBSTER:
+    case contextTools.ABRIL_FATFACE:
+    case contextTools.PLAY:
+    case contextTools.FASCINATE: {
+      const family = FONT_FACE[action.tool];
+      const { activeShape } = state.d2;
+      if (activeShape && state.objectsById[activeShape].type === 'TEXT') {
+        state = update(state, { objectsById: { [activeShape]: { text: { family: { $set: family } } } } });
+      }
+
+      return update(state, {
+        objectsById: state.selection.objects.reduce((updateObject, { id }) => {
+          if (state.objectsById[id].type === 'TEXT') {
+            updateObject[id] = { text: { family: { $set: FONT_FACE[action.tool] } } };
+          }
+          return updateObject;
+        }, {}),
+        context: {
+          font: { $set: FONT_FACE[action.tool] }
+        }
+      });
+    }
+
     case contextTools.LIGHT_BLUE_A:
     case contextTools.LIGHT_BLUE_B:
     case contextTools.LIGHT_BLUE_C:
@@ -94,6 +121,11 @@ export default function (state, action) {
     case contextTools.BLACK_B:
     case contextTools.BLACK_C: {
       const color = COLOR_STRING_TO_HEX[action.tool];
+      const { activeShape } = state.d2;
+      if (activeShape) {
+        state = update(state, { objectsById: { [activeShape]: { color: { $set: color } } } });
+      }
+
       return updateColor(state, color);
     }
 
