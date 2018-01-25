@@ -11,6 +11,7 @@ import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
 import sketcherReducer from './src/reducer/index.js';
+
 const reducer = combineReducers({ sketcher: sketcherReducer });
 const enhancer = compose(applyMiddleware(thunkMiddleware, promiseMiddleware(), createLogger({ collapsed: true })));
 const store = createStore(reducer, enhancer);
@@ -23,6 +24,12 @@ import { saveAs as saveAsLib } from 'file-saver';
 
 // download file
 import { createFile } from './src/utils/exportUtils.js';
+import sketchDataToJSON from './src/shape/sketchDataToJSON.js';
+import { JSONToBlob } from './src/utils/binaryUtils.js';
+
+import keycode from 'keycode';
+import btnExportURL from './img/corner/btnExport.png';
+
 window.downloadStl = () => {
   store.dispatch(async (dispatch, getState) => {
     const state = getState();
@@ -30,6 +37,23 @@ window.downloadStl = () => {
     saveAsLib(blob, 'doodle.stl');
   });
 };
+
+window.downloadSketch = () => {
+  store.dispatch( (dispatch, getState) => {
+    const state = getState();
+    const json = sketchDataToJSON(state.sketcher.present);
+    const blob = JSONToBlob(json);
+    saveAsLib(blob, 'doodle.d3sketch');
+  });
+};
+
+window.addEventListener('keydown',(event) => {
+  // downloadSketch
+  const key = keycode(event);
+  if (key=='s') downloadSketch();
+  console.log(event.shiftKey, key);
+});
+
 
 // add model to store
 import modelData from './models/circle_error.d3sketch';
@@ -64,9 +88,14 @@ async function init() {
     await new Promise(resolve => document.addEventListener('deviceready', resolve, false));
   }
 
+  console.log(btnExportURL);
+
   render((
     <Provider store={store}>
-      <App />
+      <span>
+        <App />
+        <div onTouchTap={downloadSketch} style={{ position: 'absolute', right: 0, top: 0, backgroundImage: `url(${btnExportURL})`, width: "65px", height: "78px", backgroundSize: "65px 78px", cursor: "pointer" }}></div>
+        </span>
     </Provider>
   ), document.getElementById('app'));
 }
