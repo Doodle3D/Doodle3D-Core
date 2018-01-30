@@ -88,8 +88,6 @@ async function init() {
     await new Promise(resolve => document.addEventListener('deviceready', resolve, false));
   }
 
-  console.log(btnExportURL);
-
   render((
     <Provider store={store}>
       <span>
