@@ -85,7 +85,10 @@ module.exports = {
       inject: false,
       mobile: true,
       scripts: appMode ? ['cordova.js'] : null,
-      appMountId: 'app'
+      appMountId: 'app',
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, minimal-ui, user-scalable=no' }
+      ]
     }),
     new GoogleFontsPlugin({
       fonts: [
