@@ -80,9 +80,12 @@ module.exports = {
     }),
     new HTMLWebpackPlugin({
       title: 'Doodle3D Core - Simple example',
-      template: 'src/index.html',
-      favicon: 'favicon.ico',
-      inject: true,
+      favicon: './favicon.ico',
+      template: require('html-webpack-template'),
+      inject: false,
+      mobile: true,
+      scripts: appMode ? ['cordova.js'] : null,
+      appMountId: 'app'
     }),
     new GoogleFontsPlugin({
       fonts: [
