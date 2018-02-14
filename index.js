@@ -28,7 +28,6 @@ import sketchDataToJSON from './src/shape/sketchDataToJSON.js';
 import { JSONToBlob } from './src/utils/binaryUtils.js';
 
 import keycode from 'keycode';
-import btnExportURL from './img/corner/btnExport.png';
 
 window.downloadStl = () => {
   store.dispatch(async (dispatch, getState) => {
@@ -51,7 +50,6 @@ window.addEventListener('keydown', (event) => {
   // downloadSketch
   const key = keycode(event);
   if (key === 's') window.downloadSketch();
-  console.log(event.shiftKey, key);
 });
 
 
@@ -59,8 +57,8 @@ window.addEventListener('keydown', (event) => {
 import modelData from './models/circle_error.d3sketch';
 import JSONToSketchData from './src/shape/JSONToSketchData.js';
 const { data, appVersion } = JSON.parse(modelData);
-JSONToSketchData(data, appVersion).then(data => {
-  store.dispatch(actions.openSketch({ data }));
+JSONToSketchData({ data }, appVersion).then(sketch => {
+  store.dispatch(actions.openSketch(sketch));
 });
 
 // default css
