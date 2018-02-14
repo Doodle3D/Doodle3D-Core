@@ -39,7 +39,7 @@ window.downloadStl = () => {
 };
 
 window.downloadSketch = () => {
-  store.dispatch( (dispatch, getState) => {
+  store.dispatch((dispatch, getState) => {
     const state = getState();
     const json = sketchDataToJSON(state.sketcher.present);
     const blob = JSONToBlob(json);
@@ -50,7 +50,7 @@ window.downloadSketch = () => {
 window.addEventListener('keydown',(event) => {
   // downloadSketch
   const key = keycode(event);
-  if (key=='s') downloadSketch();
+  if (key === 's') downloadSketch();
   console.log(event.shiftKey, key);
 });
 

@@ -83,7 +83,7 @@ module.exports = {
       favicon: './favicon.ico',
       template: require('html-webpack-template'),
       inject: false,
-      mobile: true,
+      mobile: false,
       scripts: appMode ? ['cordova.js'] : null,
       appMountId: 'app',
       meta: [
