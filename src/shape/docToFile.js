@@ -9,7 +9,8 @@ export default async function docToFile(db, doc, { image = false, sketch = false
     author: doc.author,
     id: doc._id,
     createdOn: doc.createdOn,
-    updatedOn: doc.updatedOn
+    updatedOn: doc.updatedOn,
+    appVersion: doc.appVersion
   };
   if (doc.class) response.class = doc.class;
 
