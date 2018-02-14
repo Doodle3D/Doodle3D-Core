@@ -6,7 +6,7 @@ import { base64ToImage, base64ToVectorArray } from '../utils/binaryUtils.js';
 import { LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
 
 export function recursiveMap(objects, reviver) {
-  const newObjects = {};
+  const newObjects = objects instanceof Array ? [] : {};
 
   for (const i in objects) {
     if (!objects.hasOwnProperty(i)) continue;
