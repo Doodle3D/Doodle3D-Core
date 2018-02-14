@@ -26,7 +26,8 @@ export default async function docToFile(db, doc, { image = false, sketch = false
         throw new Error(`'${doc.name}' doesn't include sketch attachment`);
       }
       const data = await blobToJSON(doc._attachments.sketch.data);
-      response.data = await JSONToSketchData(data);
+
+      response.data = await JSONToSketchData(data, appVersion);
     } else {
       const data = { data: doc.data, appVersion };
       response.data = await JSONToSketchData(data);

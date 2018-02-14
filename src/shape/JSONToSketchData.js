@@ -5,47 +5,71 @@ import { recursivePromiseApply } from '../utils/async.js';
 import { base64ToImage, base64ToVectorArray } from '../utils/binaryUtils.js';
 import { LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
 
-export default async function JSONToSketchData({ data, appVersion }) {
-  let sketchData = JSON.parse(data, (key, value) => {
-    if (semver.lt(appVersion, '0.1.2')) {
-      if (key === 'imageData') {
+export function recursiveMap(objects, reviver) {
+  const newObjects = {};
+
+  for (const i in objects) {
+    if (!objects.hasOwnProperty(i)) continue;
+
+    let object = objects[i];
+    if (typeof object === 'object') {
+      object = recursiveMap(object, reviver);
+    }
+    object = reviver(i, object) || object;
+    newObjects[i] = object;
+  }
+
+  return newObjects;
+}
+
+function revive(appVersion, key, value) {
+  if (semver.lt(appVersion, '0.1.2')) {
+    if (key === 'imageData') {
+      return base64ToImage(value);
+    }
+  }
+
+  if (value.metadata && value.metadata.type) {
+    switch (value.metadata.type) {
+      case 'Vector':
+        return new Vector().fromJSON(value);
+
+      case 'Matrix':
+        return new Matrix().fromJSON(value);
+
+      case 'VectorArray':
+        return base64ToVectorArray(value);
+
+      case 'Image':
         return base64ToImage(value);
-      }
+
+      case 'Matrix4':
+        return new Matrix4().copy(value);
+
+      case 'Color':
+        return new Color(value.data).getHex();
+
+      default:
+        break;
     }
-
-    if (value.metadata && value.metadata.type) {
-      switch (value.metadata.type) {
-        case 'Vector':
-          return new Vector().fromJSON(value);
-
-        case 'Matrix':
-          return new Matrix().fromJSON(value);
-
-        case 'VectorArray':
-          return base64ToVectorArray(value);
-
-        case 'Image':
-          return base64ToImage(value);
-
-        case 'Matrix4':
-          return new Matrix4().copy(value);
-
-        case 'Color':
-          return new Color(value.data).getHex();
-
-        default:
-          break;
-      }
-      return value;
-    }
-
-    // legacy, convert { r: Float, g: Float, b: Float } to hex
-    if (typeof value.r === 'number' && typeof value.g === 'number' && typeof value.b === 'number') {
-      return new Color(value.r, value.g, value.b).getHex();
-    }
-
     return value;
-  });
+  }
+
+  // legacy, convert { r: Float, g: Float, b: Float } to hex
+  if (typeof value.r === 'number' && typeof value.g === 'number' && typeof value.b === 'number') {
+    return new Color(value.r, value.g, value.b).getHex();
+  }
+
+  return value;
+}
+
+export default async function JSONToSketchData(data, appVersion) {
+  let sketchData;
+  if (semver.gt(appVersion, '0.17.4')) {
+    sketchData = recursiveMap(data, (key, value) => revive(appVersion, key, value));
+  } else {
+    sketchData = JSON.parse(data.data, (key, value) => revive(appVersion, key, value));
+  }
   sketchData = await recursivePromiseApply(sketchData);
 
   if (semver.lt(appVersion, '0.4.0')) {

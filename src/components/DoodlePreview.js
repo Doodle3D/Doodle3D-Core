@@ -37,7 +37,7 @@ class DoodlePreview extends React.Component {
     sketchData: PropTypes.object, // TODO
     docData: PropTypes.shape({
       appVersion: PropTypes.string,
-      data: PropTypes.string
+      data: PropTypes.oneOf([PropTypes.string, PropTypes.object])
     })
   };
 
@@ -48,7 +48,7 @@ class DoodlePreview extends React.Component {
   async componentWillMount() {
     let { docData, sketchData } = this.props;
 
-    if (docData) sketchData = await JSONToSketchData(this.props.docData);
+    if (docData) sketchData = await JSONToSketchData(docData.data, docData.appVersion);
 
     const { canvas } = this.refs;
 
