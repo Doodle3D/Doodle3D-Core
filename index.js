@@ -47,10 +47,10 @@ window.downloadSketch = () => {
   });
 };
 
-window.addEventListener('keydown',(event) => {
+window.addEventListener('keydown', (event) => {
   // downloadSketch
   const key = keycode(event);
-  if (key === 's') downloadSketch();
+  if (key === 's') window.downloadSketch();
   console.log(event.shiftKey, key);
 });
 
@@ -91,10 +91,7 @@ async function init() {
 
   render((
     <Provider store={store}>
-      <span>
-        <App />
-        <div onTouchTap={downloadSketch} style={{ position: 'absolute', right: 0, top: 0, backgroundImage: `url(${btnExportURL})`, width: "65px", height: "78px", backgroundSize: "65px 78px", cursor: "pointer" }}></div>
-        </span>
+      <App />
     </Provider>
   ), document.getElementById('app'));
 }
