@@ -9,8 +9,7 @@ export default async function docToFile(db, doc, { image = false, sketch = false
     author: doc.author,
     id: doc._id,
     createdOn: doc.createdOn,
-    updatedOn: doc.updatedOn,
-    appVersion: doc.appVersion
+    updatedOn: doc.updatedOn
   };
   if (doc.class) response.class = doc.class;
 
@@ -28,7 +27,7 @@ export default async function docToFile(db, doc, { image = false, sketch = false
       }
       const data = await blobToJSON(doc._attachments.sketch.data);
 
-      response.data = await JSONToSketchData(data, appVersion);
+      response.data = await JSONToSketchData(data);
     } else {
       const data = { data: doc.data, appVersion };
       response.data = await JSONToSketchData(data);

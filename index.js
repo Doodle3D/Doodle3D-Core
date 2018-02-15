@@ -56,8 +56,7 @@ window.addEventListener('keydown', (event) => {
 // add model to store
 import modelData from './models/circle_error.d3sketch';
 import JSONToSketchData from './src/shape/JSONToSketchData.js';
-const { data, appVersion } = JSON.parse(modelData);
-JSONToSketchData({ data }, appVersion).then(sketch => {
+JSONToSketchData(JSON.parse(modelData)).then(sketch => {
   store.dispatch(actions.openSketch(sketch));
 });
 

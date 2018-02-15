@@ -1,4 +1,5 @@
 import { vectorArrayToBase64, imageToBase64 } from '../utils/binaryUtils.js';
+import { VERSION } from '../constants/general.js';
 
 function createShapeData(shape) {
   shape = { ...shape };
@@ -59,5 +60,5 @@ export default function sketchDataToJSON({ objectsById, spaces }) {
     }
   }
 
-  return data;
+  return { data, appVersion: VERSION };
 }

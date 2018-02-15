@@ -68,12 +68,12 @@ function revive(appVersion, key, value) {
   return value;
 }
 
-export default async function JSONToSketchData(data, appVersion) {
+export default async function JSONToSketchData({ data, appVersion }) {
   let sketchData;
   if (semver.gt(appVersion, '0.17.4')) {
     sketchData = reviveObject(data, (key, value) => revive(appVersion, key, value));
   } else {
-    sketchData = JSON.parse(data.data, (key, value) => revive(appVersion, key, value));
+    sketchData = JSON.parse(data, (key, value) => revive(appVersion, key, value));
   }
   sketchData = await recursivePromiseApply(sketchData);
 
