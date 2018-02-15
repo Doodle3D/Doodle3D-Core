@@ -5,7 +5,7 @@ import { recursivePromiseApply } from '../utils/async.js';
 import { base64ToImage, base64ToVectorArray } from '../utils/binaryUtils.js';
 import { LEGACY_HEIGHT_STEP } from '../constants/d3Constants.js';
 
-export function recursiveMap(objects, reviver) {
+export function reviveObject(objects, reviver) {
   const newObjects = objects instanceof Array ? [] : {};
 
   for (const i in objects) {
@@ -13,7 +13,7 @@ export function recursiveMap(objects, reviver) {
 
     let object = objects[i];
     if (typeof object === 'object') {
-      object = recursiveMap(object, reviver);
+      object = reviveObject(object, reviver);
     }
 
     const newObject = reviver(i, object);
@@ -71,7 +71,7 @@ function revive(appVersion, key, value) {
 export default async function JSONToSketchData(data, appVersion) {
   let sketchData;
   if (semver.gt(appVersion, '0.17.4')) {
-    sketchData = recursiveMap(data, (key, value) => revive(appVersion, key, value));
+    sketchData = reviveObject(data, (key, value) => revive(appVersion, key, value));
   } else {
     sketchData = JSON.parse(data.data, (key, value) => revive(appVersion, key, value));
   }
