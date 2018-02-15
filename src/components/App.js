@@ -101,7 +101,7 @@ class App extends React.Component {
           const url = URL.createObjectURL(file);
           const { data, appVersion } = await fetch(url).then(result => result.json());
           const sketchData = await JSONToSketchData(data, appVersion);
-          openSketch({ data: sketchData });
+          openSketch(sketchData);
           break;
         case 'JPG':
         case 'JPEG':
