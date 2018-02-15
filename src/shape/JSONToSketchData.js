@@ -15,7 +15,12 @@ export function recursiveMap(objects, reviver) {
     if (typeof object === 'object') {
       object = recursiveMap(object, reviver);
     }
-    object = reviver(i, object) || object;
+
+    const newObject = reviver(i, object);
+    if (typeof newObject !== 'undefined') {
+      object = newObject;
+    }
+
     newObjects[i] = object;
   }
 
