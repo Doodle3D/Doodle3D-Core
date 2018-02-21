@@ -21,7 +21,7 @@ export default function textReducer(state, action) {
         return setActive2D(state, textId);
       } else {
         return addObjectActive2D(state, {
-          transform: new Matrix({ x: screenPosition.x, y: screenPosition.y }),
+          transform: new Matrix({ x: screenPosition.x, y: screenPosition.y, sx: 0.5, sy: 0.5 }),
           type: 'TEXT',
           text: {
             text: '',
