@@ -16,6 +16,7 @@ import JSONToSketchData from '../shape/JSONToSketchData.js';
 import keycode from 'keycode';
 import bowser from 'bowser';
 import * as d2Tools from '../constants/d2Tools.js';
+import { isLoaded, load } from '../utils/loaded.js';
 
 const styles = {
   container: {
@@ -74,8 +75,14 @@ class App extends React.Component {
     selectedPen: PropTypes.string.isRequired
   };
 
+  state = {
+    loaded: isLoaded()
+  };
+
   componentDidMount() {
     const { container } = this.refs;
+
+    if (!this.state.loaded) load.then(() => this.setState({ loaded: true }));
 
     container.addEventListener('dragover', event => event.preventDefault());
     container.addEventListener('drop', this.onDrop);
@@ -178,14 +185,16 @@ class App extends React.Component {
 
   render() {
     const { classes, undo, redo } = this.props;
+    const { loaded } = this.state;
+
     return (
       <div ref="container" className={classes.container}>
         <InlineIconsLoader />
-        <div className={classes.appContainer}>
+        {loaded && <div className={classes.appContainer}>
           <D2Panel />
           <div className={classes.vLine} />
           <D3Panel />
-        </div>
+        </div>}
         <Logo />
         <div className={classes.undoMenu}>
           <Button onSelect={undo} className={classes.undo} />

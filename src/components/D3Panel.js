@@ -20,7 +20,6 @@ import RenderChain, { TOONSHADER_OUTLINE, TOONSHADER } from '../d3/RenderChain';
 import BaseTransformer from '../d3/transformers/BaseTransformer.js';
 import Camera from '../d3/Camera.js';
 import ReactResizeDetector from 'react-resize-detector';
-import { load as loadMatcapMaterial } from '../d3/MatcapMaterial.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:d3');
 
@@ -70,7 +69,6 @@ class D3Panel extends React.Component {
       plane: this.plane
     });
 
-    loadMatcapMaterial.then(this.renderRequest);
     this.DOM = null;
   }
 

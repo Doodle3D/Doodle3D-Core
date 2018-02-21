@@ -22,7 +22,6 @@ import { PIXEL_RATIO } from '../constants/general';
 import ShapesManager from '../d2/ShapesManager.js';
 import EventGroup from '../d2/EventGroup.js';
 import ReactResizeDetector from 'react-resize-detector';
-import { load as loadPattern } from '../d2/Shape.js';
 import InputText from './InputText.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:d2');
@@ -93,11 +92,6 @@ class D2Panel extends React.Component {
     this.objectContainerInactive.add(new Grid(new CAL.Color(0xdddddd)));
 
     this.shapesManager = new ShapesManager(this.objectContainerActive, this.objectContainerInactive);
-    loadPattern.then(() => {
-      this.activeNeedRender = true;
-      this.inactiveNeedRender = true;
-      this.renderRequest();
-    });
 
     this.DOM = null;
   }
