@@ -1,9 +1,12 @@
 import 'blueimp-canvas-to-blob'; // canvas toBlob polyfill
 import createScene from '../d3/createScene.js';
 import { IMAGE_TYPE, IMAGE_QUALITY } from '../constants/saveConstants.js';
+import { load } from '../utils/loaded.js';
 
 export function generateThumb(state, width, height, responseType = 'blob') {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
+    await load;
+
     const { render, renderer, setSize } = createScene(state);
 
     setSize(width, height, 1.0);
