@@ -106,9 +106,9 @@ class App extends React.Component {
         case 'D3SKETCH':
         case 'JSON':
           const url = URL.createObjectURL(file);
-          const data = await fetch(url).then(result => result.json());
-          const sketchData = await JSONToSketchData(data);
-          openSketch(sketchData);
+          const json = await fetch(url).then(result => result.json());
+          const data = await JSONToSketchData(json);
+          openSketch({ data });
           break;
         case 'JPG':
         case 'JPEG':
