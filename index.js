@@ -27,8 +27,6 @@ import { createFile } from './src/utils/exportUtils.js';
 import sketchDataToJSON from './src/shape/sketchDataToJSON.js';
 import { JSONToBlob } from './src/utils/binaryUtils.js';
 
-import keycode from 'keycode';
-
 window.downloadStl = () => {
   store.dispatch(async (dispatch, getState) => {
     const state = getState();
@@ -46,11 +44,12 @@ window.downloadSketch = () => {
   });
 };
 
-window.addEventListener('keydown', (event) => {
-  // downloadSketch
-  const key = keycode(event);
-  if (key === 's') window.downloadSketch();
-});
+// import keycode from 'keycode';
+// window.addEventListener('keydown', (event) => {
+//   // downloadSketch
+//   const key = keycode(event);
+//   if (key === 's') window.downloadSketch();
+// });
 
 
 // add model to store
