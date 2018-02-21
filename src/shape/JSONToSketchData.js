@@ -28,6 +28,9 @@ export function reviveObject(objects, reviver) {
 }
 
 function revive(appVersion, key, value) {
+  // Somtimes there are null objects in the d3sketchformat (when saving fails)
+  if (!value) return value;
+
   if (semver.lt(appVersion, '0.1.2')) {
     if (key === 'imageData') {
       return base64ToImage(value);
