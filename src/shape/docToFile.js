@@ -34,7 +34,11 @@ export default async function docToFile(db, doc, { image = false, sketch = false
     }
   }
   if (image) {
-    response.img = `${db.name}/${doc._id}/img`;
+    if (!(doc._attachments && doc._attachments.img && doc._attachments.img.data)) {
+      throw new Error(`'${doc.name}' doesn't include image attachment`);
+    }
+
+    response.img = URL.createObjectURL(doc._attachments.img.data);
   }
 
   return response;
