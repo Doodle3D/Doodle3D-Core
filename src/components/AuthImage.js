@@ -3,8 +3,17 @@ import PropTypes from 'proptypes';
 import { connect } from 'react-redux';
 import { isWebUri } from 'valid-url';
 import PouchDB from 'pouchdb';
+import { sleep } from '../utils/async.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:FileThumb');
+
+function recursiveFetch(url, options, timeout = 1000, retries = -1) {
+  return fetch(url, options).catch(async (error) => {
+    if (retries === 0) throw error;
+    await sleep(timeout);
+    return recursiveFetch(url, options, timeout, (retries === -1) ? retries : retries - 1);
+  });
+}
 
 class AuthImage extends React.Component {
   static propTypes = {
@@ -29,7 +38,7 @@ class AuthImage extends React.Component {
         const headers = {
           Authorization: `Basic ${btoa(`${token}:${password}`)}`
         };
-        fetch(filteredSrc, { headers })
+        recursiveFetch(filteredSrc, { headers })
           .then(response => response.blob())
           .then(blob => this.setState({ src: URL.createObjectURL(blob) }));
       } else {

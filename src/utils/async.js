@@ -1,3 +1,7 @@
+export function sleep(timeout) {
+  return new Promise(resolve => setTimeout(resolve), timeout);
+}
+
 export function recursivePromiseApply(object, promises = [], first = true) {
   for (const key in object) {
     const value = object[key];
