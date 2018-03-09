@@ -27,10 +27,11 @@ import { createFile } from './src/utils/exportUtils.js';
 import sketchDataToJSON from './src/shape/sketchDataToJSON.js';
 import { JSONToBlob } from './src/utils/binaryUtils.js';
 
-window.downloadStl = () => {
+//usage: downloadStl({lineWidth:20})
+window.downloadStl = (options) => {
   store.dispatch(async (dispatch, getState) => {
     const state = getState();
-    const blob = await createFile(state.sketcher.present, 'stl-blob');
+    const blob = await createFile(state.sketcher.present, 'stl-blob', options);
     saveAsLib(blob, 'doodle.stl');
   });
 };
