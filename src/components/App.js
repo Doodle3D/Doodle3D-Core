@@ -152,6 +152,29 @@ class App extends React.Component {
         }
         break;
 
+      case 's': {
+        if (!commandKey) d2ChangeTool(d2Tools.TRANSFORM);
+        break;
+      }
+
+      case 'e': {
+        if (!commandKey) {
+          event.preventDefault();
+          d2ChangeTool(d2Tools.ERASER);
+        }
+        break;
+      }
+
+      case 'c': {
+        if (!commandKey) d2ChangeTool(d2Tools.CIRCLE);
+        break;
+      }
+
+      case 'l': {
+        if (!commandKey) d2ChangeTool(d2Tools.POLYGON);
+        break;
+      }
+
       case 't': {
         if (!commandKey) d2ChangeTool(d2Tools.TEXT);
         break;
