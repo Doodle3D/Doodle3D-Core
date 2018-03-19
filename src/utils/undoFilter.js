@@ -41,10 +41,8 @@ const CONTEXT_TOOL_CHANGES = [
 ];
 
 export default function undoFilter(action, currentState) {
-  if (INCLUDE.indexOf(action.type) !== -1) return true;
-  if (ACTION_INCLUDES[action.type] && ACTION_INCLUDES[action.type].indexOf(currentState.d2.tool) !== -1) {
-    return true;
-  }
+  if (INCLUDE.includes(action.type)) return true;
+  if (ACTION_INCLUDES[action.type] && ACTION_INCLUDES[action.type].includes(currentState.d2.tool)) return true;
   if (action.type === actions.CONTEXT_CHANGE_TOOL && CONTEXT_TOOL_CHANGES.includes(action.tool)) return true;
 
   return false;
