@@ -23,7 +23,8 @@ const INCLUDE = [
   actions.DELETE_SELECTION,
   actions.DUPLICATE_SELECTION,
   actions.UNION,
-  actions.INTERSECT
+  actions.INTERSECT,
+  actions.OPEN_SKETCH
 ];
 
 const ACTION_INCLUDES = {
