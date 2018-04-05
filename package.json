@@ -1,6 +1,6 @@
 {
   "name": "@doodle3d/doodle3d-core",
-  "version": "0.17.5",
+  "version": "0.19.1",
   "description": "Core functions of Doodle3D Transform",
   "main": "lib",
   "module": "module",
