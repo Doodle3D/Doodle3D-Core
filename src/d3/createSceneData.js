@@ -1,7 +1,10 @@
 import shortid from 'shortid';
 import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
+import { load } from '../utils/loaded.js';
 
-export default function docToShapeData(docData) {
+export default async function createSceneData(docData) {
+  await load;
+
   const sketchData = {
     spaces: {},
     objectsById: {}

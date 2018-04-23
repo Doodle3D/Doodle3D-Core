@@ -51,7 +51,7 @@ class DoodlePreview extends React.Component {
 
     const { canvas } = this.refs;
 
-    const sceneData = createSceneData(sketchData);
+    const sceneData = await createSceneData(sketchData);
 
     const scene = createScene(sceneData, canvas);
     this.setState(scene);
