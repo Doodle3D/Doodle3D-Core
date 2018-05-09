@@ -23,7 +23,7 @@
     "@doodle3d/potrace-js": "0.0.6",
     "@doodle3d/threejs-export-obj": "0.0.8",
     "@doodle3d/threejs-export-stl": "0.0.5",
-    "@doodle3d/touch-events": "0.0.7",
+    "@doodle3d/touch-events": "0.0.9",
     "babel-polyfill": "^6.26.0",
     "bezier-js": "^2.2.3",
     "blueimp-canvas-to-blob": "^3.14.0",
