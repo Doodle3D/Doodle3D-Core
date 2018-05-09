@@ -24,19 +24,22 @@ export function cameraReducer(state, action) {
 
   switch (action.type) {
     case actions.D3_MOUSE_WHEEL: {
+      if (state.disableScroll) return state;
       const delta = new THREE.Vector3(0, 0, action.wheelDelta);
-      return zoom(state, delta);
+      return update(state, {
+        d3: { camera: { $set: zoom(state.d3.camera, delta) } }
+      });
     }
 
     case actions.D3_DRAG_START: {
       return update(state, {
-        state: { $set: CAMERA_STATES.ROTATE }
+        d3: { camera: { state: { $set: CAMERA_STATES.ROTATE } } }
       });
     }
 
     case actions.D3_SECOND_DRAG_START: {
       return update(state, {
-        state: { $set: CAMERA_STATES.PAN }
+        d3: { camera: { state: { $set: CAMERA_STATES.PAN } } }
       });
     }
 
@@ -44,18 +47,24 @@ export function cameraReducer(state, action) {
     case actions.D3_SECOND_DRAG: {
       const movement = action.position.subtract(action.previousPosition);
 
-      switch (state.state) {
+      switch (state.d3.camera.state) {
         case CAMERA_STATES.ROTATE: {
           const delta = new THREE.Vector3(-movement.x * ROTATION_SPEED, -movement.y * ROTATION_SPEED, 0);
-          return rotate(state, delta);
+          return update(state, {
+            d3: { camera: { $set: rotate(state.d3.camera, delta) } }
+          });
         }
         case CAMERA_STATES.PAN: {
           const delta = new THREE.Vector3(-movement.x, movement.y, 0);
-          return pan(state, delta);
+          return update(state, {
+            d3: { camera: { $set: pan(state.d3.camera, delta) } }
+          });
         }
         case CAMERA_STATES.ZOOM: {
           const delta = new THREE.Vector3(0, 0, movement.y);
-          return zoom(state, delta);
+          return update(state, {
+            d3: { camera: { $set: zoom(state.d3.camera, delta) } }
+          });
         }
         default:
           return state;
@@ -66,7 +75,7 @@ export function cameraReducer(state, action) {
     case actions.D3_DRAG_END:
     case actions.D3_SECOND_DRAG_END:
       return update(state, {
-        state: { $set: CAMERA_STATES.NONE }
+        d3: { camera: { state: { $set: CAMERA_STATES.NONE } } }
       });
 
     case actions.D3_MULTITOUCH: {
@@ -74,7 +83,9 @@ export function cameraReducer(state, action) {
       const prevDistance = action.previousPositions[0].distanceTo(action.previousPositions[1]);
 
       const zoomDelta = new THREE.Vector3(0, 0, prevDistance - distance);
-      state = zoom(state, zoomDelta);
+      state = update(state, {
+        d3: { camera: { $set: zoom(state.d3.camera, zoomDelta) } }
+      });
 
       const offset0 = new THREE.Vector3(
         -(action.positions[0].x - action.previousPositions[0].x),
@@ -88,7 +99,9 @@ export function cameraReducer(state, action) {
       );
       const panDelta = offset0.add(offset1).multiplyScalar(0.5);
 
-      return pan(state, panDelta);
+      return update(state, {
+        d3: { camera: { $set: pan(state.d3.camera, panDelta) } }
+      });
     }
 
     default:

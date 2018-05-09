@@ -20,9 +20,7 @@ const reducers = {
 export default function toolReducer(state, action) {
   // if (action.log !== false) debug(action.type);
 
-  state = update(state, {
-    d3: { camera: { $set: cameraReducer(state.d3.camera, action) } }
-  });
+  state = cameraReducer(state, action);
 
   if (action.type === actions.D3_CHANGE_TOOL && action.tool !== state.d3.tool) {
     state = update(state, {

@@ -85,6 +85,7 @@ export const MENU_OPEN = 'MENU_OPEN';
 export const MENU_CLOSE = 'MENU_CLOSE';
 export const OPEN_SKETCH = 'OPEN_SKETCH';
 export const SET_PREVENT_SCROLL = 'SET_PREVENT_SCROLL';
+export const SET_DISABLE_SCROLL = 'SET_DISABLE_SCROLL';
 
 // CATEGORIES
 // actions that influence selected objects
@@ -500,4 +501,8 @@ export function openSketch(data) {
 
 export function setPreventScroll(preventScroll) {
   return { type: SET_PREVENT_SCROLL, preventScroll };
+}
+
+export function setDisableScroll(disableScroll) {
+  return { type: SET_DISABLE_SCROLL, disableScroll };
 }

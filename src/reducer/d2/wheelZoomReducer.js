@@ -5,7 +5,9 @@ import { MAX_ZOOM } from '../../constants/d2Constants.js';
 
 export default function d2WheelZoomReducer(state, action) {
   const { position, wheelDelta, screenMatrixContainer } = action;
-  const { canvasMatrix } = state.d2;
+  const { d2: { canvasMatrix }, disableScroll } = state;
+
+  if (disableScroll) return state;
 
   const targetScale = 1 + wheelDelta / -500;
 

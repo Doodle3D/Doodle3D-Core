@@ -96,7 +96,8 @@ const initialState = {
     camera: defaultCamera
   },
   menus: menusReducer(undefined, {}),
-  preventScroll: true
+  preventScroll: true,
+  disableScroll: false
 };
 
 function sketcherReducer(state = initialState, action) {
@@ -250,6 +251,11 @@ function sketcherReducer(state = initialState, action) {
     case actions.SET_PREVENT_SCROLL:
       return update(state, {
         preventScroll: { $set: action.preventScroll }
+      });
+
+    case actions.SET_DISABLE_SCROLL:
+      return update(state, {
+        disableScroll: { $set: action.disableScroll }
       });
 
     default:
