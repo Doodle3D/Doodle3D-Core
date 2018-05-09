@@ -84,6 +84,7 @@ export const TRACE_FLOOD_FILL = 'TRACE_FLOOD_FILL';
 export const MENU_OPEN = 'MENU_OPEN';
 export const MENU_CLOSE = 'MENU_CLOSE';
 export const OPEN_SKETCH = 'OPEN_SKETCH';
+export const SET_PREVENT_SCROLL = 'SET_PREVENT_SCROLL';
 
 // CATEGORIES
 // actions that influence selected objects
@@ -495,4 +496,8 @@ export function menuClose(menuValue) {
 
 export function openSketch(data) {
   return { type: OPEN_SKETCH, data };
+}
+
+export function setPreventScroll(preventScroll) {
+  return { type: SET_PREVENT_SCROLL, preventScroll };
 }

@@ -95,7 +95,8 @@ const initialState = {
     },
     camera: defaultCamera
   },
-  menus: menusReducer(undefined, {})
+  menus: menusReducer(undefined, {}),
+  preventScroll: true
 };
 
 function sketcherReducer(state = initialState, action) {
@@ -244,6 +245,11 @@ function sketcherReducer(state = initialState, action) {
     case actions.UPDATE_MATRIX:
       return update(state, {
         objectsById: { [action.id]: { transform: { $set: action.transform } } }
+      });
+
+    case actions.SET_PREVENT_SCROLL:
+      return update(state, {
+        preventScroll: { $set: action.preventScroll }
       });
 
     default:

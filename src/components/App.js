@@ -75,7 +75,8 @@ class App extends React.Component {
     selectAll: PropTypes.func.isRequired,
     d2ChangeTool: PropTypes.func.isRequired,
     moveSelection: PropTypes.func.isRequired,
-    selectedPen: PropTypes.string.isRequired
+    selectedPen: PropTypes.string.isRequired,
+    preventScroll: PropTypes.bool.isRequired
   };
 
   state = {
@@ -87,14 +88,17 @@ class App extends React.Component {
 
     if (!this.state.loaded) load.then(() => this.setState({ loaded: true }));
 
-    container.addEventListener('dragover', event => event.preventDefault());
+    container.addEventListener('dragover', this.dragOver);
     container.addEventListener('drop', this.onDrop);
+    container.addEventListener('wheel', this.onWheel);
     window.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
     const { container } = this.refs;
+    container.addEventListener('dragover', this.dragOver);
     container.removeEventListener('drop', this.onDrop);
+    container.addEventListener('wheel', this.onWheel);
     window.removeEventListener('keydown', this.onKeyDown);
   }
 
@@ -209,6 +213,15 @@ class App extends React.Component {
     }
   }
 
+  onWheel = (event) => {
+    const { preventScroll } = this.props;
+    if (preventScroll) event.preventDefault();
+  };
+
+  dragover = (event) => {
+    event.preventDefault();
+  };
+
   render() {
     const { classes, undo, redo } = this.props;
     const { loaded } = this.state;
@@ -233,6 +246,7 @@ class App extends React.Component {
 }
 
 export default injectSheet(styles)(connect(state => ({
+  preventScroll: state.sketcher.present.preventScroll,
   selectedPen: state.sketcher.present.menus['pen-tools'].selected
 }), {
   undo: actions.undo.undo,
