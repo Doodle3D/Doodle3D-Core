@@ -1,6 +1,7 @@
 import { Vector } from 'cal';
 import transposeEvents from '../utils/transposeEvents.js';
 import { PIXEL_RATIO } from '../constants/general.js';
+import { convertEvent } from '../utils/pointerUtils.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:design:EraserPointer');
 
@@ -28,7 +29,7 @@ export default class EraserPointer {
   pointerMove(event) {
     this.showMouse = event.pointerType === 'mouse';
     if (this.erasing || this.showMouse) {
-      this.mousePosition.set(event.clientX, event.clientY);
+      this.mousePosition.copy(convertEvent(event.target, event));
       if (this.onChanged) this.onChanged();
     }
   }

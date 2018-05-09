@@ -1,6 +1,7 @@
 import BaseTool from './BaseTool.js';
 import { Vector } from 'cal';
 import { PIXEL_RATIO } from '../../constants/general.js';
+import { convertEvent } from '../../utils/pointerUtils.js';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:2d:tool:eraser');
 export default class BrushTool extends BaseTool {
@@ -14,7 +15,7 @@ export default class BrushTool extends BaseTool {
   pointerMove(event) {
     this.showMouse = event.pointerType === 'mouse';
     if (this.showMouse) {
-      this.mousePosition.set(event.clientX, event.clientY);
+      this.mousePosition.copy(convertEvent(event.target, event));
       this.renderRequest();
     }
   }
