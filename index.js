@@ -27,7 +27,7 @@ import { createFile } from './src/utils/exportUtils.js';
 import sketchDataToJSON from './src/shape/sketchDataToJSON.js';
 import { JSONToBlob } from './src/utils/binaryUtils.js';
 
-//usage: downloadStl({lineWidth:20})
+// usage: downloadStl({lineWidth:20})
 window.downloadStl = (options) => {
   store.dispatch(async (dispatch, getState) => {
     const state = getState();
