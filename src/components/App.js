@@ -102,6 +102,10 @@ class App extends React.Component {
     window.removeEventListener('keydown', this.onKeyDown);
   }
 
+  dragOver = event => {
+    event.preventDefault();
+  };
+
   onDrop = async event => {
     const { openSketch, addImage } = this.props;
     event.preventDefault();
