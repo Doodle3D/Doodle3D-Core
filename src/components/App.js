@@ -110,6 +110,7 @@ class App extends React.Component {
       const extentions = file.name.split('.').pop();
 
       switch (extentions.toUpperCase()) {
+        case 'DOODLE3D':
         case 'D3SKETCH':
         case 'JSON':
           const url = URL.createObjectURL(file);

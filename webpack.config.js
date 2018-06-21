@@ -64,7 +64,7 @@ module.exports = {
           loader: 'url-loader?name=images/[name].[ext]'
         }
       }, {
-        test: /\.(svg|glsl|d3sketch)$/,
+        test: /\.(svg|glsl|d3sketch|doodle3d)$/,
         use: {
           loader: 'raw-loader'
         }

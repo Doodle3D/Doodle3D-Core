@@ -41,7 +41,7 @@ window.downloadSketch = () => {
     const state = getState();
     const json = sketchDataToJSON(state.sketcher.present);
     const blob = JSONToBlob(json);
-    saveAsLib(blob, 'doodle.d3sketch');
+    saveAsLib(blob, 'doodle.doodle3d');
   });
 };
 
