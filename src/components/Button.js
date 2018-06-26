@@ -37,7 +37,7 @@ export default class Button extends React.Component {
     if (className) combinedClassName += ` ${className}`;
 
     return (
-      <div id={id} className={combinedClassName} onTouchTap={this.onClick}>
+      <div id={id} className={combinedClassName} onClick={this.onClick}>
         {svg && <svg>
           <use xlinkHref={svg}/>
         </svg>}
