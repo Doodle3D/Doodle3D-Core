@@ -3,7 +3,6 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CordovaPlugin = require('webpack-cordova-plugin');
-const GoogleFontsPlugin = require('google-fonts-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 const appMode = process.env.TARGET === 'app';
@@ -69,6 +68,11 @@ module.exports = {
           loader: 'raw-loader'
         }
       }, {
+        test: /\.(woff)$/,
+        use: { 
+          loader: 'file-loader'
+        }
+      }, {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       }
@@ -88,18 +92,6 @@ module.exports = {
       appMountId: 'app',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, minimal-ui, user-scalable=no' }
-      ]
-    }),
-    new GoogleFontsPlugin({
-      fonts: [
-        { family: 'Oswald' },
-        { family: 'Ranga' },
-        { family: 'Joti One' },
-        { family: 'Bellefair' },
-        { family: 'Lobster' },
-        { family: 'Abril Fatface' },
-        { family: 'Play' },
-        { family: 'Fascinate' }
       ]
     }),
     ...(appMode ? [

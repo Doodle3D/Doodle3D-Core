@@ -64,10 +64,34 @@ JSONToSketchData(JSON.parse(modelData)).then(data => {
 import jss from 'jss';
 import preset from 'jss-preset-default';
 import normalize from 'normalize-jss';
+import abril from './fonts/abril-fatface-v12-latin-regular.woff';
+import bellefair from './fonts/bellefair-v6-latin-regular.woff';
+import fascinate from './fonts/fascinate-v11-latin-regular.woff';
+import joti from './fonts/joti-one-v11-latin-regular.woff';
+import lobster from './fonts/lobster-v23-latin-regular.woff';
+import oswald from './fonts/oswald-v36-latin-regular.woff';
+import play from './fonts/play-v12-latin-regular.woff';
+import ranga from './fonts/ranga-v8-latin-regular.woff';
+
+const fontFaces = [
+  { url: abril, family: 'Abril Fatface' }, 
+  { url: bellefair, family: 'Bellefair' },
+  { url: fascinate, family: 'Fascinate' },
+  { url: joti, family: 'Joti One' },
+  { url: lobster, family: 'Lobster' },
+  { url: oswald, family: 'Oswald' },
+  { url: play, family: 'Play' },
+  { url: ranga, family: 'Ranga' },
+];
+
 jss.setup(preset());
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet({
-  '@global': {
+    '@font-face': fontFaces.map(({ url, family }) => ({
+        'font-family': family, 
+        'src': `url("${url}") format("woff")`
+    })),
+    '@global': {
     '*': { margin: 0, padding: 0 },
     '#app, body, html': { height: '100%', fontFamily: 'sans-serif' },
     body: { overflow: 'auto' },
