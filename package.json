@@ -48,6 +48,7 @@
     "react-redux": "^5.0.6",
     "react-resize-detector": "^1.1.0",
     "react-svg-inline": "^2.0.1",
+    "react-tap-event-plugin": "^3.0.3",
     "redux-form": "^7.1.2",
     "redux-undo": "^1.0.0-beta9-9-7",
     "reselect": "^3.0.1",

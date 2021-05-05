@@ -418,24 +418,24 @@ export function traceDrag(position, start, id, screenMatrixContainer, screenMatr
     });
   };
 }
-export function traceTap(position, objects, screenMatrixContainer, screenMatrixZoom) {
-  return async (dispatch, getState) => {
-    dispatch({ type: TRACE_TAP });
-
-    const state = getState();
-    const id = objects.find(_id => state.sketcher.present.objectsById[_id].type === 'IMAGE_GUIDE');
-
-    if (id) {
-      const shapeData = state.sketcher.present.objectsById[id];
-      const traceStart = calculatePointInImage(position, shapeData, screenMatrixZoom);
-
-      const { value: traceData } = await dispatch(floodFill(DEFAULT_TRACE_TOLERANCE, shapeData, traceStart));
-
-      return dispatch(traceFloodFill(traceData, shapeData));
-    } else {
-      return dispatch(importImage());
-    }
-  };
+// export function traceTap(position, objects, screenMatrixContainer, screenMatrixZoom) {
+//   return async (dispatch, getState) => {
+//     dispatch({ type: TRACE_TAP });
+//
+//     const state = getState();
+//     const id = objects.find(_id => state.sketcher.present.objectsById[_id].type === 'IMAGE_GUIDE');
+//
+//     if (id) {
+//       const shapeData = state.sketcher.present.objectsById[id];
+//       const traceStart = calculatePointInImage(position, shapeData, screenMatrixZoom);
+//
+//       const { value: traceData } = await dispatch(floodFill(DEFAULT_TRACE_TOLERANCE, shapeData, traceStart));
+//
+//       return dispatch(traceFloodFill(traceData, shapeData));
+//     } else {
+//       return dispatch(importImage());
+//     }
+//   };
 }
 
 export function importImage() {
