@@ -436,7 +436,7 @@ export function traceDrag(position, start, id, screenMatrixContainer, screenMatr
 //       return dispatch(importImage());
 //     }
 //   };
-}
+// }
 
 export function importImage() {
   return dispatch => {
