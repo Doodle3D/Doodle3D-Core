@@ -8,11 +8,12 @@ const styles = {
     top: '0px',
     right: '15%',
     width: '19%',
+    backgroundImage: `url("${doodleSignImageURL}")`,
+    maxWidth: '290px',
+    height: '140px',
+    backgroundSize: '100%',
+    backgroundRepeat: 'no-repeat',
     pointerEvents: 'none', // enable clicking through logo
-    '& img': {
-      width: '100%',
-      maxWidth: '290px'
-    }
   },
   '@media (max-width: 555px)': {
     container: {
@@ -22,8 +23,6 @@ const styles = {
 };
 
 const Logo = ({ classes }) => (
-  <div className={classes.container}>
-    <img src={doodleSignImageURL} />
-  </div>
+  <div className={classes.container} />
 );
 export default injectSheet(styles)(Logo);

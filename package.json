@@ -37,7 +37,6 @@
     "lodash": "^4.17.4",
     "memoizee": "^0.3.9",
     "normalize-wheel": "^1.0.1",
-    "pouchdb": "^6.3.4",
     "proptypes": "^1.1.0",
     "raf": "^3.4.0",
     "ramda": "^0.21.0",
@@ -55,8 +54,7 @@
     "semver": "^5.4.1",
     "shortid": "^2.2.8",
     "three": "^0.88.0",
-    "three-js-csg": "github:Doodle3D/three-js-csg",
-    "valid-url": "^1.0.9"
+    "three-js-csg": "github:Doodle3D/three-js-csg"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
@@ -99,8 +97,7 @@
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-cordova-plugin": "^0.1.6",
     "webpack-dev-server": "^2.9.4",
-    "worker-loader": "^1.1.0",
-    "yml-loader": "^2.1.0"
+    "worker-loader": "^1.1.0"
   },
   "repository": {
     "type": "git",
