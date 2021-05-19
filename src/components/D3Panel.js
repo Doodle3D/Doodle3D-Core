@@ -50,6 +50,10 @@ const styles = {
 };
 
 class D3Panel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.canvasContainer = React.createRef();
+  }
 
   static propTypes = {
     state: PropTypes.object.isRequired,
@@ -73,10 +77,11 @@ class D3Panel extends React.Component {
   }
 
   componentDidMount() {
-    this.container = this.refs.canvasContainer;
-    this.container.appendChild(this.renderer.domElement);
-
-    this.renderScene(); // immidiatly render because when THREE.JS inits, a black screen is generated
+    if (this.canvasContainer.current) {
+      this.container = this.canvasContainer.current;
+      this.container.appendChild(this.renderer.domElement);
+      this.renderScene(); // immidiatly render because when THREE.JS inits, a black screen is generated
+    }
   }
 
   componentWillUnmount() {
@@ -221,7 +226,7 @@ class D3Panel extends React.Component {
     return (
       <div className={classes.container}>
         <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
-        <div className={classes.canvasContainer} ref="canvasContainer"/>
+        <div className={classes.canvasContainer} ref={this.canvasContainer}/>
       </div>
     );
   }

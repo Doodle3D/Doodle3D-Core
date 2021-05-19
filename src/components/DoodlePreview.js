@@ -28,6 +28,11 @@ class DoodlePreview extends React.Component {
     pixelRatio: 1
   };
 
+  constructor(props) {
+    super(props);
+    this.canvas = React.createRef();
+  }
+
   static propTypes = {
     classes: PropTypes.objectOf(PropTypes.string),
     width: PropTypes.number.isRequired,
@@ -49,14 +54,12 @@ class DoodlePreview extends React.Component {
 
     if (docData) sketchData = await JSONToSketchData(docData);
 
-    const { canvas } = this.refs;
-
     const sceneData = await createSceneData(sketchData);
 
-    const scene = createScene(sceneData, canvas);
+    const scene = createScene(sceneData, this.canvas.current);
     this.setState(scene);
 
-    this.editorControls = new THREE.EditorControls(scene.camera, canvas);
+    this.editorControls = new THREE.EditorControls(scene.camera, this.canvas.current);
     this.editorControls.addEventListener('change', () => rafOnce(scene.render));
   }
 
@@ -78,7 +81,7 @@ class DoodlePreview extends React.Component {
     return (
       <div className={classes.container}>
         <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
-        <canvas className={classes.canvas} ref="canvas" />
+        <canvas className={classes.canvas} ref={this.canvas} />
       </div>
     );
   }

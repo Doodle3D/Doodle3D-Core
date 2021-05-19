@@ -8,6 +8,11 @@ import { hexToStyle } from '../utils/colorUtils.js';
 // const debug = createDebug('d3d:ui:submenu');
 
 class SubMenu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.li = React.createRef();
+  }
+
   static propTypes = {
     onSelect: PropTypes.func,
     onOpen: PropTypes.func,
@@ -61,7 +66,7 @@ class SubMenu extends React.Component {
     const { open, onClose, value } = this.props;
     if (open && onClose) {
       // was click on this submenu?
-      const onSubmenu = this.refs.li.contains(event.target);
+      const onSubmenu = this.li.current.contains(event.target);
       // debug(`onDocumentClick ${event.type} ${onSubmenu ? 'onSubmenu' : ''}`);
       if (!onSubmenu) onClose({ menuValue: value });
     }
@@ -79,7 +84,7 @@ class SubMenu extends React.Component {
     let className = 'submenu';
     if (open) className += ' open';
     return (
-      <li id={id} className={className} ref="li" style={style}>
+      <li id={id} className={className} ref={this.li} style={style}>
         <Button
           id={`${selectedValue}-menu`}
           value={selectedValue}

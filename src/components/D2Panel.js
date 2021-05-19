@@ -69,6 +69,11 @@ class D2Panel extends React.Component {
   activeNeedRender = false;
   inactiveNeedRender = false;
 
+  constructor(props) {
+    super(props);
+    this.canvasContainer = React.createRef();
+  }
+
   componentWillMount() {
     // Scene space
     this.sceneActive = new EventGroup({
@@ -97,12 +102,12 @@ class D2Panel extends React.Component {
   }
 
   componentDidMount() {
-    const { canvasContainer } = this.refs;
-    this.container = canvasContainer;
+    if (this.canvasContainer.current) {
+      this.container = this.canvasContainer.current;
 
-    this.container.appendChild(this.sceneInactive.image);
-    this.container.appendChild(this.sceneActive.image);
-
+      this.container.appendChild(this.sceneInactive.image);
+      this.container.appendChild(this.sceneActive.image);
+    }
     this.sceneActive.onClick = (event) => event.stopPropagation();
   }
 
@@ -218,7 +223,7 @@ class D2Panel extends React.Component {
     return (
       <div className={classes.container}>
         <ReactResizeDetector handleWidth handleHeight onResize={this.resizeHandler} />
-        <div className={classes.canvasContainer} ref="canvasContainer" />
+        <div className={classes.canvasContainer} ref={this.canvasContainer} />
         <InputText screenMatrix={screenMatrix} />
       </div>
     );

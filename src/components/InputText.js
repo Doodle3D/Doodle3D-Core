@@ -25,6 +25,11 @@ const styles = {
 };
 
 class InputText extends React.Component {
+  constructor(props) {
+    super(props);
+    this.text = React.createRef();
+  }
+
   static propTypes = {
     state: PropTypes.object.isRequired,
     classes: PropTypes.objectOf(PropTypes.string),
@@ -37,7 +42,7 @@ class InputText extends React.Component {
     if (!shapeData) return;
 
     const { changeText } = this.props;
-    const text = this.refs.text.value;
+    const text = this.text.current.value;
 
     changeText(text);
   };
@@ -51,7 +56,7 @@ class InputText extends React.Component {
   }
 
   componentWillUpdate() {
-    if (this.refs.text) this.refs.text.focus();
+    if (this.text.current) this.text.current.focus();
   }
 
   render() {
@@ -82,7 +87,7 @@ class InputText extends React.Component {
               width: `${width}px`
             }}
             value={text}
-            ref="text"
+            ref={this.text}
             spellCheck="false"
             autoFocus
             onChange={this.onInputChange}
