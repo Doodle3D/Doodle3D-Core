@@ -185,7 +185,7 @@ function shapeToPointsRaw(shapeData) {
       if (shapeData.fill) {
         new ClipperShape([points, ...holes], true, true, false, false)
           .simplify('pftEvenOdd')
-          .seperateShapes()
+          .separateShapes()
           .forEach(shape => {
             const [points, ...holes] = shape
               .mapToLower()
@@ -236,7 +236,7 @@ function shapeToPointsCorneredRaw(shapeData) {
           roundPrecision: 0.25
         })
         .scaleDown(CLIPPER_PRECISION)
-        .seperateShapes()
+        .separateShapes()
         .forEach(shape => {
           let [points, ...holes] = shape
             .mapToLower()

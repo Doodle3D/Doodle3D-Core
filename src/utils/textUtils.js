@@ -24,7 +24,7 @@ export function createTextRaw(text, size, precision, family, style, weight) {
 
   const shapes = new ClipperShape(pathsOffset, true, true, false)
     .fixOrientation()
-    .seperateShapes()
+    .separateShapes()
     .map(shape => shape.mapToLower())
     .map(shapeToVectorShape);
 

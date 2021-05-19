@@ -159,7 +159,7 @@ export default class BaseTool extends EventGroup {
             } else {
               return clipperShape
                 .offset(margin, { joinType: 'jtSquare', endType: 'etOpenButt' })
-                .seperateShapes()
+                .separateShapes()
                 .some(_clipperShape => _clipperShape.pointInShape(position, true, true));
             }
           });

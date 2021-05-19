@@ -67,7 +67,7 @@ export default function subtractShapeFromState(state, differenceShape, tool, opt
     // Returns two dimentional array, with per shape an array of paths.
     // The first item of each path is the outline, the others are holes, if there are any.
     let resultShapes = resultShape
-      .seperateShapes()
+      .separateShapes()
       .map(resultPaths => { // go through all created shapes (1 shape can be a combination of outline+holes)
         if (scale !== undefined) resultPaths.scaleDown(scale);
         resultPaths = resultPaths

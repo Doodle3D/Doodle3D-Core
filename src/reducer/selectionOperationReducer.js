@@ -65,7 +65,7 @@ export default function (state, action) {
         unionShape = unionShape.union(shape);
       }
 
-      const unionShapes = unionShape.scaleDown(CLIPPER_PRECISION).seperateShapes().map(shape => {
+      const unionShapes = unionShape.scaleDown(CLIPPER_PRECISION).separateShapes().map(shape => {
         shape = shape
           .removeDuplicates()
           .mapToLower()
