@@ -79,27 +79,35 @@ class App extends React.Component {
     preventScroll: PropTypes.bool.isRequired
   };
 
+  constructor(props) {
+   super(props);
+
+   this.container = React.createRef();
+ }
+
   state = {
     loaded: isLoaded()
   };
 
   componentDidMount() {
-    const { container } = this.refs;
-
     if (!this.state.loaded) load.then(() => this.setState({ loaded: true }));
 
-    container.addEventListener('dragover', this.dragOver);
-    container.addEventListener('drop', this.onDrop);
-    container.addEventListener('wheel', this.onWheel);
-    window.addEventListener('keydown', this.onKeyDown);
+    if (this.container.current) {
+      this.container.current.addEventListener('dragover', this.dragOver);
+      this.container.current.addEventListener('drop', this.onDrop);
+      this.container.current.addEventListener('wheel', this.onWheel);
+      window.addEventListener('keydown', this.onKeyDown);
+    }
   }
 
   componentWillUnmount() {
-    const { container } = this.refs;
-    container.addEventListener('dragover', this.dragOver);
-    container.removeEventListener('drop', this.onDrop);
-    container.addEventListener('wheel', this.onWheel);
-    window.removeEventListener('keydown', this.onKeyDown);
+    if (this.container.current) {
+
+      this.container.current.addEventListener('dragover', this.dragOver);
+      this.container.current.removeEventListener('drop', this.onDrop);
+      this.container.current.addEventListener('wheel', this.onWheel);
+      window.removeEventListener('keydown', this.onKeyDown);
+    }
   }
 
   dragOver = event => {
@@ -232,7 +240,7 @@ class App extends React.Component {
     const { loaded } = this.state;
 
     return (
-      <div ref="container" className={classes.container}>
+      <div ref={this.container} className={classes.container}>
         <InlineIconsLoader />
         {loaded && <div className={classes.appContainer}>
           <D2Panel />
