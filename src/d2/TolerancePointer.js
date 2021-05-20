@@ -1,4 +1,4 @@
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import { PIXEL_RATIO } from '../constants/general.js';
 
 export default class TolerancePointer {

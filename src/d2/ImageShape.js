@@ -1,5 +1,5 @@
 import { IMAGE_GUIDE_TRANSPARENCY, DESELECT_TRANSPARENCY } from '../constants/d2Constants.js';
-import { Surface } from 'cal';
+import { Surface } from '@doodle3d/cal';
 
 export default class ImageShape extends Surface {
   constructor(shapeData) {

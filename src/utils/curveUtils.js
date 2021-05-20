@@ -1,6 +1,6 @@
 import fitCurve from 'fit-curve';
 import Bezier from 'bezier-js';
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 
 const DEFAULT_CURVE_ERROR = 3.0;
 const DEFAULT_DISTANCE_THRESHOLD = 1.0;

@@ -1,5 +1,5 @@
 import update from 'react-addons-update';
-import { Matrix, Vector } from 'cal';
+import { Matrix, Vector } from '@doodle3d/cal';
 import * as actions from '../../../../actions/index.js';
 import { addObjectActive2D, addObject, setActive2D } from '../../../objectReducers.js';
 import createDebug from 'debug';

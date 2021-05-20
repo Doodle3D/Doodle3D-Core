@@ -1,6 +1,6 @@
 import update from 'react-addons-update';
 import fillPath from 'fill-path';
-import ClipperShape from 'clipper-js';
+import ClipperShape from '@doodle3d/clipper-js';
 import * as actions from '../../../actions/index.js';
 import { SHAPE_TYPE_PROPERTIES } from '../../../constants/shapeTypeProperties.js';
 import { LINE_WIDTH, CLIPPER_PRECISION } from '../../../constants/d2Constants.js';

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import { SHAPE_TYPE_PROPERTIES } from '../../constants/shapeTypeProperties.js';
 import * as d3Tools from '../../constants/d3Tools';
 import handleURL from '../../../img/3d/sculptHandle.png';

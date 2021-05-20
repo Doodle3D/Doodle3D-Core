@@ -2,7 +2,7 @@ import React from 'react';
 import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as CAL from 'cal';
+import * as CAL from '@doodle3d/cal';
 import * as toolNames from '../constants/d2Tools';
 import { PIPETTE } from '../constants/contextTools.js';
 import { CANVAS_SIZE } from '../constants/d2Constants';

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:preview:selectionBox');
 

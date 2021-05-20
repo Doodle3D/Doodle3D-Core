@@ -1,6 +1,6 @@
 import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { shapeChanged } from '../shape/shapeDataUtils.js';
-import { Matrix } from 'cal';
+import { Matrix } from '@doodle3d/cal';
 import { LINE_WIDTH } from '../constants/d2Constants.js';
 import { hexToStyle } from '../utils/colorUtils.js';
 import { DESELECT_TRANSPARENCY, FILL_TRANSPARENCY, LINE_TRANSPARENCY } from '../constants/d2Constants.js';

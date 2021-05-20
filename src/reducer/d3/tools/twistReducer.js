@@ -1,5 +1,5 @@
 import update from 'react-addons-update';
-import { Utils } from 'cal';
+import { Utils } from '@doodle3d/cal';
 import * as actions from '../../../actions/index.js';
 import * as d3Tools from '../../../constants/d3Tools';
 import { SHAPE_TYPE_PROPERTIES } from '../../../constants/shapeTypeProperties.js';

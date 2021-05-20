@@ -1,4 +1,4 @@
-import { Color, Vector } from 'cal';
+import { Color, Vector } from '@doodle3d/cal';
 import { CANVAS_SIZE, GRID_SIZE } from '../constants/d2Constants';
 import { PIXEL_RATIO } from '../constants/general.js';
 

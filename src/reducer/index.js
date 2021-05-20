@@ -18,7 +18,7 @@ import d2PanZoomReducer from './d2/panReducer.js';
 import selectionReducer from './selectionReducer.js';
 import selectionOperationReducer from './selectionOperationReducer.js';
 import contextReducer from './contextReducer.js';
-import { Matrix, Vector } from 'cal';
+import { Matrix, Vector } from '@doodle3d/cal';
 import { setActiveSpace, addSpaceActive, setActive2D, getActive2D, addObject } from './objectReducers.js';
 import menusReducer from './menusReducer.js';
 // import createDebug from 'debug';

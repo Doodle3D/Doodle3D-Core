@@ -1,4 +1,4 @@
-import { Vector, Utils as CALUtils } from 'cal';
+import { Vector, Utils as CALUtils } from '@doodle3d/cal';
 import { MIN_ZOOM, MAX_ZOOM, CANVAS_SIZE } from '../../constants/d2Constants.js';
 
 export default function constrainMatrix(matrix) {

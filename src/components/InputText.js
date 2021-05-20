@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index.js';
-import * as CAL from 'cal';
+import * as CAL from '@doodle3d/cal';
 import { TEXT_TOOL_FONT_SIZE } from '../constants/d2Constants.js';
 
 const CONTEXT = document.createElement('canvas').getContext('2d');

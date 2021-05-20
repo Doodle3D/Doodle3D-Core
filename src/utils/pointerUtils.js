@@ -1,4 +1,4 @@
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 
 export function convertEvent(DOMNode, event) {
   const { left, top } = DOMNode.getBoundingClientRect();

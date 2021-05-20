@@ -1,5 +1,5 @@
 import update from 'react-addons-update';
-import { Matrix } from 'cal';
+import { Matrix } from '@doodle3d/cal';
 import constrainMatrix from './constrainMatrix.js';
 import { MAX_ZOOM } from '../../constants/d2Constants.js';
 

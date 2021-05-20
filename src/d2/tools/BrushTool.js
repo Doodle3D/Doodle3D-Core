@@ -1,5 +1,5 @@
 import BaseTool from './BaseTool.js';
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import { PIXEL_RATIO } from '../../constants/general.js';
 import { convertEvent } from '../../utils/pointerUtils.js';
 // import createDebug from 'debug';

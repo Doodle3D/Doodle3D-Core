@@ -1,5 +1,5 @@
-import { Group, Utils } from 'cal';
-import createListener from 'touch-events';
+import { Group, Utils } from '@doodle3d/cal';
+import createListener from '@doodle3d/touch-events';
 import bowser from 'bowser';
 import { convertEvent, isMouseEvent } from '../utils/pointerUtils.js';
 import normalizeWheel from 'normalize-wheel';

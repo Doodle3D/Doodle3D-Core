@@ -17,7 +17,7 @@ import keycode from 'keycode';
 import bowser from 'bowser';
 import * as d2Tools from '../constants/d2Tools.js';
 import { isLoaded, load } from '../utils/loaded.js';
-import { setConfig } from 'touch-events';
+import { setConfig } from '@doodle3d/touch-events';
 
 setConfig({ DRAG_THRESHOLD: 0 });
 

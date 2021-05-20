@@ -1,4 +1,4 @@
-import { Matrix, Vector } from 'cal';
+import { Matrix, Vector } from '@doodle3d/cal';
 import update from 'react-addons-update';
 import * as actions from '../../../actions/index.js';
 import createDebug from 'debug';

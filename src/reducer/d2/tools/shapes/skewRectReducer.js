@@ -1,7 +1,7 @@
 import update from 'react-addons-update';
 import * as actions from '../../../../actions/index.js';
 import { removeObject, addObjectActive2D, setActive2D } from '../../../objectReducers.js';
-import { Vector, Matrix } from 'cal';
+import { Vector, Matrix } from '@doodle3d/cal';
 import createDebug from 'debug';
 const debug = createDebug('d3d:reducer:skewRect');
 

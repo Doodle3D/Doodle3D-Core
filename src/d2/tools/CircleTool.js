@@ -1,4 +1,4 @@
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import BaseTool from './BaseTool.js';
 import * as humanReadable from '../../utils/humanReadable.js';
 import { dimensionsText } from '../texts.js';

@@ -1,5 +1,5 @@
 import BaseTool from './BaseTool.js';
-import * as CAL from 'cal';
+import * as CAL from '@doodle3d/cal';
 import TolerancePointer from '../TolerancePointer.js';
 import * as actions from '../../actions/index.js';
 import { calculateTolerance } from '../../utils/traceUtils';

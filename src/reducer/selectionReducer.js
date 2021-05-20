@@ -1,6 +1,6 @@
 import update from 'react-addons-update';
 import * as actions from '../actions/index.js';
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import { shapeToPoints } from '../shape/shapeToPoints.js';
 import createDebug from 'debug';
 const debug = createDebug('d3d:reducer:selection');

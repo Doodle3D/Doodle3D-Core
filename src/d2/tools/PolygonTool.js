@@ -1,5 +1,5 @@
 import BaseTool from './BaseTool.js';
-import { Vector, Utils } from 'cal';
+import { Vector, Utils } from '@doodle3d/cal';
 import * as humanReadable from '../../utils/humanReadable.js';
 import { dimensionsText } from '../texts.js';
 // import createDebug from 'debug';

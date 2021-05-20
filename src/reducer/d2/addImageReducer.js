@@ -1,5 +1,5 @@
 import { CANVAS_SIZE, INITIAL_IMAGE_SCALE } from '../../constants/d2Constants.js';
-import { Matrix } from 'cal';
+import { Matrix } from '@doodle3d/cal';
 import { addObject } from '../objectReducers.js';
 
 const IMAGE_SIZE = CANVAS_SIZE * 2 * INITIAL_IMAGE_SCALE;

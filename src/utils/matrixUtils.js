@@ -1,4 +1,4 @@
-import { Matrix, Vector } from 'cal';
+import { Matrix, Vector } from '@doodle3d/cal';
 
 export function calculateGestureMatrix(positions, previousPositions, screenMatrix, { rotate, scale, pan }) {
   const matrix = screenMatrix.inverseMatrix();

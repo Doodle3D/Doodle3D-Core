@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { shapeToPoints } from '../shape/shapeToPoints.js';
 import { getPointsBounds } from '../shape/shapeDataUtils.js';
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import arrayMemoizer from './arrayMemoizer.js';
 import memoize from 'memoizee';
 // import createDebug from 'debug';

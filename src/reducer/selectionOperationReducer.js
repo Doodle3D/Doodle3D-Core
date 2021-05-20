@@ -1,6 +1,6 @@
 import update from 'react-addons-update';
-import ClipperShape from 'clipper-js';
-import { Matrix } from 'cal';
+import ClipperShape from '@doodle3d/clipper-js';
+import { Matrix } from '@doodle3d/cal';
 import { addObject, removeObject } from './objectReducers.js';
 import { recursiveClone } from '../utils/clone.js';
 import { shapeToPoints } from '../shape/shapeToPoints.js';

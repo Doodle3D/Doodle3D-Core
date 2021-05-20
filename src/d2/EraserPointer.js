@@ -1,4 +1,4 @@
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import transposeEvents from '../utils/transposeEvents.js';
 import { PIXEL_RATIO } from '../constants/general.js';
 import { convertEvent } from '../utils/pointerUtils.js';

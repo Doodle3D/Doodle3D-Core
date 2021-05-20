@@ -1,5 +1,5 @@
 import update from 'react-addons-update';
-import { Matrix, Vector } from 'cal';
+import { Matrix, Vector } from '@doodle3d/cal';
 import { CANVAS_SIZE } from '../../../constants/d2Constants.js';
 import * as actions from '../../../actions/index.js';
 import { calculateGestureMatrix } from '../../../utils/matrixUtils.js';

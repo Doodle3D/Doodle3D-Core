@@ -8,7 +8,7 @@ import { createThrottle } from '../utils/async.js';
 import { tween } from '../utils/tweenUtils.js';
 import { DEFAULT_TRACE_TOLERANCE, MAX_TRACE_TOLERANCE } from '../constants/d2Constants.js';
 import * as d2Tools from '../constants/d2Tools.js';
-import { Matrix } from 'cal';
+import { Matrix } from '@doodle3d/cal';
 // import createDebug from 'debug';
 // const debug = createDebug('d3d:actions');
 

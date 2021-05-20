@@ -1,4 +1,4 @@
-import { Vector } from 'cal';
+import { Vector } from '@doodle3d/cal';
 import * as THREE from 'three';
 import heightHandleURL from '../../../img/3d/heightHandle.png';
 import pivitHandleURL from '../../../img/3d/sculptHandle.png';

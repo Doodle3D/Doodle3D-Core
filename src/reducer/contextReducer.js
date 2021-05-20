@@ -6,7 +6,7 @@ import { SHAPE_TYPE_PROPERTIES } from '../constants/shapeTypeProperties.js';
 import * as actions from '../actions/index.js';
 import { select } from './menusReducer.js';
 import { getSelectedObjectsSelector, getBoundingBox } from '../utils/selectionUtils.js';
-import { Matrix } from 'cal';
+import { Matrix } from '@doodle3d/cal';
 import { updateTool as updateTool2d } from './d2/toolReducer.js';
 import { updateColor } from './selectionReducer.js';
 

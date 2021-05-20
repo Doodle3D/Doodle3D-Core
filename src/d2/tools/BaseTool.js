@@ -1,14 +1,14 @@
 import EventGroup from '../EventGroup.js';
 import * as actions from '../../actions/index.js';
 import transposeEvents from '../../utils/transposeEvents.js';
-import ClipperShape from 'clipper-js';
+import ClipperShape from '@doodle3d/clipper-js';
 import { applyMatrixOnShape } from '../../utils/vectorUtils';
 import { getPointsBounds } from '../../shape/shapeDataUtils';
 import { shapeToPoints } from '../../shape/shapeToPoints';
 import { LINE_COLLISION_MARGIN } from '../../constants/d2Constants';
 import { LINE_WIDTH } from '../../constants/d2Constants';
 import { PIXEL_RATIO } from '../../constants/general';
-import { Matrix, Vector } from 'cal';
+import { Matrix, Vector } from '@doodle3d/cal';
 
 const HIT_ORDER = {
   RECT: 0,

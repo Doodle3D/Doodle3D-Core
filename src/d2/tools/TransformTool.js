@@ -1,4 +1,4 @@
-import { Vector, Matrix, Image } from 'cal';
+import { Vector, Matrix, Image } from '@doodle3d/cal';
 import { SELECTION_VIEW_MIN_AXIS_SCALE, SELECTION_VIEW_MIN_SCALE } from '../../constants/d2Constants';
 import dottedLineUrl from '../../../img/2d/dotLine01.png';
 import rotateHandleUrl from '../../../img/2d/rotateHandle.png';

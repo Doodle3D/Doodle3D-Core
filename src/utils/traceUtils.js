@@ -1,5 +1,5 @@
 import { applyMatrixOnPath, pathToVectorPath } from './vectorUtils.js';
-import { Matrix } from 'cal';
+import { Matrix } from '@doodle3d/cal';
 import TraceWorker from '../../workers/trace.worker.js';
 import { getPixel } from './colorUtils.js';
 import memoize from 'memoizee';

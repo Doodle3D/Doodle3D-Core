@@ -29,19 +29,6 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
-  resolve: {
-    alias: {
-      'doodle3d-core': path.resolve(__dirname, devMode ? 'module' : 'lib'),
-      'clipper-lib': '@doodle3d/clipper-lib',
-      'clipper-js': '@doodle3d/clipper-js',
-      'cal': '@doodle3d/cal',
-      'touch-events': '@doodle3d/touch-events',
-      'potrace-js': '@doodle3d/potrace-js',
-      'fill-path': '@doodle3d/fill-path',
-      'threejs-export-stl': '@doodle3d/threejs-export-stl',
-      'threejs-export-obj': '@doodle3d/threejs-export-obj'
-    }
-  },
   module: {
     rules:  [
       {
@@ -69,7 +56,7 @@ module.exports = {
         }
       }, {
         test: /\.(woff)$/,
-        use: { 
+        use: {
           loader: 'file-loader'
         }
       }, {

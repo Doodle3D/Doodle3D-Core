@@ -1,4 +1,4 @@
-import { Text, Color } from 'cal';
+import { Text, Color } from '@doodle3d/cal';
 
 export const dimensionsText = new Text({
   size: 16,

@@ -1,5 +1,5 @@
 import * as actions from '../../../actions/index';
-import ClipperShape from 'clipper-js';
+import ClipperShape from '@doodle3d/clipper-js';
 import * as d2Tools from '../../../constants/d2Tools';
 import subtractShapeFromState from '../../../utils/subtractShapeFromState';
 import { CLIPPER_PRECISION } from '../../../constants/d2Constants.js';
