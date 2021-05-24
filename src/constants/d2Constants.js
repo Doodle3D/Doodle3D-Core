@@ -21,13 +21,6 @@ export const SNAPPING_DISTANCE = 7.0;
 export const MAX_TRACE_TOLERANCE = 256;
 export const SELECTION_VIEW_MIN_SCALE = 50;
 export const SELECTION_VIEW_MIN_AXIS_SCALE = 80;
-export const POTRACE_OPTIONS = {
-  turnpolicy: 'black',
-  turdsize: 5.0,
-  optcurve: false,
-  alphamax: 0.5,
-  opttolerance: 0.2
-};
 export const ERASER_SIZES = {
   [contextTools.ERASER_SIZE_SMALL]: 10,
   [contextTools.ERASER_SIZE_MEDIUM]: 30,
