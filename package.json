@@ -105,7 +105,7 @@
   },
   "author": "Casper @Doodle3D",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "bugs": {
     "url": "https://github.com/Doodle3D/Doodle3D-Core/issues"
   },
