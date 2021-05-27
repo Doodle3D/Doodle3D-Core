@@ -1,6 +1,5 @@
 import { SHAPE_CACHE_LIMIT } from '../constants/general.js';
 import { Text } from '@doodle3d/cal';
-import { POTRACE_OPTIONS } from '../constants/d2Constants.js';
 import * as POTRACE from '@doodle3d/potrace-js';
 import ClipperShape from '@doodle3d/clipper-js';
 import { shapeToVectorShape } from './vectorUtils.js';
@@ -15,7 +14,13 @@ export function createTextRaw(text, size, precision, family, style, weight) {
   const canvas = createTextCanvas(text, size * precision, family, style, weight);
 
   // TODO merge with potrace in flood fill trace reducer
-  const paths = POTRACE.getPaths(POTRACE.traceCanvas(canvas, POTRACE_OPTIONS));
+  const paths = POTRACE.getPaths(POTRACE.traceCanvas(canvas, {
+    turnpolicy: 'black',
+    turdsize: 5.0,
+    optcurve: false,
+    alphamax: 0.5,
+    opttolerance: 0.2
+  }));
 
   const pathsOffset = paths.map(path => path.map(({ x, y }) => ({
     x: (x - MARGIN) / precision,
