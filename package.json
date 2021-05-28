@@ -1,6 +1,6 @@
 {
   "name": "@doodle3d/doodle3d-core",
-  "version": "0.21.0",
+  "version": "0.23.0",
   "description": "Core functions of Doodle3D Transform",
   "main": "lib",
   "module": "module",
@@ -104,8 +104,8 @@
     "url": "git+https://github.com/Doodle3D/Doodle3D-Core.git"
   },
   "author": "Casper @Doodle3D",
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
+  "private": false,
   "bugs": {
     "url": "https://github.com/Doodle3D/Doodle3D-Core/issues"
   },
