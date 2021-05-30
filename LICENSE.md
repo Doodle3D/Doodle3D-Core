@@ -1,4 +1,4 @@
- Copyright (c) 2021 Doodle3D
+ Copyright (c) 2015-2021 Doodle3D
 
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
