@@ -96,7 +96,7 @@
     "webpack": "^3.8.1",
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-cordova-plugin": "^0.1.6",
-    "webpack-dev-server": "^2.9.4",
+    "webpack-dev-server": "^3.1.11",
     "worker-loader": "^1.1.0"
   },
   "repository": {
