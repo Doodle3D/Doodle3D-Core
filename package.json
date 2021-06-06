@@ -11,7 +11,6 @@
     "prepare": "npm run build",
     "lint": "eslint src",
     "dist": "NODE_ENV=production webpack -p",
-    "upload": "npm run dist && scp -r dist/* doodle3d.com:/domains/doodle3d.com/core",
     "build": "npm run build:main && npm run build:module ",
     "build:main": "BABEL_ENV=main babel src -s -d lib",
     "build:module": "BABEL_ENV=module babel src -s -d module"
