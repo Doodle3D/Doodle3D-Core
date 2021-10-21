@@ -36,7 +36,7 @@ module.exports = {
         exclude: /node_modules/,
         use: babelLoader
       }, { // make THREE global available to three.js examples
-        test: /three\/examples\/.+\.js/,
+        test: /three(\/|\\)examples(\/|\\).+\.js/,
         use: 'imports-loader?THREE=three'
       }, {
         test: /\.yml$/,
